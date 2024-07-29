@@ -1,9 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Layout } from "./components/molecules";
+import { Layout } from "./components/organisms";
 
 export const router = createBrowserRouter([
   {
-    // layout
     element: <Layout />,
     children: [
       {
