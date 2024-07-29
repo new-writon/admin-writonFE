@@ -33,7 +33,7 @@ const SideBar = () => {
         fullWidth
         align="center"
         justify="space-between"
-        gap="12px"
+        gap={12}
         padding="0px 10px"
       >
         <img src="/icons/logo.svg" />

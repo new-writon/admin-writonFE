@@ -4,7 +4,7 @@ import { FlexBox } from "../atoms";
 const TopNav = () => {
   return (
     <Container>
-      <FlexBox align="center" gap="10px">
+      <FlexBox align="center" gap={10}>
         <img src="/icons/logo-typo.svg" />
         <Hyphen />
         <TopNavTxt>Admin</TopNavTxt>

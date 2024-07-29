@@ -40,7 +40,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     height: 100%;
     line-height: 1;
-    background-color: var(--White, #fff);
+    background-color: #fff;
   }
 
   button {
@@ -55,11 +55,16 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
   }
 
+  p {
+    color: var(--Gray-100, #212121);
+  }
+
   li, ol, ul {
     list-style: none;
   }
 
   input {
+    border: none;
     outline: none;
   }
 
