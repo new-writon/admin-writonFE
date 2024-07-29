@@ -1,12 +1,12 @@
 interface FlexBox {
   children: React.ReactNode;
   col?: boolean;
-  gap?: string;
+  gap?: number;
   justify?: string;
   align?: string;
   padding?: string;
   fullWidth?: boolean;
-  style?: any;
+  style?: React.CSSProperties;
   onClick?: () => void;
 }
 
@@ -26,7 +26,7 @@ const FlexBox = ({
       style={{
         display: "flex",
         flexDirection: col ? "column" : "row",
-        gap: gap || "0",
+        gap: `${gap}px` || "0",
         justifyContent: justify || "flex-start",
         alignItems: align || "flex-start",
         padding: padding || "0",
