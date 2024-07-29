@@ -1,3 +1,4 @@
-import Layout from "./Layout";
+import SideBar from "./SideBar";
+import TopNav from "./TopNav";
 
-export { Layout };
+export { SideBar, TopNav };
