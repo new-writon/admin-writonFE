@@ -1,3 +1,4 @@
 import LoginPage from "./LoginPage";
+import OnBoardingPage from "./OnBoardingPage";
 
-export { LoginPage };
+export { LoginPage, OnBoardingPage };

@@ -7,13 +7,15 @@ import {
   bgColor,
   iconSize,
   padding,
+  borderRadius,
 } from "../../utils/ButtonAttributes";
 
 interface Button {
   children: React.ReactNode;
   size: "lg" | "md" | "sm";
   type: "dark" | "light" | "empty" | "none";
-  onClick: () => void;
+  onClick?: () => void;
+  onSubmit?: () => void;
   fullWidth?: boolean;
   rightPlus?: boolean;
   leftPlus?: boolean;
@@ -21,11 +23,18 @@ interface Button {
   style?: React.CSSProperties;
 }
 
+interface ContainerProps {
+  $bgColor: string;
+  $padding: string;
+  $borderRadius: string;
+}
+
 const Button = ({
   children,
   size,
   type,
   onClick,
+  // onSubmit,
   fullWidth,
   rightPlus,
   leftPlus,
@@ -35,7 +44,8 @@ const Button = ({
   return (
     <Container
       disabled={disabled}
-      onClick={onClick}
+      onClick={onClick && onClick}
+      // onSubmit={onSubmit && onSubmit}
       style={{
         width: fullWidth ? "100%" : "fit-content",
         border:
@@ -49,6 +59,7 @@ const Button = ({
       }}
       $bgColor={disabled ? bgColor.disabled[type] : bgColor.abled[type]}
       $padding={padding[size]}
+      $borderRadius={borderRadius[size]}
     >
       {leftPlus && (
         <FiPlus
@@ -83,13 +94,13 @@ const Button = ({
 
 export default Button;
 
-const Container = styled.button<{ $bgColor: string; $padding: string }>`
+const Container = styled.button<ContainerProps>`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
   padding: ${({ $padding }) => $padding};
-  border-radius: 10px;
+  border-radius: ${({ $borderRadius }) => $borderRadius};
   background: ${({ $bgColor }) => $bgColor};
 `;

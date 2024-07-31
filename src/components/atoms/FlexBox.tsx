@@ -6,6 +6,7 @@ interface FlexBox {
   align?: string;
   padding?: string;
   fullWidth?: boolean;
+  isFlex1?: boolean;
   style?: React.CSSProperties;
   onClick?: () => void;
 }
@@ -19,6 +20,7 @@ const FlexBox = ({
   padding,
   fullWidth,
   style,
+  isFlex1,
   onClick,
 }: FlexBox) => {
   return (
@@ -31,6 +33,7 @@ const FlexBox = ({
         alignItems: align || "flex-start",
         padding: padding || "0",
         width: fullWidth ? "100%" : "auto",
+        flex: isFlex1 ? 1 : "none",
         ...style,
       }}
       onClick={onClick}

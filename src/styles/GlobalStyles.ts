@@ -31,6 +31,11 @@ const GlobalStyle = createGlobalStyle`
   #root {
     width: 100%;
     height: 100%;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   html {
@@ -49,10 +54,19 @@ const GlobalStyle = createGlobalStyle`
     box-shadow: none;
     overflow: visible;
     cursor: pointer;
+    transition: border-color 0.25s;
   }
 
   button:focus {
     outline: none;
+  }
+
+  button:disabled {
+    cursor: default;
+  }
+
+  button:hover {
+    border-color: #646cff;
   }
 
   p {
@@ -66,6 +80,14 @@ const GlobalStyle = createGlobalStyle`
   input {
     border: none;
     outline: none;
+  }
+
+  input::placeholder {
+    color: #94989F; // Gray60
+  }
+
+  input:disabled {
+    background-color: transparent;
   }
 
   blockquote, q {
@@ -86,6 +108,13 @@ const GlobalStyle = createGlobalStyle`
   a {
     text-decoration: none;
     color: inherit;
+    /* custom */
+    font-weight: 500;
+    color: #646cff;
+  }
+
+  a:hover {
+    color: #535bf2;
   }
 
   /* =============== Font 설정 =============== */
