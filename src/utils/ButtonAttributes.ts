@@ -37,4 +37,10 @@ const padding = {
   sm: "6px 14px",
 };
 
-export { fontColor, bgColor, iconSize, padding };
+const borderRadius = {
+  lg: "10px",
+  md: "8px",
+  sm: "6px",
+};
+
+export { fontColor, bgColor, iconSize, padding, borderRadius };
