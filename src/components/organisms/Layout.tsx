@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { TopNav, SideBar } from "../molecules";
 import { FlexBox } from "../atoms";
 import ScrollToTop from "../../utils/ScrollToTop";
+import styled from "styled-components";
 
 const Layout = () => {
   const loacation = useLocation();
@@ -12,12 +13,20 @@ const Layout = () => {
     <>
       <ScrollToTop />
       <TopNav />
-      <FlexBox fullWidth style={{ zIndex: "1" }}>
+      <Container>
         {!excludedPaths.includes(curPath) && <SideBar />}
         <Outlet />
-      </FlexBox>
+      </Container>
     </>
   );
 };
 
 export default Layout;
+
+const Container = styled.section`
+  display: flex;
+  width: 100%;
+  /* height: calc(100vh); */
+  z-index: 1;
+  overflow-y: auto;
+`;
