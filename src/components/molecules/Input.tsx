@@ -11,6 +11,7 @@ interface Input {
   value?: string;
   setValue?: React.Dispatch<React.SetStateAction<string>>;
   hasDeleteBtn?: boolean;
+  fullWidth?: boolean;
   disabled?: boolean;
 }
 
@@ -21,10 +22,11 @@ const Input = ({
   value,
   setValue,
   hasDeleteBtn,
+  fullWidth,
   disabled = false,
 }: Input) => {
   return (
-    <FlexBox col gap={6} fullWidth>
+    <FlexBox col gap={6} style={{ width: fullWidth ? "100%" : "370px" }}>
       {/* ========== Input ========== */}
       <InputContainer $disabled={disabled}>
         <input
