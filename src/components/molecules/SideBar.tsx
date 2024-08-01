@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Button, FlexBox } from "../atoms";
 import { B2 } from "../atoms/Text";
 import { theme } from "../../styles/theme";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Menu {
   isTitle?: boolean;
@@ -12,13 +12,19 @@ interface Menu {
 
 const Menu = ({ isTitle, children, path }: Menu) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = location.pathname;
+  const isCurPath = pathname == path;
 
   return (
     <MenuContainer
       as={isTitle ? "div" : "button"}
-      onClick={() => !isTitle && navigate(`/${path}`)}
+      onClick={() => !isTitle && navigate(`${path}`)}
     >
-      <B2 weight={isTitle ? "sb" : "r"} color={theme.color.gray[100]}>
+      <B2
+        weight={isTitle || isCurPath ? "sb" : "r"}
+        color={isCurPath ? theme.color.brand[50] : theme.color.gray[100]}
+      >
         {children}
       </B2>
     </MenuContainer>
@@ -26,6 +32,35 @@ const Menu = ({ isTitle, children, path }: Menu) => {
 };
 
 const SideBar = () => {
+  const challengeMenuList = [
+    {
+      name: "챌린지 참여 현황",
+      path: "/challenge/dashboard",
+    },
+    {
+      name: "챌린지 정보",
+      path: "/challenge/info",
+    },
+    {
+      name: "챌린지 질문 관리",
+      path: "/challenge/questions",
+    },
+    {
+      name: "기능 커스텀",
+      path: "/challenge/custom",
+    },
+  ];
+  const participationMenuList = [
+    {
+      name: "참여자 정보",
+      path: "/participation/info",
+    },
+    {
+      name: "참여자 초대",
+      path: "/participation/participate",
+    },
+  ];
+
   return (
     <Container>
       {/* ========== Top Info ========== */}
@@ -35,6 +70,7 @@ const SideBar = () => {
         justify="space-between"
         gap={12}
         padding="0px 10px"
+        style={{width: '240px'}}
       >
         <img src="/icons/logo.svg" />
         <B2 weight="sb" color={theme.color.gray[100]} style={{ flex: 1 }}>
@@ -49,15 +85,19 @@ const SideBar = () => {
       {/* ========== Menu Bar ========== */}
       <FlexBox col fullWidth>
         <Menu isTitle>챌린지 관리</Menu>
-        <Menu>챌린지 참여 현황</Menu>
-        <Menu>챌린지 정보</Menu>
-        <Menu>챌린지 질문 관리</Menu>
-        <Menu>기능 커스텀</Menu>
+        {challengeMenuList.map(({ name, path }) => (
+          <Menu key={path} path={path}>
+            {name}
+          </Menu>
+        ))}
       </FlexBox>
       <FlexBox col fullWidth>
         <Menu isTitle>참여자 관리</Menu>
-        <Menu>참여자 정보</Menu>
-        <Menu>참여자 초대</Menu>
+        {participationMenuList.map(({ name, path }) => (
+          <Menu key={path} path={path}>
+            {name}
+          </Menu>
+        ))}
       </FlexBox>
       <Hyphen />
 
@@ -79,10 +119,11 @@ const Container = styled.section`
   align-items: center;
   gap: 16px;
   width: 260px;
-  height: calc(100vh - 60px);
+  height: 100%;
   padding: 16px 10px;
   background-color: ${({ theme }) => theme.color.gray[10]};
   z-index: 1;
+  /* overflow-y: scroll; */
 `;
 
 const Hyphen = styled.div`

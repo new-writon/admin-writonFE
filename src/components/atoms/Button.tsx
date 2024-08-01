@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { B1, B2 } from "./Text";
-import { FiPlus } from "./Icons";
+import { FiPlus, MdEdit, RiArrowLeftLine, RiArrowRightLine } from "./Icons";
 import { theme } from "../../styles/theme";
 import {
   fontColor,
@@ -18,7 +18,10 @@ interface Button {
   onSubmit?: () => void;
   fullWidth?: boolean;
   rightPlus?: boolean;
+  rightArrow?: boolean;
   leftPlus?: boolean;
+  leftArrow?: boolean;
+  editIcon?: boolean;
   disabled?: boolean;
   style?: React.CSSProperties;
 }
@@ -37,7 +40,10 @@ const Button = ({
   // onSubmit,
   fullWidth,
   rightPlus,
+  rightArrow,
   leftPlus,
+  leftArrow,
+  editIcon,
   disabled,
   style,
 }: Button) => {
@@ -61,8 +67,15 @@ const Button = ({
       $padding={padding[size]}
       $borderRadius={borderRadius[size]}
     >
+      {editIcon && <MdEdit color="white" />}
       {leftPlus && (
         <FiPlus
+          size={iconSize[size]}
+          color={disabled ? fontColor.disabled : fontColor.abled[type]}
+        />
+      )}
+      {leftArrow && (
+        <RiArrowLeftLine
           size={iconSize[size]}
           color={disabled ? fontColor.disabled : fontColor.abled[type]}
         />
@@ -84,6 +97,12 @@ const Button = ({
       )}
       {rightPlus && (
         <FiPlus
+          size={iconSize[size]}
+          color={disabled ? fontColor.disabled : fontColor.abled[type]}
+        />
+      )}
+      {rightArrow && (
+        <RiArrowRightLine
           size={iconSize[size]}
           color={disabled ? fontColor.disabled : fontColor.abled[type]}
         />
