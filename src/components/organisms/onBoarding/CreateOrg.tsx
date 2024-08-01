@@ -140,9 +140,9 @@ const CreateOrg = ({ moveStep }: CreateOrg) => {
                 <Button
                   size="sm"
                   type="empty"
-                  disabled
+                  disabled={preview == ""}
                   onClick={() => {
-                    console.log("delete");
+                    setPreview("");
                   }}
                 >
                   삭제
