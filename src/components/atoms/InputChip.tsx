@@ -6,30 +6,54 @@ import React from "react";
 
 interface InputChip {
   children: React.ReactNode;
-  onClick: () => void;
+  color: "blue" | "gray";
+  onClick?: () => void;
+  deleteItem?: () => void;
 }
 
-const InputChip = ({ children, onClick }: InputChip) => {
+const fontColor = {
+  blue: theme.color.brand[60],
+  gray: theme.color.gray[80],
+};
+
+const bgColor = {
+  blue: theme.color.brand[10],
+  gray: theme.color.gray[20],
+};
+
+const iconColor = {
+  blue: theme.color.brand[50],
+  gray: theme.color.gray[50],
+};
+
+const InputChip = ({ children, color, onClick, deleteItem }: InputChip) => {
   return (
-    <Container>
-      <L2 color={theme.color.brand[60]}>{children}</L2>
-      <button type="button" onClick={onClick}>
-        <FiX size={18} color={theme.color.brand[50]} />
-      </button>
+    <Container
+      as={onClick ? "button" : "div"}
+      onClick={onClick}
+      $isBtn={deleteItem ? true : false}
+      $bgColor={bgColor[color]}
+    >
+      <L2 color={fontColor[color]}>{children}</L2>
+      {deleteItem && (
+        <button type="button" onClick={deleteItem}>
+          <FiX size={18} color={iconColor[color]} />
+        </button>
+      )}
     </Container>
   );
 };
 
 export default InputChip;
 
-const Container = styled.div`
+const Container = styled.div<{ $isBtn: boolean; $bgColor: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  padding: 6px 8px 6px 12px;
+  padding: ${({ $isBtn }) => ($isBtn ? "6px 8px 6px 12px" : "6px 10px")};
   border-radius: 8px;
-  background: ${({ theme }) => theme.color.brand[10]};
+  background: ${({ $bgColor }) => $bgColor};
 
   button {
     display: flex;
