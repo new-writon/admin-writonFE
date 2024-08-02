@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { theme } from "../../../styles/theme";
 import { Button, FlexBox, InputChip, Select } from "../../atoms";
 import { B1, H2, L3 } from "../../atoms/Text";
-import { Input, Title } from "../../molecules";
+import { Input, InputDropdown, Title } from "../../molecules";
 import styled from "styled-components";
 
 interface ManageOrg {
@@ -10,18 +10,7 @@ interface ManageOrg {
 }
 
 const ManageOrg = ({ moveStep }: ManageOrg) => {
-  const [position, setPosition] = useState("");
   const [positionList, setPositionList] = useState<string[]>([]);
-
-  const addPosition = (e: FormEvent) => {
-    e.preventDefault();
-    setPositionList([...positionList, position]);
-    setPosition("");
-  };
-
-  const deletePosition = (selectedIdx: number) => {
-    setPositionList(positionList.filter((_, idx) => idx != selectedIdx));
-  };
 
   return (
     <>
@@ -40,21 +29,11 @@ const ManageOrg = ({ moveStep }: ManageOrg) => {
           subTitle="유저가 가입 시 선택할 포지션을 설정해주세요."
           isRequired
         />
-        <PositionInput
-          style={{ padding: positionList.length == 0 ? "8px 16px" : "8px" }}
-          onSubmit={addPosition}
-        >
-          {positionList.map((pos, idx) => (
-            <InputChip key={idx} onClick={() => deletePosition(idx)}>
-              {pos}
-            </InputChip>
-          ))}
-          <input
-            value={position}
-            onChange={(e) => setPosition(e.currentTarget.value)}
-            placeholder="포지션을 입력해주세요."
-          />
-        </PositionInput>
+        <InputDropdown
+          type="position"
+          list={positionList}
+          setList={setPositionList}
+        />
         <FlexBox col gap={10}>
           <L3 weight="sb" color={theme.color.gray[60]}>
             등록된 포지션
