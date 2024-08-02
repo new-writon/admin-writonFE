@@ -43,7 +43,7 @@ const SideBar = () => {
     },
     {
       name: "챌린지 질문 관리",
-      path: "/challenge/questions",
+      path: "/challenge/question",
     },
     {
       name: "기능 커스텀",
@@ -70,7 +70,7 @@ const SideBar = () => {
         justify="space-between"
         gap={12}
         padding="0px 10px"
-        style={{width: '240px'}}
+        style={{ width: "240px" }}
       >
         <img src="/icons/logo.svg" />
         <B2 weight="sb" color={theme.color.gray[100]} style={{ flex: 1 }}>
