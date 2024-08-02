@@ -3,8 +3,10 @@ import { Layout } from "./components/organisms";
 import {
   ChallengeInfoPage,
   ChallengeQuestionPage,
+  CustomPage,
   LoginPage,
   OnBoardingPage,
+  ParticipationParticipatePage,
 } from "./pages";
 
 export const router = createBrowserRouter([
@@ -34,6 +36,16 @@ export const router = createBrowserRouter([
       {
         path: "/challenge/question",
         element: <ChallengeQuestionPage />,
+        errorElement: <div>Unknown Error</div>,
+      },
+      {
+        path: "/challenge/custom",
+        element: <CustomPage />,
+        errorElement: <div>Unknown Error</div>,
+      },
+      {
+        path: "/participation/participate",
+        element: <ParticipationParticipatePage />,
         errorElement: <div>Unknown Error</div>,
       },
     ],

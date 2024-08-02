@@ -26,7 +26,9 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
 
   const addItem = (e: FormEvent) => {
     e.preventDefault();
-    if (list.includes(item)) {
+    if (item == "") {
+      alert("값을 입력하세요.");
+    } else if (list.includes(item)) {
       alert("중복된 값이 존재합니다.");
     } else {
       setList([...list, item]);
@@ -68,7 +70,9 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
     <Container $type={type}>
       <form
         id="item-input"
-        style={{ padding: list.length == 0 ? "8px 16px" : "8px" }}
+        style={{
+          padding: list.length == 0 || type == "email" ? "8px 16px" : "8px",
+        }}
         onSubmit={addItem}
       >
         {itemInputList[type].map((item, idx) => (
@@ -93,7 +97,9 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
       </form>
       {type != "position" && (
         <div id="sub-item-container">
-          <L3 color={theme.color.gray[60]}>{subItemNotice[type]}</L3>
+          <L3 color={theme.color.gray[60]}>
+            {subItemNotice(type, list.length)}
+          </L3>
           <FlexBox gap={8} isFlexWrap>
             {subItemContainerList[type].map((item, idx) => (
               <InputChip
