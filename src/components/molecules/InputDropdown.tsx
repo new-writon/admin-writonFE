@@ -26,7 +26,9 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
 
   const addItem = (e: FormEvent) => {
     e.preventDefault();
-    if (list.includes(item)) {
+    if (item == "") {
+      alert("값을 입력하세요.");
+    } else if (list.includes(item)) {
       alert("중복된 값이 존재합니다.");
     } else {
       setList([...list, item]);
