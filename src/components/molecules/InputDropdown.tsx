@@ -70,7 +70,9 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
     <Container $type={type}>
       <form
         id="item-input"
-        style={{ padding: list.length == 0 ? "8px 16px" : "8px" }}
+        style={{
+          padding: list.length == 0 || type == "email" ? "8px 16px" : "8px",
+        }}
         onSubmit={addItem}
       >
         {itemInputList[type].map((item, idx) => (

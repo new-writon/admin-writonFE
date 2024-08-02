@@ -5,6 +5,7 @@ import ManageOrgFirst from "./onBoarding/ManageOrg";
 import CompleteOrg from "./onBoarding/CompleteOrg";
 import Frame from "./Frame";
 import Questions from "./Questions";
+import Participate from "./Participate";
 
 export {
   Layout,
@@ -14,4 +15,5 @@ export {
   CompleteOrg,
   Frame,
   Questions,
+  Participate,
 };
