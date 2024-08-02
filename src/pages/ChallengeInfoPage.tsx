@@ -8,8 +8,10 @@ import { BsPaperclip } from "../components/atoms/Icons";
 import { useState } from "react";
 import { emailList } from "../data/ChallengeInfoPageData";
 import DateInput from "../components/molecules/DateInput";
+import { useNavigate } from "react-router-dom";
 
 const ChallengeInfoPage = () => {
+  const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState("라이톤 끄적끄적 챌린지");
   const [startDate, setstartDate] = useState<Date>(new Date());
@@ -66,7 +68,12 @@ const ChallengeInfoPage = () => {
         <FlexBox col fullWidth gap={24}>
           <FlexBox fullWidth justify="space-between">
             <H3>챌린지 질문</H3>
-            <Button size="md" type="light" rightArrow>
+            <Button
+              size="md"
+              type="light"
+              rightArrow
+              onClick={() => navigate("/challenge/question")}
+            >
               질문 관리하러 가기
             </Button>
           </FlexBox>
@@ -78,7 +85,12 @@ const ChallengeInfoPage = () => {
         <FlexBox col fullWidth gap={24}>
           <FlexBox fullWidth justify="space-between">
             <H3>참여자 정보</H3>
-            <Button size="md" type="light" rightArrow>
+            <Button
+              size="md"
+              type="light"
+              rightArrow
+              onClick={() => navigate("/participation/participate")}
+            >
               참여자 정보 보러가기
             </Button>
           </FlexBox>
