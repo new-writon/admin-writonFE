@@ -1,15 +1,18 @@
 import styled from "styled-components";
 import { FlexBox } from "../atoms";
 import { L3 } from "../atoms/Text";
-import { theme } from "../../styles/theme";
 import { FiX } from "../atoms/Icons";
+import { theme } from "../../styles/theme";
+import { useState } from "react";
 
 interface Input {
   placeHolder?: string;
   error?: string;
   maxLength?: number;
   value?: string;
-  setValue?: React.Dispatch<React.SetStateAction<string>>;
+  setValue?:
+    | React.Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
   hasDeleteBtn?: boolean;
   fullWidth?: boolean;
   disabled?: boolean;
@@ -25,22 +28,32 @@ const Input = ({
   fullWidth,
   disabled = false,
 }: Input) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <FlexBox col gap={6} style={{ width: fullWidth ? "100%" : "370px" }}>
       {/* ========== Input ========== */}
-      <InputContainer $disabled={disabled}>
+      <InputContainer $disabled={disabled} $isFocused={isFocused}>
         <input
           placeholder={placeHolder}
           value={value}
           maxLength={maxLength}
           onChange={(e) => setValue?.(e.currentTarget.value)}
           disabled={disabled}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
         {hasDeleteBtn && (
           <button onClick={() => setValue?.("")} disabled={disabled}>
             <FiX
               size={18}
-              color={disabled ? theme.color.gray[50] : theme.color.gray[80]}
+              color={
+                disabled
+                  ? theme.color.gray[50]
+                  : isFocused
+                  ? theme.color.brand[50]
+                  : theme.color.gray[80]
+              }
             />
           </button>
         )}
@@ -63,7 +76,7 @@ const Input = ({
 
 export default Input;
 
-const InputContainer = styled.div<{ $disabled: boolean }>`
+const InputContainer = styled.div<{ $disabled: boolean; $isFocused: boolean }>`
   display: flex;
   width: 100%;
   padding: 16px;
@@ -72,8 +85,12 @@ const InputContainer = styled.div<{ $disabled: boolean }>`
   gap: 10px;
   border-radius: 8px;
   border: 1px solid
-    ${({ theme, $disabled }) =>
-      $disabled ? "transparent" : theme.color.gray[40]};
+    ${({ theme, $disabled, $isFocused }) =>
+      $disabled
+        ? "transparent"
+        : $isFocused
+        ? theme.color.brand[50]
+        : theme.color.gray[40]};
   background: ${({ theme, $disabled }) =>
     $disabled ? theme.color.gray[20] : theme.color.base.white};
 

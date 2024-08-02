@@ -1,17 +1,12 @@
 import styled from "styled-components";
-import { Button, FlexBox, Line, Select } from "../components/atoms";
+import { Button, FlexBox, Line } from "../components/atoms";
 import { B2, H3, L3 } from "../components/atoms/Text";
-import { ContentSection, Input } from "../components/molecules";
-import { Frame } from "../components/organisms";
+import { ContentSection, EditBtn, Input } from "../components/molecules";
+import { Frame, Questions } from "../components/organisms";
 import { theme } from "../styles/theme";
 import { BsPaperclip } from "../components/atoms/Icons";
 import { useState } from "react";
-import {
-  basicQuestions,
-  emailList,
-  keywordList,
-  specialQuestions,
-} from "../data/ChallengeInfoPageData";
+import { emailList } from "../data/ChallengeInfoPageData";
 import DateInput from "../components/molecules/DateInput";
 
 const ChallengeInfoPage = () => {
@@ -32,25 +27,11 @@ const ChallengeInfoPage = () => {
         <FlexBox col fullWidth gap={24}>
           <FlexBox fullWidth justify="space-between">
             <H3>기본 정보</H3>
-            {isEdit ? (
-              <FlexBox gap={8}>
-                <Button size="md" type="empty" onClick={() => setIsEdit(false)}>
-                  취소
-                </Button>
-                <Button size="md" type="dark" onClick={handleEdit}>
-                  수정 완료
-                </Button>
-              </FlexBox>
-            ) : (
-              <Button
-                size="md"
-                type="dark"
-                editIcon
-                onClick={() => setIsEdit(!isEdit)}
-              >
-                수정
-              </Button>
-            )}
+            <EditBtn
+              isEdit={isEdit}
+              setIsEdit={setIsEdit}
+              handleEdit={handleEdit}
+            />
           </FlexBox>
           {/*  챌린지 이름  */}
           <ContentSection title="챌린지 이름" titleWidth={180}>
@@ -89,39 +70,7 @@ const ChallengeInfoPage = () => {
               질문 관리하러 가기
             </Button>
           </FlexBox>
-          {/*  베이직 질문  */}
-          <ContentSection title="베이직 질문" titleWidth={163}>
-            <FlexBox col gap={12}>
-              {basicQuestions.map((ques, idx) => (
-                <FlexBox key={idx} gap={20} align="center">
-                  <B2 weight="sb" color={theme.color.gray[80]}>
-                    질문 {idx + 1}
-                  </B2>
-                  <Input disabled value={ques} />
-                </FlexBox>
-              ))}
-            </FlexBox>
-          </ContentSection>
-          {/*  스페셜 질문  */}
-          <ContentSection title="스페셜 질문" titleWidth={163}>
-            <FlexBox col gap={12}>
-              <FlexBox align="center" gap={8}>
-                {keywordList.map((keyword, idx) => (
-                  <Select type="outline" key={idx}>
-                    {keyword}
-                  </Select>
-                ))}
-              </FlexBox>
-              {specialQuestions.map((ques, idx) => (
-                <FlexBox key={idx} gap={20} align="center">
-                  <B2 weight="sb" color={theme.color.gray[80]}>
-                    질문 {idx + 1}
-                  </B2>
-                  <Input disabled value={ques} />
-                </FlexBox>
-              ))}
-            </FlexBox>
-          </ContentSection>
+          <Questions gap={24} />
         </FlexBox>
         <Line />
 
