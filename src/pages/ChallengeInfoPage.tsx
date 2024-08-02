@@ -1,12 +1,9 @@
-import styled from "styled-components";
 import { Button, FlexBox, Line } from "../components/atoms";
-import { B2, H3, L3 } from "../components/atoms/Text";
+import { H3 } from "../components/atoms/Text";
 import { ContentSection, EditBtn, Input } from "../components/molecules";
-import { Frame, Questions } from "../components/organisms";
+import { Frame, Participate, Questions } from "../components/organisms";
 import { theme } from "../styles/theme";
-import { BsPaperclip } from "../components/atoms/Icons";
 import { useState } from "react";
-import { emailList } from "../data/ChallengeInfoPageData";
 import DateInput from "../components/molecules/DateInput";
 import { useNavigate } from "react-router-dom";
 
@@ -94,31 +91,7 @@ const ChallengeInfoPage = () => {
               참여자 정보 보러가기
             </Button>
           </FlexBox>
-          {/*  참여자 파일  */}
-          <ContentSection title="참여자 파일" titleWidth={156}>
-            <FileInput>
-              <BsPaperclip size={18} color={theme.color.gray[60]} />
-              <B2 color={theme.color.gray[60]}>writon_user_email.xlsx</B2>
-            </FileInput>
-          </ContentSection>
-          {/*  참여자 이메일  */}
-          <ContentSection title="참여자 이메일" titleWidth={156}>
-            <FlexBox col isFlex1 gap={16}>
-              <L3 color={theme.color.gray[60]}>
-                <span style={{ color: theme.color.brand[50] }}>
-                  {emailList.length}
-                </span>
-                개의 이메일로 초대장이 전송되었습니다.
-              </L3>
-              <FlexBox gap={8} style={{ flexWrap: "wrap", width: "550px" }}>
-                {emailList.map((email, idx) => (
-                  <EmailChip key={idx}>
-                    <L3 color={theme.color.gray[80]}>{email}</L3>
-                  </EmailChip>
-                ))}
-              </FlexBox>
-            </FlexBox>
-          </ContentSection>
+          <Participate gap={24} />
         </FlexBox>
       </FlexBox>
     </Frame>
@@ -126,23 +99,3 @@ const ChallengeInfoPage = () => {
 };
 
 export default ChallengeInfoPage;
-
-const FileInput = styled.div`
-  display: flex;
-  align-items: center;
-  width: 433px;
-  padding: 8px;
-  gap: 8px;
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.color.gray[30]};
-  background: ${({ theme }) => theme.color.gray[10]};
-`;
-
-const EmailChip = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 6px 10px;
-  border-radius: 8px;
-  background: ${({ theme }) => theme.color.gray[20]};
-`;
