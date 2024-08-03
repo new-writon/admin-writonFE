@@ -7,6 +7,8 @@ import ContentSection from "./ContentSection";
 import EditBtn from "./EditBtn";
 import InputDropdown from "./InputDropdown";
 import Filter from "./Filter";
+import CalendarModal from "./CalendarModal";
+import Categories from "./Categories";
 
 export {
   SideBar,
@@ -18,4 +20,6 @@ export {
   EditBtn,
   InputDropdown,
   Filter,
+  CalendarModal,
+  Categories,
 };
