@@ -6,6 +6,7 @@ import {
   CustomPage,
   LoginPage,
   OnBoardingPage,
+  ParticipationInfoPage,
   ParticipationParticipatePage,
 } from "./pages";
 
@@ -41,6 +42,11 @@ export const router = createBrowserRouter([
       {
         path: "/challenge/custom",
         element: <CustomPage />,
+        errorElement: <div>Unknown Error</div>,
+      },
+      {
+        path: "/participation/info",
+        element: <ParticipationInfoPage />,
         errorElement: <div>Unknown Error</div>,
       },
       {
