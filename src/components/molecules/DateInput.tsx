@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { B2, C2 } from "../atoms/Text";
 import { FlexBox } from "../atoms";
 import { theme } from "../../styles/theme";
-import { formatDate } from "../../utils/formatDate";
+import { formatDate } from "../../utils/formatUtils";
 import { IoCalendarOutline } from "../atoms/Icons";
 import { useState } from "react";
 import CalendarModal from "./CalendarModal";
