@@ -6,6 +6,7 @@ import Dropdown from "./Dropdown";
 import ContentSection from "./ContentSection";
 import EditBtn from "./EditBtn";
 import InputDropdown from "./InputDropdown";
+import Filter from "./Filter";
 
 export {
   SideBar,
@@ -16,4 +17,5 @@ export {
   ContentSection,
   EditBtn,
   InputDropdown,
+  Filter,
 };
