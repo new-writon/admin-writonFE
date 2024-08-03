@@ -48,7 +48,7 @@ const Filter = ({ list, selectedValues, setSelectedValues }: Filter) => {
             handleSelectRow(idx);
           }}
         >
-          {fieldTranslations[value]}
+          {fieldTranslations(value)}
         </Select>
       ))}
     </FilterContainer>

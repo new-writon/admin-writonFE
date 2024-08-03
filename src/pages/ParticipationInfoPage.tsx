@@ -1,7 +1,7 @@
 import { Button, FlexBox, SearchBar } from "../components/atoms";
 import { H4 } from "../components/atoms/Text";
 import { Frame, Table } from "../components/organisms";
-import { participationTableData } from "../data/ParticipationData";
+import { participationTableData } from "../data/TableData";
 import { useState } from "react";
 import { downloadExcelFile } from "../utils/excelUtils";
 import { fieldTranslations } from "../utils/formatUtils";
@@ -28,7 +28,7 @@ const ParticipationInfoPage = () => {
 
     if (result) {
       const downloadData = [
-        filterList.map((value) => fieldTranslations[value]),
+        filterList.map((value) => fieldTranslations(value)),
         ...data.map((item) => Object.values(item)),
       ];
 
@@ -76,7 +76,8 @@ const ParticipationInfoPage = () => {
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
           searchValue={searchValue}
-          searchedIdx={[0, 1, 9]} // 이름, 닉네임, 이메일 index
+          searchedIdx={[0, 1, 9]} // 이름 index
+          isCheckBox
         />
       </FlexBox>
     </Frame>

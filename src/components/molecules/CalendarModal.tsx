@@ -11,9 +11,17 @@ interface CalendarModal {
   setIsOpenCalendar: React.Dispatch<React.SetStateAction<boolean>>;
   setDate: React.Dispatch<React.SetStateAction<Date>>;
   date: Value;
+  top?: number;
+  left?: number;
 }
 
-const CalendarModal = ({ setIsOpenCalendar, date, setDate }: CalendarModal) => {
+const CalendarModal = ({
+  setIsOpenCalendar,
+  date,
+  setDate,
+  top = 0,
+  left = 0,
+}: CalendarModal) => {
   const today = new Date();
   const [selectedDate, setSelectedDate] = useState<Value>(date);
   const handleDateChange = (newDate: Value) => {
@@ -28,34 +36,30 @@ const CalendarModal = ({ setIsOpenCalendar, date, setDate }: CalendarModal) => {
   };
 
   return (
-    <>
-      <StyledCalendar
-        locale="ko"
-        value={selectedDate}
-        onChange={handleDateChange}
-        formatDay={(_, date) => moment(date).format("D")}
-        formatMonthYear={(_, date) => moment(date).format("YYYY년 MM월")}
-        next2Label={null}
-        prev2Label={null}
-        minDetail="year" // 상단 네비게이션에서 '월' 단위만 보이게 설정
-        maxDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
-        onClickDay={onClickDay}
-      />
-    </>
+    <StyledCalendar
+      locale="ko"
+      value={selectedDate}
+      onChange={handleDateChange}
+      formatDay={(_, date) => moment(date).format("D")}
+      formatMonthYear={(_, date) => moment(date).format("YYYY년 MM월")}
+      next2Label={null}
+      prev2Label={null}
+      minDetail="year" // 상단 네비게이션에서 '월' 단위만 보이게 설정
+      maxDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
+      onClickDay={onClickDay}
+      $top={top}
+      $left={left}
+    />
   );
 };
 
 export default CalendarModal;
 
-export const StyledCalendarWrapper = styled.div`
-  position: absolute;
-`;
-
-export const StyledCalendar = styled(Calendar)`
+export const StyledCalendar = styled(Calendar)<{ $top: number; $left: number }>`
   position: absolute;
   z-index: 9;
-  top: 76px;
-  left: 0;
+  top: ${({ $top }) => `${$top}px`};
+  left: ${({ $left }) => `${$left}px`};
   width: fit-content;
   min-width: 280px;
   box-shadow: 0px 16px 50px 0px rgba(33, 33, 33, 0.25);

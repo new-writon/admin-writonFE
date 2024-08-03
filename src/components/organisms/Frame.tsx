@@ -9,9 +9,10 @@ interface Frame {
   children: React.ReactNode;
   title: string;
   subTitle?: string;
+  noLine?: boolean;
 }
 
-const Frame = ({ children, title, subTitle }: Frame) => {
+const Frame = ({ children, title, subTitle, noLine }: Frame) => {
   const [selectedChallenge, setSelectedChallenge] = useState("라이톤 챌린지");
 
   return (
@@ -29,7 +30,7 @@ const Frame = ({ children, title, subTitle }: Frame) => {
             setSelectedItem={setSelectedChallenge}
           />
         </FlexBox>
-        <Line />
+        {!noLine && <Line />}
 
         {/*  ========== Contents ==========  */}
         {children}

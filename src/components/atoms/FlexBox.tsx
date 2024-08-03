@@ -30,13 +30,13 @@ const FlexBox = ({
       style={{
         display: "flex",
         flexDirection: col ? "column" : "row",
-        gap: `${gap}px` || "0",
+        gap: `${gap}px` || "0px",
         justifyContent: justify || "flex-start",
         alignItems: align || "flex-start",
         padding: padding || "0",
-        width: fullWidth ? "100%" : "auto",
+        width: fullWidth ? "100%" : "fit-content",
         flex: isFlex1 ? 1 : "none",
-        flexWrap: isFlexWrap ? "wrap" : "initial",
+        flexWrap: isFlexWrap ? "wrap" : "nowrap",
         ...style,
       }}
       onClick={onClick}

@@ -3,6 +3,7 @@ import { B1, B2 } from "./Text";
 import {
   FiDownload,
   FiPlus,
+  IoCalendarOutline,
   MdEdit,
   RiArrowLeftLine,
   RiArrowRightLine,
@@ -23,14 +24,16 @@ interface Button {
   onClick?: () => void;
   onSubmit?: () => void;
   fullWidth?: boolean;
-  rightPlus?: boolean;
-  rightArrow?: boolean;
-  leftPlus?: boolean;
-  leftArrow?: boolean;
-  editIcon?: boolean;
-  downloadIcon?: boolean;
-  disabled?: boolean;
+  disabled?: boolean; // 비황성화
   style?: React.CSSProperties;
+  // ===== 아이콘 =====
+  rightPlus?: boolean; // 오른쪽 플러스 아이콘
+  rightArrow?: boolean; // 오른쪽 화살표 아이콘
+  leftPlus?: boolean; // 왼쪽 플러스 아이콘
+  leftArrow?: boolean; // 왼쪽 화살표 아이콘
+  editIcon?: boolean; // 수정 아이콘
+  downloadIcon?: boolean; // 다운로드 아이콘
+  calendarIcon?: boolean; // 캘린더 아이콘
 }
 
 interface ContainerProps {
@@ -46,14 +49,15 @@ const Button = ({
   onClick,
   // onSubmit,
   fullWidth,
+  disabled,
+  style,
   rightPlus,
   rightArrow,
   leftPlus,
   leftArrow,
   editIcon,
   downloadIcon,
-  disabled,
-  style,
+  calendarIcon,
 }: Button) => {
   return (
     <Container
@@ -72,10 +76,21 @@ const Button = ({
         ...style,
       }}
       $bgColor={disabled ? bgColor.disabled[type] : bgColor.abled[type]}
-      $padding={padding[size]}
+      $padding={type == "none" ? "4px" : padding[size]}
       $borderRadius={borderRadius[size]}
     >
-      {editIcon && <MdEdit color="white" />}
+      {editIcon && (
+        <MdEdit
+          size={iconSize[size]}
+          color={disabled ? fontColor.disabled : fontColor.abled[type]}
+        />
+      )}
+      {calendarIcon && (
+        <IoCalendarOutline
+          size={iconSize[size]}
+          color={disabled ? fontColor.disabled : fontColor.abled[type]}
+        />
+      )}
       {leftPlus && (
         <FiPlus
           size={iconSize[size]}

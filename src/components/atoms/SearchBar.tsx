@@ -5,9 +5,10 @@ import { FormEvent, useState } from "react";
 
 interface SearchBar {
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  fullWidth?: boolean;
 }
 
-const SearchBar = ({ setValue }: SearchBar) => {
+const SearchBar = ({ setValue, fullWidth }: SearchBar) => {
   const [isFocused, setIsFocused] = useState(false);
   const [curValue, setCurValue] = useState("");
 
@@ -17,7 +18,11 @@ const SearchBar = ({ setValue }: SearchBar) => {
   };
 
   return (
-    <SearchInput onSubmit={onSubmit} $isFocused={isFocused}>
+    <SearchInput
+      onSubmit={onSubmit}
+      $isFocused={isFocused}
+      $fullWidth={fullWidth}
+    >
       <IoMdSearch
         color={isFocused ? theme.color.brand[50] : theme.color.gray[60]}
         size={20}
@@ -35,9 +40,10 @@ const SearchBar = ({ setValue }: SearchBar) => {
 
 export default SearchBar;
 
-const SearchInput = styled.form<{ $isFocused: boolean }>`
+const SearchInput = styled.form<{ $isFocused: boolean; $fullWidth?: boolean }>`
   width: 400px;
   display: flex;
+  flex: ${({ $fullWidth }) => ($fullWidth ? "1" : "auto")};
   padding: 4px 12px;
   align-items: center;
   gap: 10px;

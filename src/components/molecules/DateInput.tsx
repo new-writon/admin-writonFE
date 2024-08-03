@@ -48,6 +48,7 @@ const DateInput = ({
           setIsOpenCalendar={setIsOpenCalendar}
           date={value}
           setDate={setValue}
+          top={76}
         />
       )}
     </FlexBox>
