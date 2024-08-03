@@ -6,6 +6,7 @@ import CompleteOrg from "./onBoarding/CompleteOrg";
 import Frame from "./Frame";
 import Questions from "./Questions";
 import Participate from "./Participate";
+import Table from "./Table";
 
 export {
   Layout,
@@ -16,4 +17,5 @@ export {
   Frame,
   Questions,
   Participate,
+  Table,
 };
