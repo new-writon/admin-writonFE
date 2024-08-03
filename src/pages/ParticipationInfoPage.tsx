@@ -76,7 +76,7 @@ const ParticipationInfoPage = () => {
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
           searchValue={searchValue}
-          searchedIdx={[0, 1, 9]} // 이름, 닉네임, 이메일 index
+          searchedIdx={[0, 1, 9]} // 이름 index
           isCheckBox
         />
       </FlexBox>

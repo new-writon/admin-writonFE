@@ -16,4 +16,9 @@ interface ParticipationTableData {
   oneLine: string;
 }
 
-export type { ParticipationTableData };
+interface isParticipateTableData {
+  name: string;
+  [date: string]: string;
+}
+
+export type { ParticipationTableData, isParticipateTableData };

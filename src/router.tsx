@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/organisms";
 import {
+  ChallengeDashboardPage,
   ChallengeInfoPage,
   ChallengeQuestionPage,
   CustomPage,
@@ -27,6 +28,11 @@ export const router = createBrowserRouter([
       {
         path: "/onBoarding",
         element: <OnBoardingPage />,
+        errorElement: <div>Unknown Error</div>,
+      },
+      {
+        path: "/challenge/dashboard",
+        element: <ChallengeDashboardPage />,
         errorElement: <div>Unknown Error</div>,
       },
       {
