@@ -191,4 +191,5 @@ export const L4 = ({ children, color, style, onClick }: TextProps) => {
 
 const Text = styled.p<FontProps>`
   ${({ theme, $fontTheme }) => theme.font[$fontTheme]}
+  transition: all 0.3s ease-in-out;
 `;
