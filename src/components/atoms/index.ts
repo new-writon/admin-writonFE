@@ -6,5 +6,16 @@ import Select from "./Select";
 import Switch from "./Switch";
 import InputChip from "./InputChip";
 import Line from "./Line";
+import SearchBar from "./SearchBar";
 
-export { FlexBox, Button, Chip, CheckBox, Select, Switch, InputChip, Line };
+export {
+  FlexBox,
+  Button,
+  Chip,
+  CheckBox,
+  Select,
+  Switch,
+  InputChip,
+  Line,
+  SearchBar,
+};

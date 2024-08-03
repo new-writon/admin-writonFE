@@ -5,20 +5,27 @@ import { L3 } from "./Text";
 
 interface CheckBox {
   text?: string; // 체크박스 텍스트
+  size?: number; // 체크박스 크기
   checked: boolean; // 체크박스 상태
-  setChecked: React.Dispatch<React.SetStateAction<boolean>>; // 체크박스 상태변경
+  setChecked?: React.Dispatch<React.SetStateAction<boolean>>; // 체크박스 상태변경
   onClick?: (checked: boolean) => void; // 추가적인 기능 (인자로 체크박스 상태 전달)
 }
 
-const CheckBox = ({ text, checked, setChecked, onClick }: CheckBox) => {
+const CheckBox = ({
+  text,
+  size = 16,
+  checked,
+  setChecked,
+  onClick,
+}: CheckBox) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.currentTarget.checked;
-    setChecked(e.currentTarget.checked);
+    setChecked?.(e.currentTarget.checked);
     onClick?.(checked);
   };
 
   return (
-    <Container checked={checked}>
+    <Container $checked={checked} $size={size}>
       <input type="checkbox" checked={checked} onChange={onChange} />
       <div>
         <FaCheck
@@ -36,7 +43,7 @@ const CheckBox = ({ text, checked, setChecked, onClick }: CheckBox) => {
 
 export default CheckBox;
 
-const Container = styled.label<{ checked: boolean }>`
+const Container = styled.label<{ $checked: boolean; $size: number }>`
   display: flex;
   gap: 10px;
   align-items: center;
@@ -50,12 +57,12 @@ const Container = styled.label<{ checked: boolean }>`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 16px;
-    height: 16px;
+    width: ${({ $size }) => `${$size}px`};
+    height: ${({ $size }) => `${$size}px`};
     border-radius: 3px;
-    border: ${({ checked, theme }) =>
-      checked ? "none" : `1.5px solid ${theme.color.gray[40]}`};
-    background: ${({ checked, theme }) =>
-      checked ? theme.color.brand[50] : "white"};
+    border: ${({ $checked, theme }) =>
+      $checked ? "none" : `1.5px solid ${theme.color.gray[40]}`};
+    background: ${({ $checked, theme }) =>
+      $checked ? theme.color.brand[50] : "white"};
   }
 `;

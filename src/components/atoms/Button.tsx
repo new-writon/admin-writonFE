@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import { B1, B2 } from "./Text";
-import { FiPlus, MdEdit, RiArrowLeftLine, RiArrowRightLine } from "./Icons";
+import {
+  FiDownload,
+  FiPlus,
+  MdEdit,
+  RiArrowLeftLine,
+  RiArrowRightLine,
+} from "./Icons";
 import { theme } from "../../styles/theme";
 import {
   fontColor,
@@ -22,6 +28,7 @@ interface Button {
   leftPlus?: boolean;
   leftArrow?: boolean;
   editIcon?: boolean;
+  downloadIcon?: boolean;
   disabled?: boolean;
   style?: React.CSSProperties;
 }
@@ -44,6 +51,7 @@ const Button = ({
   leftPlus,
   leftArrow,
   editIcon,
+  downloadIcon,
   disabled,
   style,
 }: Button) => {
@@ -103,6 +111,12 @@ const Button = ({
       )}
       {rightArrow && (
         <RiArrowRightLine
+          size={iconSize[size]}
+          color={disabled ? fontColor.disabled : fontColor.abled[type]}
+        />
+      )}
+      {downloadIcon && (
+        <FiDownload
           size={iconSize[size]}
           color={disabled ? fontColor.disabled : fontColor.abled[type]}
         />

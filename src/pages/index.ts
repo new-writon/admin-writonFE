@@ -4,12 +4,14 @@ import ChallengeInfoPage from "./ChallengeInfoPage";
 import ChallengeQuestionPage from "./ChallengeQuestionPage";
 import ParticipationParticipatePage from "./ParticipationParticipatePage";
 import CustomPage from "./CustomPage";
+import ParticipationInfoPage from "./ParticipationInfoPage";
 
 export {
   LoginPage,
   OnBoardingPage,
   ChallengeInfoPage,
   ChallengeQuestionPage,
-  ParticipationParticipatePage,
   CustomPage,
+  ParticipationInfoPage,
+  ParticipationParticipatePage,
 };

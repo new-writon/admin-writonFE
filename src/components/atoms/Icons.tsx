@@ -11,6 +11,9 @@ import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 import { MdEdit } from "@react-icons/all-files/md/MdEdit";
 import { BsPaperclip } from "@react-icons/all-files/bs/BsPaperclip";
 import { IoCalendarOutline } from "@react-icons/all-files/io5/IoCalendarOutline";
+import { IoMdSearch } from "@react-icons/all-files/io/IoMdSearch";
+import { FiDownload } from "@react-icons/all-files/fi/FiDownload";
+import { BsFilter } from "@react-icons/all-files/bs/BsFilter";
 
 export {
   FiPlus,
@@ -23,5 +26,7 @@ export {
   RiArrowRightLine,
   RiArrowLeftLine,
   IoCalendarOutline,
+  IoMdSearch,
+  FiDownload,
+  BsFilter,
 };
-
