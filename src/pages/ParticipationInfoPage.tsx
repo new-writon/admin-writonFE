@@ -28,7 +28,7 @@ const ParticipationInfoPage = () => {
 
     if (result) {
       const downloadData = [
-        filterList.map((value) => fieldTranslations[value]),
+        filterList.map((value) => fieldTranslations(value)),
         ...data.map((item) => Object.values(item)),
       ];
 
