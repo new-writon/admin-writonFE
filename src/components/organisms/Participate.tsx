@@ -6,6 +6,7 @@ import { B2, L3 } from "../atoms/Text";
 import { ContentSection, InputDropdown } from "../molecules";
 import { emailList } from "../../data/ChallengeInfoPageData";
 import { useRef, useState } from "react";
+import { excelFileToArray } from "../../utils/excelUtils";
 
 interface Participate {
   gap: number;
@@ -16,6 +17,7 @@ const Participate = ({ gap, isEdit = false }: Participate) => {
   const [pendingEmailList, setPendingEmailList] = useState<string[]>([]);
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [data, setData] = useState<string[][]>([]);
 
   // 엑셀 파일 업로드
   const onClickUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +25,9 @@ const Participate = ({ gap, isEdit = false }: Participate) => {
     if (!file) return;
 
     setExcelFile(file);
+
+    // 엑셀 파일 데이터화
+    excelFileToArray(file, setData);
   };
 
   // 엑셀 파일 삭제
