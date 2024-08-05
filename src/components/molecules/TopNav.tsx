@@ -18,6 +18,7 @@ export default TopNav;
 const Container = styled.nav`
   display: flex;
   width: 100%;
+  min-width: 1240px;
   height: 60px;
   padding: 0px 30px;
   border-bottom: 1px solid ${({ theme }) => theme.color.gray[20]};

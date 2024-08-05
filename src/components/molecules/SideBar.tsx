@@ -3,6 +3,10 @@ import { Button, FlexBox } from "../atoms";
 import { B2 } from "../atoms/Text";
 import { theme } from "../../styles/theme";
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+  challengeMenuList,
+  participationMenuList,
+} from "../../data/SideBarMenu";
 
 interface Menu {
   isTitle?: boolean;
@@ -32,34 +36,8 @@ const Menu = ({ isTitle, children, path }: Menu) => {
 };
 
 const SideBar = () => {
-  const challengeMenuList = [
-    {
-      name: "챌린지 참여 현황",
-      path: "/challenge/dashboard",
-    },
-    {
-      name: "챌린지 정보",
-      path: "/challenge/info",
-    },
-    {
-      name: "챌린지 질문 관리",
-      path: "/challenge/question",
-    },
-    {
-      name: "기능 커스텀",
-      path: "/challenge/custom",
-    },
-  ];
-  const participationMenuList = [
-    {
-      name: "참여자 정보",
-      path: "/participation/info",
-    },
-    {
-      name: "참여자 초대",
-      path: "/participation/participate",
-    },
-  ];
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <Container>
@@ -103,7 +81,16 @@ const SideBar = () => {
 
       {/* ========== Button ========== */}
       <ButtonContainer>
-        <Button fullWidth rightPlus size="lg" type="light" onClick={() => {}}>
+        <Button
+          fullWidth
+          rightPlus
+          size="lg"
+          type="light"
+          onClick={() => {
+            navigate("/challenge/create");
+          }}
+          disabled={location.pathname === "/challenge/create"}
+        >
           챌린지 개설
         </Button>
       </ButtonContainer>
@@ -123,7 +110,6 @@ const Container = styled.section`
   padding: 16px 10px;
   background-color: ${({ theme }) => theme.color.gray[10]};
   z-index: 1;
-  /* overflow-y: scroll; */
 `;
 
 const Hyphen = styled.div`

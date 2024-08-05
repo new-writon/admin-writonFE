@@ -88,7 +88,6 @@ const Questions = ({
         }));
       }
     }
-    console.log(specialQuestionsData, selectedQuestions);
   }, [keywordList]);
 
   // 베이직 질문 수정

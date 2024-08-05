@@ -10,9 +10,16 @@ interface Frame {
   title: string;
   subTitle?: string;
   noLine?: boolean;
+  hasDropdown?: boolean;
 }
 
-const Frame = ({ children, title, subTitle, noLine }: Frame) => {
+const Frame = ({
+  children,
+  title,
+  subTitle,
+  noLine,
+  hasDropdown = true,
+}: Frame) => {
   const [selectedChallenge, setSelectedChallenge] = useState("라이톤 챌린지");
 
   return (
@@ -24,11 +31,13 @@ const Frame = ({ children, title, subTitle, noLine }: Frame) => {
             <H2>{title}</H2>
             <B2 color={theme.color.gray[60]}>{subTitle}</B2>
           </FlexBox>
-          <Dropdown
-            list={["라이톤 챌린지", "렛츠인턴 챌린지", "어드민 챌린지"]}
-            selectedItem={selectedChallenge}
-            setSelectedItem={setSelectedChallenge}
-          />
+          {hasDropdown && (
+            <Dropdown
+              list={["라이톤 챌린지", "렛츠인턴 챌린지", "어드민 챌린지"]}
+              selectedItem={selectedChallenge}
+              setSelectedItem={setSelectedChallenge}
+            />
+          )}
         </FlexBox>
         {!noLine && <Line />}
 
@@ -42,10 +51,12 @@ const Frame = ({ children, title, subTitle, noLine }: Frame) => {
 export default Frame;
 
 const Container = styled.section`
+  height: 100%;
+  height: fit-content;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   flex: 1;
   min-width: 980px;
-  padding: 40px 0 200px 0;
-  overflow-y: auto;
+  padding: 40px 0 100px 0;
 `;

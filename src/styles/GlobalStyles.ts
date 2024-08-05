@@ -65,9 +65,9 @@ const GlobalStyle = createGlobalStyle`
     cursor: default;
   }
 
-  button:hover {
+  /* button:hover {
     border-color: #646cff;
-  }
+  } */
 
   p {
     color: var(--Gray-100, #212121);

@@ -1,18 +1,18 @@
 import { Button, FlexBox, Line } from "../components/atoms";
 import { H3 } from "../components/atoms/Text";
-import { ContentSection, EditBtn, Input } from "../components/molecules";
-import { Frame, Participate, Questions } from "../components/organisms";
-import { theme } from "../styles/theme";
+import { EditBtn } from "../components/molecules";
+import {
+  BasicInfo,
+  Frame,
+  Participate,
+  Questions,
+} from "../components/organisms";
 import { useState } from "react";
-import DateInput from "../components/molecules/DateInput";
 import { useNavigate } from "react-router-dom";
 
 const ChallengeInfoPage = () => {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
-  const [name, setName] = useState("라이톤 끄적끄적 챌린지");
-  const [startDate, setstartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
 
   const handleEdit = () => {
     alert("수정 완료");
@@ -32,32 +32,7 @@ const ChallengeInfoPage = () => {
               handleEdit={handleEdit}
             />
           </FlexBox>
-          {/*  챌린지 이름  */}
-          <ContentSection title="챌린지 이름" titleWidth={180}>
-            <Input disabled={!isEdit} value={name} setValue={setName} />
-          </ContentSection>
-          {/*  챌린지 진행 기간  */}
-          <ContentSection title="챌린지 진행 기간" titleWidth={180}>
-            <FlexBox gap={14} align="center">
-              <DateInput
-                type="start"
-                value={startDate}
-                setValue={setstartDate}
-                disabled={!isEdit}
-              />
-              <H3 color={theme.color.gray[60]}>~</H3>
-              <DateInput
-                type="end"
-                value={endDate}
-                setValue={setEndDate}
-                disabled={!isEdit}
-              />
-            </FlexBox>
-          </ContentSection>
-          {/*  챌린지 진행 날짜  */}
-          <ContentSection title="챌린지 진행 날짜" titleWidth={180}>
-            <Input disabled value="라이톤 끄적끄적 챌린지" />
-          </ContentSection>
+          <BasicInfo isEdit={isEdit} />
         </FlexBox>
         <Line />
 

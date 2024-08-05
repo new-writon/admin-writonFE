@@ -6,6 +6,7 @@ import ParticipationParticipatePage from "./ParticipationParticipatePage";
 import CustomPage from "./CustomPage";
 import ParticipationInfoPage from "./ParticipationInfoPage";
 import ChallengeDashboardPage from "./ChallengeDashboardPage";
+import ChallengeCreatePage from "./ChallengeCreatePage";
 
 export {
   LoginPage,
@@ -16,4 +17,5 @@ export {
   ParticipationInfoPage,
   ParticipationParticipatePage,
   ChallengeDashboardPage,
+  ChallengeCreatePage,
 };

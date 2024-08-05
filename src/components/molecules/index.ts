@@ -9,6 +9,8 @@ import InputDropdown from "./InputDropdown";
 import Filter from "./Filter";
 import CalendarModal from "./CalendarModal";
 import Categories from "./Categories";
+import DateInput from "./DateInput";
+import Modal from "./Modal";
 
 export {
   SideBar,
@@ -22,4 +24,6 @@ export {
   Filter,
   CalendarModal,
   Categories,
+  DateInput,
+  Modal,
 };
