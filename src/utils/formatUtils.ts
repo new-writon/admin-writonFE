@@ -7,6 +7,7 @@ const formatDate = (date: Date) => {
 
   return `${year}-${month}-${day}`;
 };
+
 const fieldTranslations = (key: string) => {
   switch (key) {
     case "name":
