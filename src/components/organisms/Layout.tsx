@@ -26,7 +26,6 @@ export default Layout;
 const Container = styled.section`
   display: flex;
   width: 100%;
-  /* height: calc(100vh); */
+  height: calc(100vh - 60px);
   z-index: 1;
-  overflow-y: auto;
 `;
