@@ -11,9 +11,14 @@ import { excelFileToArray } from "../../utils/excelUtils";
 interface Participate {
   gap: number;
   isEdit?: boolean;
+  isEditBtn?: boolean;
 }
 
-const Participate = ({ gap, isEdit = false }: Participate) => {
+const Participate = ({
+  gap,
+  isEdit = false,
+  isEditBtn = true,
+}: Participate) => {
   const [pendingEmailList, setPendingEmailList] = useState<string[]>([]);
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -142,7 +147,7 @@ const Participate = ({ gap, isEdit = false }: Participate) => {
       </ContentSection>
 
       {/*  ========== 버튼 ==========  */}
-      {isEdit && (
+      {isEdit && isEditBtn && (
         <FlexBox fullWidth justify="center" align="center" gap={12}>
           <Button type="empty" size="lg" onClick={onClickReset}>
             초기화
