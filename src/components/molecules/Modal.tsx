@@ -35,13 +35,12 @@ const ModalOverlay = styled.div<{ $visible: boolean }>`
   width: 100%;
   height: 100vh;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 10;
   background-color: rgba(0, 0, 0, 0.4);
   overflow: ${({ $visible }) => ($visible ? "hidden" : "auto")};
 
@@ -51,7 +50,7 @@ const ModalOverlay = styled.div<{ $visible: boolean }>`
 const Container = styled.div`
   padding: 60px 100px;
   height: fit-content;
-  z-index: 101;
+  z-index: 11;
   background-color: white;
   border-radius: 16px;
   box-shadow: 0px 14px 20px 0px rgba(33, 33, 33, 0.05);
