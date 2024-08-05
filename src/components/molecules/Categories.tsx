@@ -8,12 +8,14 @@ interface Categories {
   list: string[];
   selectedCategory: number;
   setSelectedCategory: React.Dispatch<React.SetStateAction<number>>;
+  isClickDisabled?: boolean;
 }
 
 const Categories = ({
   list,
   selectedCategory,
   setSelectedCategory,
+  isClickDisabled,
 }: Categories) => {
   return (
     <FlexBox col fullWidth>
@@ -23,6 +25,7 @@ const Categories = ({
             key={idx}
             $selected={selectedCategory === idx}
             onClick={() => setSelectedCategory(idx)}
+            disabled={isClickDisabled}
           >
             <H4
               weight="sb"
@@ -44,7 +47,7 @@ const Categories = ({
 
 export default Categories;
 
-const Category = styled.div<{ $selected: boolean }>`
+const Category = styled.button<{ $selected: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,6 +56,4 @@ const Category = styled.div<{ $selected: boolean }>`
   border-bottom: 2px solid
     ${({ theme, $selected }) =>
       $selected ? theme.color.gray[100] : "transparent"};
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
 `;
