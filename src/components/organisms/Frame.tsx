@@ -52,11 +52,11 @@ export default Frame;
 
 const Container = styled.section`
   height: 100%;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   flex: 1;
   min-width: 980px;
   padding: 40px 0 100px 0;
-  overflow-y: auto;
 `;

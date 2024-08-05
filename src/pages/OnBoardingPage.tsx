@@ -1,18 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Form,
   ManageOrgFirst,
   CreateOrg,
   CompleteOrg,
 } from "../components/organisms";
-import { ScrollToTopFn } from "../utils/ScrollToTop";
+import { ScrollContext } from "../states/FrameContext";
 
 const OnBoardingPage = () => {
   const [step, setStep] = useState(1);
+  const scrollToTop = useContext(ScrollContext);
 
   const moveStep = (path: 1 | -1) => {
-    ScrollToTopFn();
     setStep(step + path);
+    scrollToTop();
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Categories, Modal } from "../components/molecules";
 import {
   BasicInfo,
@@ -8,7 +8,7 @@ import {
   Questions,
 } from "../components/organisms";
 import { Button, FlexBox, Line } from "../components/atoms";
-import { ScrollToTopFn } from "../utils/ScrollToTop";
+import { ScrollContext } from "../states/FrameContext";
 
 const buttonText = {
   empty: ["", "이전", "이전", "이전"],
@@ -29,10 +29,11 @@ const ChallengeCreatePage = () => {
   ];
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const scrollToTop = useContext(ScrollContext);
 
   const movePage = (path: -1 | 1) => {
     setSelectedCategory((prev) => prev + path);
-    ScrollToTopFn();
+    scrollToTop();
   };
 
   const completeStep1 = () => {
