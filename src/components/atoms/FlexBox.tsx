@@ -34,7 +34,7 @@ const FlexBox = ({
         justifyContent: justify || "flex-start",
         alignItems: align || "flex-start",
         padding: padding || "0",
-        width: fullWidth ? "100%" : "fit-content",
+        width: fullWidth ? "100%" : "auto",
         flex: isFlex1 ? 1 : "none",
         flexWrap: isFlexWrap ? "wrap" : "nowrap",
         ...style,
