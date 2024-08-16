@@ -7,6 +7,7 @@ interface Form {
   isLoginForm?: boolean;
   totalSteps?: number;
   step?: number;
+  noBackground?: boolean;
 }
 
 const Form = ({
@@ -15,28 +16,33 @@ const Form = ({
   isLoginForm = false,
   totalSteps,
   step,
+  noBackground,
 }: Form) => {
-  return (
-    <Background>
-      <Container $isLoginForm={isLoginForm}>
-        <FormContainer
-          as={isLoginForm ? "form" : "section"}
-          style={{ maxWidth: contentsWidth }}
-        >
-          {totalSteps && (
-            <FlexBox gap={5}>
-              {Array(totalSteps)
-                .fill(null)
-                .map((_, idx) => (
-                  <Dot key={idx} $isCurStep={step == idx + 1} />
-                ))}
-            </FlexBox>
-          )}
-          {children}
-        </FormContainer>
-      </Container>
-    </Background>
+  const container = (
+    <Container $isLoginForm={isLoginForm}>
+      <FormContainer
+        as={isLoginForm ? "form" : "section"}
+        style={{ maxWidth: contentsWidth }}
+      >
+        {totalSteps && (
+          <FlexBox gap={5}>
+            {Array(totalSteps)
+              .fill(null)
+              .map((_, idx) => (
+                <Dot key={idx} $isCurStep={step == idx + 1} />
+              ))}
+          </FlexBox>
+        )}
+        {children}
+      </FormContainer>
+    </Container>
   );
+
+  if (noBackground) {
+    return container;
+  } else {
+    return <Background>{container}</Background>;
+  }
 };
 
 export default Form;
@@ -53,7 +59,7 @@ const Background = styled.main`
 
 const Container = styled.section<{ $isLoginForm: boolean }>`
   width: 95%;
-  max-width: 690px;
+  max-width: ${({ $isLoginForm }) => ($isLoginForm ? "690px" : "750px")};
   min-height: 600px;
   display: flex;
   flex-direction: column;
