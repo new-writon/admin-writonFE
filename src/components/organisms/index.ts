@@ -8,6 +8,7 @@ import Questions from "./Questions";
 import Participate from "./Participate";
 import Table from "./Table";
 import BasicInfo from "./BasicInfo";
+import Preview from "./Preview";
 
 export {
   Layout,
@@ -20,4 +21,5 @@ export {
   Participate,
   Table,
   BasicInfo,
+  Preview,
 };
