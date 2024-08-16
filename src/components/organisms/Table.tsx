@@ -64,17 +64,12 @@ const Table = ({
           {isSort && (
             <FlexBox align="center" gap={4}>
               {sortList.map((item, idx) => (
-                <>
-                  <Button
-                    key={idx}
-                    type="none"
-                    size="sm"
-                    disabled={idx !== selectedSort}
-                  >
+                <React.Fragment key={idx}>
+                  <Button type="none" size="sm" disabled={idx !== selectedSort}>
                     {item}
                   </Button>
-                  <Line vertical />  {/* 추후 수정 */}
-                </>
+                  <Line vertical /> {/* 추후 수정 */}
+                </React.Fragment>
               ))}
             </FlexBox>
           )}

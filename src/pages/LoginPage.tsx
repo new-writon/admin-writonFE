@@ -6,16 +6,50 @@ import { useState } from "react";
 import { theme } from "../styles/theme";
 import { useNavigate } from "react-router-dom";
 import { Form } from "../components/organisms";
+import { useMutation } from "@tanstack/react-query";
+import { postAuthLoginAPI } from "../apis";
+import useOrganizationStore from "../states/OrganizationStore";
+import useChallengeStore from "../states/ChallengeStore";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const submitLogin = () => {
-    console.log(id, password);
-    navigate("/onBoarding");
-  };
+  const { setOrganizationId, setOrganizationName, setOrganizationLogo } =
+    useOrganizationStore();
+  const { setChallengeId, setChallengeList } = useChallengeStore();
+
+  const { mutate: submitLogin } = useMutation({
+    mutationFn: () => postAuthLoginAPI(id, password),
+    onSuccess: ({
+      accessToken,
+      refreshToken,
+      hasOrganization,
+      organizationId,
+      organizationName,
+      organizationLogo,
+    }) => {
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+
+      setOrganizationId(organizationId);
+      setOrganizationName(organizationName);
+      setOrganizationLogo(organizationLogo);
+
+      setChallengeId(21);
+      setChallengeList([
+        { id: 21, name: "test-challenge-edit" },
+        { id: 22, name: "test2-challenge" },
+        { id: 23, name: "test3-challenge" },
+      ]);
+
+      navigate(hasOrganization ? "/challenge/dashboard" : "/onBoarding");
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
 
   return (
     <Form contentsWidth={370}>

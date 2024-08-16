@@ -5,13 +5,18 @@ import { B2, L2 } from "../atoms/Text";
 import { theme } from "../../styles/theme";
 import { IoIosArrowUp } from "../atoms/Icons";
 
-interface Dropdown {
-  list: string[];
-  selectedItem: string;
-  setSelectedItem: React.Dispatch<React.SetStateAction<string>>;
+interface Challenge {
+  id: number;
+  name: string;
 }
 
-const Dropdown = ({ list, selectedItem, setSelectedItem }: Dropdown) => {
+interface Dropdown {
+  list: Challenge[];
+  selectedItemId: number;
+  setSelectedItemId: (id: number) => void;
+}
+
+const Dropdown = ({ list, selectedItemId, setSelectedItemId }: Dropdown) => {
   const [isOpen, setIsOpen] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -24,8 +29,8 @@ const Dropdown = ({ list, selectedItem, setSelectedItem }: Dropdown) => {
     }
   };
 
-  const onClickItem = (item: string) => {
-    setSelectedItem(item);
+  const onClickItem = (id: number) => {
+    setSelectedItemId(id);
     handleCloseList();
   };
 
@@ -41,20 +46,20 @@ const Dropdown = ({ list, selectedItem, setSelectedItem }: Dropdown) => {
     <Container>
       <Header onClick={toggle} $visible={visible}>
         <L2 weight="sb" color={theme.color.brand[50]}>
-          {selectedItem}
+          {list.filter(({ id }) => selectedItemId == id)[0].name}
         </L2>
         <IoIosArrowUp color={theme.color.gray[70]} size={16} />
       </Header>
       {isOpen && (
         <ShadowBox $listCnt={list.length}>
           <List $visible={visible}>
-            {list.map((item, idx) => (
+            {list.map(({ id, name }) => (
               <Item
-                key={idx}
-                onClick={() => onClickItem(item)}
-                $isCurItem={selectedItem == item}
+                key={id}
+                onClick={() => onClickItem(id)}
+                $isCurItem={selectedItemId == id}
               >
-                <B2 color={theme.color.gray[80]}>{item}</B2>
+                <B2 color={theme.color.gray[80]}>{name}</B2>
               </Item>
             ))}
           </List>
