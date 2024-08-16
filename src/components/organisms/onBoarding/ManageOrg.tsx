@@ -6,10 +6,11 @@ import { InputDropdown, PreviewContents, Title } from "../../molecules";
 import styled from "styled-components";
 
 interface ManageOrg {
-  moveStep: (path: -1 | 1) => void;
+  moveStep?: (path: -1 | 1) => void;
+  disabled?: boolean;
 }
 
-const ManageOrg = ({ moveStep }: ManageOrg) => {
+const ManageOrg = ({ moveStep, disabled }: ManageOrg) => {
   const [positionList, setPositionList] = useState<string[]>([]);
 
   return (
@@ -58,10 +59,22 @@ const ManageOrg = ({ moveStep }: ManageOrg) => {
 
       {/* ========== Button ========== */}
       <FlexBox fullWidth align="center" gap={16}>
-        <Button type="empty" size="lg" fullWidth onClick={() => moveStep(-1)}>
+        <Button
+          type="empty"
+          size="lg"
+          fullWidth
+          onClick={() => moveStep?.(-1)}
+          disabled={disabled}
+        >
           이전
         </Button>
-        <Button type="dark" size="lg" fullWidth onClick={() => moveStep(1)}>
+        <Button
+          type="dark"
+          size="lg"
+          fullWidth
+          onClick={() => moveStep?.(1)}
+          disabled={disabled}
+        >
           다음
         </Button>
       </FlexBox>
