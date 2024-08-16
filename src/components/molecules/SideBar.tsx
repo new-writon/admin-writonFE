@@ -7,6 +7,7 @@ import {
   challengeMenuList,
   participationMenuList,
 } from "../../data/SideBarMenu";
+import useOrganizationStore from "../../states/OrganizationStore";
 
 interface Menu {
   isTitle?: boolean;
@@ -38,6 +39,7 @@ const Menu = ({ isTitle, children, path }: Menu) => {
 const SideBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { organizationName, organizationLogo } = useOrganizationStore();
 
   return (
     <Container>
@@ -50,9 +52,12 @@ const SideBar = () => {
         padding="0px 10px"
         style={{ width: "240px" }}
       >
-        <img src="/icons/logo.svg" onClick={() => navigate("/login")} />
+        <img
+          src={organizationLogo || "/icons/logo.svg"}
+          onClick={() => navigate("/login")}
+        />
         <B2 weight="sb" color={theme.color.gray[100]} style={{ flex: 1 }}>
-          조직 이름
+          {organizationName}
         </B2>
         <Button
           size="sm"
