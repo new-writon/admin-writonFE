@@ -5,11 +5,12 @@ import {
   ChallengeDashboardPage,
   ChallengeInfoPage,
   ChallengeQuestionPage,
-  CustomPage,
+  ChallengeCustomPage,
   LoginPage,
   OnBoardingPage,
   ParticipationInfoPage,
   ParticipationParticipatePage,
+  OrganizationEditPage
 } from "./pages";
 
 export const router = createBrowserRouter([
@@ -53,7 +54,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/challenge/custom",
-        element: <CustomPage />,
+        element: <ChallengeCustomPage />,
         errorElement: <div>Unknown Error</div>,
       },
       {
@@ -64,6 +65,11 @@ export const router = createBrowserRouter([
       {
         path: "/participation/participate",
         element: <ParticipationParticipatePage />,
+        errorElement: <div>Unknown Error</div>,
+      },
+      {
+        path: "/organization/edit",
+        element: <OrganizationEditPage />,
         errorElement: <div>Unknown Error</div>,
       },
     ],

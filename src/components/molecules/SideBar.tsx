@@ -50,11 +50,17 @@ const SideBar = () => {
         padding="0px 10px"
         style={{ width: "240px" }}
       >
-        <img src="/icons/logo.svg" />
+        <img src="/icons/logo.svg" onClick={() => navigate("/login")} />
         <B2 weight="sb" color={theme.color.gray[100]} style={{ flex: 1 }}>
           조직 이름
         </B2>
-        <Button size="sm" type="none" onClick={() => {}}>
+        <Button
+          size="sm"
+          type="none"
+          onClick={() => {
+            navigate("/organization/edit");
+          }}
+        >
           설정
         </Button>
       </FlexBox>
