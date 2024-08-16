@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import {
   Form,
-  ManageOrgFirst,
+  ManageOrg,
   CreateOrg,
   CompleteOrg,
 } from "../components/organisms";
@@ -19,7 +19,7 @@ const OnBoardingPage = () => {
   return (
     <Form contentsWidth={430} totalSteps={3} step={step}>
       {step == 1 && <CreateOrg moveStep={moveStep} />}
-      {step == 2 && <ManageOrgFirst moveStep={moveStep} />}
+      {step == 2 && <ManageOrg moveStep={moveStep} />}
       {step == 3 && <CompleteOrg />}
     </Form>
   );
