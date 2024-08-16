@@ -14,58 +14,6 @@ const CreateOrg = ({ moveStep }: CreateOrg) => {
   const [name, setName] = useState(""); // 조직 이름
   const [selectedColor, setSelectedColor] = useState("brand"); // 테마컬러
   const [isChecked, setIsChecked] = useState(false);
-  const colorList = [
-    {
-      name: "brand",
-      color: theme.color.brand[30],
-    },
-    {
-      name: "red",
-      color: "#FF4D56",
-    },
-    {
-      name: "orange",
-      color: "#FFA24D",
-    },
-    {
-      name: "yellow",
-      color: "#FFED4D",
-    },
-    {
-      name: "green",
-      color: "#4BDC5A",
-    },
-    {
-      name: "emerald",
-      color: "#4BDCD3",
-    },
-    {
-      name: "skyblue",
-      color: "#31BDFA",
-    },
-    {
-      name: "navy",
-      color: "#244A94",
-    },
-    {
-      name: "purple",
-      color: "#AC62E6",
-    },
-    {
-      name: "pick",
-      color: "#F87BE4",
-    },
-    {
-      name: "gray",
-      color: "#252525",
-    },
-  ];
-
-  const onClickColorBtn = (color: string) => {
-    if (color != selectedColor) {
-      setSelectedColor(color);
-    }
-  };
 
   // 로고 이미지 업로드
   const [logo, setLogo] = useState<File | null>(null);
@@ -170,19 +118,10 @@ const CreateOrg = ({ moveStep }: CreateOrg) => {
           title="테마 컬러 설정"
           subTitle="조직에서 사용할 라이톤의 테마 컬러를 설정할 수 있어요."
         />
-        <FlexBox gap={14} style={{ flexWrap: "wrap" }}>
-          {colorList.map(({ name, color }) => (
-            <ColorBtn
-              key={name}
-              $color={color}
-              onClick={() => onClickColorBtn(name)}
-            >
-              {name == selectedColor && (
-                <FaCheck color={theme.color.base.white} size={14} />
-              )}
-            </ColorBtn>
-          ))}
-        </FlexBox>
+        <ColorPalette
+          selectedColor={selectedColor}
+          setSelectedColor={setSelectedColor}
+        />
       </FlexBox>
 
       {/* ========== 다음 버튼 ========== */}
@@ -246,16 +185,3 @@ const RecImgSizeTxt = styled.p`
   }
 `;
 
-const ColorBtn = styled.button<{ $color: string }>`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  width: 50px;
-  height: 50px;
-  border-radius: 16px;
-  border: 1.5px solid ${({ theme }) => theme.color.gray[30]};
-  background-color: ${({ $color }) => $color};
-  opacity: 0.5;
-`;
