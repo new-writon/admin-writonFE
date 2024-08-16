@@ -16,7 +16,7 @@ const ContentSection = ({ children, title, titleWidth }: ContentSection) => {
           {title}
         </B2>
       </div>
-      {children}
+      <FlexBox isFlex1>{children}</FlexBox>
     </FlexBox>
   );
 };

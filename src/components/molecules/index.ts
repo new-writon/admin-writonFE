@@ -13,6 +13,7 @@ import DateInput from "./DateInput";
 import Modal from "./Modal";
 import ImageUpload from "./ImageUpload";
 import ColorPalette from "./ColorPalette";
+import PreviewContents from "./PreviewContents";
 
 export {
   SideBar,
@@ -30,4 +31,5 @@ export {
   Modal,
   ImageUpload,
   ColorPalette,
+  PreviewContents,
 };
