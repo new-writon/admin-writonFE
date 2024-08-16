@@ -1,9 +1,7 @@
-import styled from "styled-components";
-import { Button, CheckBox, FlexBox } from "../../atoms";
-import { Input, Title } from "../../molecules";
-import { B1, H2, L3 } from "../../atoms/Text";
+import { Button, FlexBox } from "../../atoms";
+import { ColorPalette, ImageUpload, Input, Title } from "../../molecules";
+import { B1, H2 } from "../../atoms/Text";
 import { theme } from "../../../styles/theme";
-import { FaCheck } from "../../atoms/Icons";
 import { useState } from "react";
 
 interface CreateOrg {
@@ -12,25 +10,8 @@ interface CreateOrg {
 
 const CreateOrg = ({ moveStep }: CreateOrg) => {
   const [name, setName] = useState(""); // 조직 이름
+  const [logo, setLogo] = useState<File | null>(null); // 조직 로고
   const [selectedColor, setSelectedColor] = useState("brand"); // 테마컬러
-  const [isChecked, setIsChecked] = useState(false);
-
-  // 로고 이미지 업로드
-  const [logo, setLogo] = useState<File | null>(null);
-  const [preview, setPreview] = useState("");
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.currentTarget.files !== null) {
-      const file = e.currentTarget.files[0];
-      setLogo(file);
-      setIsChecked(false);
-      file && setPreview(URL.createObjectURL(file));
-    }
-
-    if (!logo) return;
-    const formData = new FormData();
-    formData.append("file", logo);
-  };
 
   return (
     <>
@@ -60,56 +41,7 @@ const CreateOrg = ({ moveStep }: CreateOrg) => {
           title="조직 로고"
           subTitle="조직에서 사용할 로고 이미지를 설정해주세요."
         />
-        <FlexBox fullWidth justify="space-between" align="center" gap={50}>
-          <ImgConatainer>
-            {preview ? (
-              <img src={preview} alt="logo" />
-            ) : (
-              <L3 color={theme.color.gray[60]}>이미지 추가</L3>
-            )}
-          </ImgConatainer>
-          <FlexBox
-            col
-            isFlex1
-            justify="space-between"
-            padding="0 0 2px 0"
-            style={{ height: "125px" }}
-          >
-            <FlexBox isFlex1 col gap={10}>
-              <FlexBox gap={10} align="center">
-                <ImgAddBtn>
-                  <label htmlFor="upload-input">추가</label>
-                  <input
-                    id="upload-input"
-                    type="file"
-                    onChange={handleFileChange}
-                  />
-                </ImgAddBtn>
-                <Button
-                  size="sm"
-                  type="empty"
-                  disabled={preview == ""}
-                  onClick={() => {
-                    setPreview("");
-                  }}
-                >
-                  삭제
-                </Button>
-              </FlexBox>
-              <RecImgSizeTxt>
-                권장 이미지 크기: <span>125x125 px</span>
-              </RecImgSizeTxt>
-            </FlexBox>
-            <CheckBox
-              text="라이톤 기본 로고 사용하기"
-              checked={isChecked}
-              setChecked={setIsChecked}
-              onClick={(checked) => {
-                setPreview(checked ? "/icons/default-logo.png" : "");
-              }}
-            />
-          </FlexBox>
-        </FlexBox>
+        <ImageUpload image={logo} setImage={setLogo} />
       </FlexBox>
 
       {/* ========== 테마 컬러 설정 ========== */}
@@ -140,48 +72,3 @@ const CreateOrg = ({ moveStep }: CreateOrg) => {
 };
 
 export default CreateOrg;
-
-const ImgConatainer = styled.div`
-  display: flex;
-  width: 125px;
-  height: 125px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.color.gray[30]};
-  background: ${({ theme }) => theme.color.gray[20]};
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-`;
-
-const ImgAddBtn = styled.button`
-  label {
-    ${({ theme }) => theme.font.b2}
-    border-radius: 6px;
-    border: 1px solid ${({ theme }) => theme.color.brand[50]};
-    background: ${({ theme }) => theme.color.base.white};
-    padding: 9px 14px;
-    color: ${({ theme }) => theme.color.brand[50]};
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-  }
-
-  input {
-    display: none;
-  }
-`;
-
-const RecImgSizeTxt = styled.p`
-  ${({ theme }) => theme.font.l3}
-  color: ${({ theme }) => theme.color.gray[60]};
-  span {
-    color: ${({ theme }) => theme.color.gray[80]};
-  }
-`;
-
