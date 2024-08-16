@@ -3,7 +3,7 @@ import { DefaultTheme, styled } from "styled-components";
 interface TextProps {
   children: React.ReactNode; // 글자 텍스트
   color?: string; // 글자 색상
-  style?: any; // 이외 스타일
+  style?: React.CSSProperties; // 이외 스타일
   onClick?: () => void; // 클릭 이벤트
 }
 
