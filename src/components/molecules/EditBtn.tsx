@@ -5,9 +5,16 @@ interface EditBtn {
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
   handleEdit: () => void;
   handleCancel?: () => void;
+  children?: React.ReactNode;
 }
 
-const EditBtn = ({ isEdit, setIsEdit, handleEdit, handleCancel }: EditBtn) => {
+const EditBtn = ({
+  isEdit,
+  setIsEdit,
+  handleEdit,
+  handleCancel,
+  children,
+}: EditBtn) => {
   const onClickEdit = () => {
     handleEdit();
     setIsEdit(false);
@@ -36,7 +43,7 @@ const EditBtn = ({ isEdit, setIsEdit, handleEdit, handleCancel }: EditBtn) => {
           editIcon
           onClick={() => setIsEdit(!isEdit)}
         >
-          수정
+          {children || "수정"}
         </Button>
       )}
     </>
