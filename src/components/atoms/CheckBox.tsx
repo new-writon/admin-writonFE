@@ -9,6 +9,13 @@ interface CheckBox {
   checked: boolean; // 체크박스 상태
   setChecked?: React.Dispatch<React.SetStateAction<boolean>>; // 체크박스 상태변경
   onClick?: (checked: boolean) => void; // 추가적인 기능 (인자로 체크박스 상태 전달)
+  disabled?: boolean;
+}
+
+interface ContainerProps {
+  $checked: boolean;
+  $size: number;
+  $disabled: boolean;
 }
 
 const CheckBox = ({
@@ -17,6 +24,7 @@ const CheckBox = ({
   checked,
   setChecked,
   onClick,
+  disabled = false,
 }: CheckBox) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.currentTarget.checked;
@@ -25,8 +33,13 @@ const CheckBox = ({
   };
 
   return (
-    <Container $checked={checked} $size={size}>
-      <input type="checkbox" checked={checked} onChange={onChange} />
+    <Container $checked={checked} $size={size} $disabled={disabled}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+      />
       <div>
         <FaCheck
           size={9}
@@ -43,11 +56,11 @@ const CheckBox = ({
 
 export default CheckBox;
 
-const Container = styled.label<{ $checked: boolean; $size: number }>`
+const Container = styled.label<ContainerProps>`
   display: flex;
   gap: 10px;
   align-items: center;
-  cursor: pointer;
+  cursor: ${({ $disabled }) => ($disabled ? "default" : "pointer")};
 
   input {
     display: none;

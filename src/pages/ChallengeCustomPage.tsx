@@ -2,7 +2,7 @@ import { FlexBox } from "../components/atoms";
 import { B1 } from "../components/atoms/Text";
 import { Frame } from "../components/organisms";
 
-const CustomPage = () => {
+const ChallengeCustomPage = () => {
   return (
     <Frame title="기능 커스텀">
       <FlexBox
@@ -19,4 +19,4 @@ const CustomPage = () => {
   );
 };
 
-export default CustomPage;
+export default ChallengeCustomPage;

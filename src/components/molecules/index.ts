@@ -11,6 +11,9 @@ import CalendarModal from "./CalendarModal";
 import Categories from "./Categories";
 import DateInput from "./DateInput";
 import Modal from "./Modal";
+import ImageUpload from "./ImageUpload";
+import ColorPalette from "./ColorPalette";
+import PreviewContents from "./PreviewContents";
 
 export {
   SideBar,
@@ -26,4 +29,7 @@ export {
   Categories,
   DateInput,
   Modal,
+  ImageUpload,
+  ColorPalette,
+  PreviewContents,
 };

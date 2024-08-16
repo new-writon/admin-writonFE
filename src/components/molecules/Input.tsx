@@ -93,6 +93,7 @@ const InputContainer = styled.div<{ $disabled: boolean; $isFocused: boolean }>`
         : theme.color.gray[40]};
   background: ${({ theme, $disabled }) =>
     $disabled ? theme.color.gray[20] : theme.color.base.white};
+  transition: all 0.2s ease-in-out;
 
   input {
     flex: 1;
