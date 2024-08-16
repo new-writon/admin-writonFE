@@ -3,7 +3,7 @@ import { FlexBox, Line } from "../atoms";
 import { H2, B2 } from "../atoms/Text";
 import { theme } from "../../styles/theme";
 import { Dropdown } from "../molecules";
-import { useState } from "react";
+import useChallengeStore from "../../states/ChallengeStore";
 
 interface Frame {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ const Frame = ({
   noLine,
   hasDropdown = true,
 }: Frame) => {
-  const [selectedChallenge, setSelectedChallenge] = useState("라이톤 챌린지");
+  const { challengeId, setChallengeId, challengeList } = useChallengeStore();
 
   return (
     <Container>
@@ -33,9 +33,9 @@ const Frame = ({
           </FlexBox>
           {hasDropdown && (
             <Dropdown
-              list={["라이톤 챌린지", "렛츠인턴 챌린지", "어드민 챌린지"]}
-              selectedItem={selectedChallenge}
-              setSelectedItem={setSelectedChallenge}
+              list={challengeList}
+              selectedItemId={challengeId}
+              setSelectedItemId={setChallengeId}
             />
           )}
         </FlexBox>
