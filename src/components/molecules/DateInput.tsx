@@ -10,7 +10,9 @@ import CalendarModal from "./CalendarModal";
 interface DateInput {
   type: "start" | "end";
   value: Date;
-  setValue?: React.Dispatch<React.SetStateAction<Date>>;
+  setValue?:
+    | React.Dispatch<React.SetStateAction<Date>>
+    | ((value: Date) => void);
   disabled?: boolean;
 }
 
