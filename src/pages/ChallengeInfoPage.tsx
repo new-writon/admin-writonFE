@@ -10,6 +10,7 @@ import {
 } from "../components/organisms";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getChallengeInfoAPI, getChallengeQuestionsAPI } from "../apis";
 import useChallengeStore from "../states/ChallengeStore";
 import { BasicInfoData } from "../interfaces/challenge";
 
@@ -31,6 +32,15 @@ const ChallengeInfoPage = () => {
     staleTime: 60 * 1000,
   });
 
+  const { data: questionsResponse } = useQuery({
+    queryKey: ["challenge-questions", challengeId],
+    queryFn: () => getChallengeQuestionsAPI(),
+    staleTime: 60 * 1000,
+  });
+
+  useEffect(() => {
+    setBasicInfoData(basicInfoResponse);
+  }, [basicInfoResponse]);
 
   return (
     <Frame title="챌린지 정보">
@@ -62,7 +72,7 @@ const ChallengeInfoPage = () => {
               질문 관리하러 가기
             </Button>
           </FlexBox>
-          <Questions gap={24} />
+          <Questions gap={24} data={questionsResponse} />
         </FlexBox>
         <Line />
 

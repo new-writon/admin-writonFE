@@ -27,6 +27,6 @@ export interface Questions {
   hasEditBtn?: boolean;
   isEdit?: boolean;
   setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
-  data: QuestionsData;
+  data: QuestionsData | undefined;
   setData?: React.Dispatch<React.SetStateAction<QuestionsData>>;
 }
