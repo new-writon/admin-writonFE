@@ -3,7 +3,7 @@ import { H4 } from "../components/atoms/Text";
 import { Frame, Table } from "../components/organisms";
 import { participationTableData } from "../data/TableData";
 import { useState } from "react";
-import { downloadExcelFile } from "../utils/excelUtils";
+import { arrayToExcelFile } from "../utils/excelUtils";
 import { fieldTranslations } from "../utils/formatUtils";
 import { Filter } from "../components/molecules";
 
@@ -32,7 +32,7 @@ const ParticipationInfoPage = () => {
         ...data.map((item) => Object.values(item)),
       ];
 
-      downloadExcelFile(downloadData);
+      arrayToExcelFile(downloadData);
     }
   };
 
