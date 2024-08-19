@@ -100,3 +100,22 @@ export const putChallengeInfoAPI = async (
   }
 };
 
+// 챌린지 질문 수정 API
+export const putChallengeQuestionsAPI = async (
+  requestDto: QuestionsData
+): Promise<QuestionsData> => {
+  try {
+    const {
+      data: { data },
+    } = await Axios.put("/challenge/questions", requestDto);
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error("Server Error:", error.response.data);
+    } else {
+      console.error("Error creating question:", error.message);
+    }
+    throw error;
+  }
+};

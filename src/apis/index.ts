@@ -9,6 +9,7 @@ import {
   getChallengeInfoAPI,
   getChallengeQuestionsAPI,
   putChallengeInfoAPI,
+  putChallengeQuestionsAPI,
 } from "./challengeAPI";
 
 export {
@@ -20,4 +21,5 @@ export {
   getChallengeInfoAPI,
   getChallengeQuestionsAPI,
   putChallengeInfoAPI,
+  putChallengeQuestionsAPI,
 };

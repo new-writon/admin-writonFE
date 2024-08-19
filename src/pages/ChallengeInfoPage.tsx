@@ -108,7 +108,13 @@ const ChallengeInfoPage = () => {
               질문 관리하러 가기
             </Button>
           </FlexBox>
-          <Questions gap={24} data={questionsResponse} />
+          <Questions
+            gap={24}
+            data={questionsResponse || defaultQuestionsData}
+            backupData={
+              questionsResponse && formatQuestionsCreateEmpty(questionsResponse)
+            }
+          />
         </FlexBox>
         <Line />
 

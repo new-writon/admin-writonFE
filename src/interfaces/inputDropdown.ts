@@ -2,7 +2,9 @@ type inputDropdowType = "position" | "keyword" | "email";
 
 interface InputDropdown {
   list: string[];
-  setList: React.Dispatch<React.SetStateAction<string[]>>;
+  setList:
+    | React.Dispatch<React.SetStateAction<string[]>>
+    | ((value: string[]) => void);
   type: inputDropdowType;
 }
 
