@@ -9,7 +9,7 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 interface CalendarModal {
   setIsOpenCalendar: React.Dispatch<React.SetStateAction<boolean>>;
-  setDate: React.Dispatch<React.SetStateAction<Date>>;
+  setDate: React.Dispatch<React.SetStateAction<Date>> | ((value: Date) => void);
   date: Value;
   top?: number;
   left?: number;
@@ -22,7 +22,6 @@ const CalendarModal = ({
   top = 0,
   left = 0,
 }: CalendarModal) => {
-  const today = new Date();
   const [selectedDate, setSelectedDate] = useState<Value>(date);
   const handleDateChange = (newDate: Value) => {
     setSelectedDate(newDate);

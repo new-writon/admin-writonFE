@@ -8,6 +8,8 @@ import {
   getChallengeDashboardAPI,
   getChallengeInfoAPI,
   getChallengeQuestionsAPI,
+  putChallengeInfoAPI,
+  putChallengeQuestionsAPI,
 } from "./challengeAPI";
 
 export {
@@ -18,4 +20,6 @@ export {
   getChallengeDashboardAPI,
   getChallengeInfoAPI,
   getChallengeQuestionsAPI,
+  putChallengeInfoAPI,
+  putChallengeQuestionsAPI,
 };

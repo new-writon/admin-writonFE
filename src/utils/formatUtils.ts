@@ -67,7 +67,9 @@ const tableCellColor = (value: string) => {
 };
 
 // Question List 에서 빈 string 전부 제거
-const formatQuestions = (questionsData: QuestionsData): QuestionsData => {
+const formatQuestionsRemoveEmpty = (
+  questionsData: QuestionsData
+): QuestionsData => {
   const removeEmptyStrings = (array: string[]): string[] => {
     return array.filter((item) => item.trim() !== "");
   };
@@ -77,6 +79,23 @@ const formatQuestions = (questionsData: QuestionsData): QuestionsData => {
     specialQuestions: questionsData.specialQuestions.map((special) => ({
       ...special,
       questions: removeEmptyStrings(special.questions),
+    })),
+  };
+};
+
+// Question List 빈 string으로 4개 채우기
+const formatQuestionsCreateEmpty = (questionsData: QuestionsData) => {
+  const createEmptyStrings = (array: string[]): string[] => {
+    return Array(4)
+      .fill(null)
+      .map((_, idx) => array[idx] || "");
+  };
+
+  return {
+    basicQuestions: createEmptyStrings(questionsData.basicQuestions),
+    specialQuestions: questionsData.specialQuestions.map((ques) => ({
+      ...ques,
+      questions: createEmptyStrings(ques.questions),
     })),
   };
 };
@@ -126,6 +145,7 @@ export {
   formatStringToDate,
   fieldTranslations,
   tableCellColor,
-  formatQuestions,
+  formatQuestionsRemoveEmpty,
+  formatQuestionsCreateEmpty,
   formatDashboardData,
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FlexBox, SearchBar } from "../components/atoms";
 import { Frame, Table } from "../components/organisms";
 import { H4 } from "../components/atoms/Text";

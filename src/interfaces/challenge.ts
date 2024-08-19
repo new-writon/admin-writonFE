@@ -8,7 +8,7 @@ export interface BasicInfoData {
 export interface BasicInfo {
   isEdit?: boolean;
   gap?: number;
-  data: BasicInfoData | undefined;
+  data: BasicInfoData;
   setData?: React.Dispatch<React.SetStateAction<BasicInfoData>>;
 }
 
@@ -24,11 +24,12 @@ export interface QuestionsData {
 
 export interface Questions {
   gap: number;
-  hasEditBtn?: boolean;
   isEdit?: boolean;
   setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
-  data: QuestionsData | undefined;
+  handleEdit?: () => void;
+  data: QuestionsData;
   setData?: React.Dispatch<React.SetStateAction<QuestionsData>>;
+  backupData?: QuestionsData;
 }
 
 export interface DashboardTableData {
