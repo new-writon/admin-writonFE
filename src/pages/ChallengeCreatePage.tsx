@@ -9,6 +9,11 @@ import {
 } from "../components/organisms";
 import { Button, FlexBox, Line } from "../components/atoms";
 import { ScrollContext } from "../states/FrameContext";
+import { BasicInfoData, QuestionsData } from "../interfaces/challenge";
+import { formatDateToString, formatQuestions } from "../utils/formatUtils";
+import { useMutation } from "@tanstack/react-query";
+import { postChallengeCreateAPI } from "../apis/challengeAPI";
+import useChallengeStore from "../states/ChallengeStore";
 
 const buttonText = {
   empty: ["", "이전", "이전", "이전"],
@@ -20,13 +25,16 @@ const buttonText = {
   ],
 };
 
+const categoryList = [
+  "1. 챌린지 기본 정보 입력",
+  "2. 챌린지 질문 입력",
+  "3. 참여자 정보 입력",
+  "4. 최종 확인",
+];
+
 const ChallengeCreatePage = () => {
-  const categoryList = [
-    "1. 챌린지 기본 정보 입력",
-    "2. 챌린지 질문 입력",
-    "3. 참여자 정보 입력",
-    "4. 최종 확인",
-  ];
+  const scrollToTop = useContext(ScrollContext);
+
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const { setChallengeId, setChallengeList } = useChallengeStore();
@@ -49,13 +57,36 @@ const ChallengeCreatePage = () => {
   };
 
   const completeStep1 = () => {
-    movePage(1);
+    if (
+      basicInfoData.name &&
+      basicInfoData.startDate &&
+      basicInfoData.endDate &&
+      basicInfoData.dates.length != 0
+    ) {
+      movePage(1);
+    } else {
+      alert("입력값을 모두 입력하세요.");
+    }
   };
   const completeStep2 = () => {
-    movePage(1);
+    if (
+      questionsData.basicQuestions[0] &&
+      questionsData.specialQuestions.some((item) => item.questions[0] != "")
+    ) {
+      movePage(1);
+    } else {
+      alert("필수 입력값을 모두 입력하세요.");
+    }
   };
   const completeStep3 = () => {
-    movePage(1);
+    if (emailList.length == 0) {
+      const checked = confirm(
+        "이메일을 입력하지 않았습니다. 참여자 초대를 건너뛰시겠습니까?"
+      );
+      if (checked) movePage(1);
+    } else {
+      movePage(1);
+    }
   };
 
   const { mutate: handleCreateChallenge } = useMutation({
