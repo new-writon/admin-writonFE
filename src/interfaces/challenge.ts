@@ -30,3 +30,9 @@ export interface Questions {
   data: QuestionsData | undefined;
   setData?: React.Dispatch<React.SetStateAction<QuestionsData>>;
 }
+// ========== API Interface ==========
+export interface PostChallengeCreateAPIParams
+  extends BasicInfoData,
+    QuestionsData {
+  emailList: string[];
+}

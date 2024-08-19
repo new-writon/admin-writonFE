@@ -1,17 +1,7 @@
 import { Axios } from "./Axios";
 
-interface PostChallengeCreateAPIParams {
-  name: string;
-  startDate: string;
-  endDate: string;
-  dates: string[];
-  basicQuestions: string[];
-  specialQuestions: { keyword: string; questions: string[] }[];
-  emailList: string[];
-}
-
 // 챌린지 개설 API
-export const postChallengeCreateAPI = async (
+export const postChallengeAPI = async (
   requestDto: PostChallengeCreateAPIParams
 ) => {
   try {
