@@ -15,7 +15,7 @@ import {
   subItemNotice,
   width,
 } from "../../utils/InputDropdownAttributes";
-import { recommendKeywords } from "../../data/ChallengeInfoPageData";
+import { recommendKeywords } from "../../data/ChallengeData";
 
 const InputDropdown = ({ type, list, setList }: InputDropdown) => {
   const [item, setItem] = useState("");
