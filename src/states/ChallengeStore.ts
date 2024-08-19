@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface Challenge {
   id: number;
@@ -12,12 +13,19 @@ interface ChallengeStore {
   setChallengeList: (list: Challenge[]) => void;
 }
 
-const useChallengeStore = create<ChallengeStore>((set) => ({
-  challengeId: 0, // 기본값 설정
-  challengeList: [], // 기본값 설정
+const useChallengeStore = create(
+  persist<ChallengeStore>(
+    (set) => ({
+      challengeId: 0,
+      challengeList: [],
 
-  setChallengeId: (id: number) => set({ challengeId: id }),
-  setChallengeList: (list: Challenge[]) => set({ challengeList: list }),
-}));
+      setChallengeId: (id: number) => set({ challengeId: id }),
+      setChallengeList: (list: Challenge[]) => set({ challengeList: list }),
+    }),
+    {
+      name: "challenge-store",
+    }
+  )
+);
 
 export default useChallengeStore;

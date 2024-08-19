@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface OrganizationStore {
   organizationId: number | null;
@@ -10,14 +11,23 @@ interface OrganizationStore {
   setOrganizationLogo: (logo: string | null) => void;
 }
 
-const useOrganizationStore = create<OrganizationStore>((set) => ({
-  organizationId: null,
-  organizationName: null,
-  organizationLogo: null,
+const useOrganizationStore = create(
+  persist<OrganizationStore>(
+    (set) => ({
+      organizationId: null,
+      organizationName: null,
+      organizationLogo: null,
 
-  setOrganizationId: (id: number | null) => set({ organizationId: id }),
-  setOrganizationName: (name: string | null) => set({ organizationName: name }),
-  setOrganizationLogo: (logo: string | null) => set({ organizationLogo: logo }),
-}));
+      setOrganizationId: (id: number | null) => set({ organizationId: id }),
+      setOrganizationName: (name: string | null) =>
+        set({ organizationName: name }),
+      setOrganizationLogo: (logo: string | null) =>
+        set({ organizationLogo: logo }),
+    }),
+    {
+      name: "organizaiton-store",
+    }
+  )
+);
 
 export default useOrganizationStore;
