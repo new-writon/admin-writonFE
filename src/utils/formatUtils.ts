@@ -1,3 +1,4 @@
+import { QuestionsData } from "../interfaces/challenge";
 import { theme } from "../styles/theme";
 
 const formatDateToString = (date: Date) => {
@@ -61,4 +62,25 @@ const tableCellColor = (value: string) => {
   }
 };
 
-export { formatDate, fieldTranslations, tableCellColor };
+// Question List 에서 빈 string 전부 제거
+const formatQuestions = (questionsData: QuestionsData): QuestionsData => {
+  const removeEmptyStrings = (array: string[]): string[] => {
+    return array.filter((item) => item.trim() !== "");
+  };
+
+  return {
+    basicQuestions: removeEmptyStrings(questionsData.basicQuestions),
+    specialQuestions: questionsData.specialQuestions.map((special) => ({
+      ...special,
+      questions: removeEmptyStrings(special.questions),
+    })),
+  };
+};
+
+export {
+  formatDateToString,
+  formatStringToDate,
+  fieldTranslations,
+  tableCellColor,
+  formatQuestions,
+};
