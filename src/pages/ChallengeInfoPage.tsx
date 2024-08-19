@@ -20,6 +20,7 @@ const ChallengeInfoPage = () => {
 
   const [isEdit, setIsEdit] = useState(false);
   const [basicInfoData, setBasicInfoData] = useState<BasicInfoData>();
+  const emailList: string[] = [];
 
   const handleEdit = () => {
     alert("수정 완료");
@@ -89,7 +90,7 @@ const ChallengeInfoPage = () => {
               참여자 정보 보러가기
             </Button>
           </FlexBox>
-          <Participate gap={24} />
+          <Participate gap={24} emailList={emailList} />
         </FlexBox>
       </FlexBox>
     </Frame>
