@@ -15,14 +15,11 @@ import {
   subItemNotice,
   width,
 } from "../../utils/InputDropdownAttributes";
+import { recommendKeywords } from "../../data/ChallengeInfoPageData";
 
 const InputDropdown = ({ type, list, setList }: InputDropdown) => {
   const [item, setItem] = useState("");
-  const [subItemList, setSubItemList] = useState<string[]>([
-    "키워드 추천1",
-    "키워드 추천2",
-    "키워드 추천3",
-  ]);
+  const [subItemList, setSubItemList] = useState<string[]>(recommendKeywords);
 
   const addItem = (e: FormEvent) => {
     e.preventDefault();
