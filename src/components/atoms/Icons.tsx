@@ -14,6 +14,7 @@ import { IoCalendarOutline } from "@react-icons/all-files/io5/IoCalendarOutline"
 import { IoMdSearch } from "@react-icons/all-files/io/IoMdSearch";
 import { FiDownload } from "@react-icons/all-files/fi/FiDownload";
 import { BsFilter } from "@react-icons/all-files/bs/BsFilter";
+import { BsQuestionCircleFill } from "@react-icons/all-files/bs/BsQuestionCircleFill";
 
 export {
   FiPlus,
@@ -29,4 +30,5 @@ export {
   IoMdSearch,
   FiDownload,
   BsFilter,
+  BsQuestionCircleFill,
 };

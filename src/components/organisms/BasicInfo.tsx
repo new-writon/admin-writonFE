@@ -1,18 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { theme } from "../../styles/theme";
 import { FlexBox } from "../atoms";
 import { H3 } from "../atoms/Text";
 import { ContentSection, Input, DateInput } from "../molecules";
+import { BasicInfo } from "../../interfaces/challenge";
+import {
+  formatDateToString,
+  formatStringToDate,
+} from "../../utils/formatUtils";
 
-interface BasicInfo {
-  isEdit?: boolean;
-  gap?: number;
-}
+const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfo) => {
+  const [name, setName] = useState(data.name);
+  const [startDate, setstartDate] = useState<Date>(new Date(data.startDate));
+  const [endDate, setEndDate] = useState<Date>(new Date(data.endDate));
+  const [dates, setDates] = useState<Date[]>(
+    data.dates.map((date) => formatStringToDate(date))
+  );
 
-const BasicInfo = ({ isEdit, gap = 24 }: BasicInfo) => {
-  const [name, setName] = useState("라이톤 끄적끄적 챌린지");
-  const [startDate, setstartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  useEffect(() => {
+    setData?.({
+      name,
+      startDate: formatDateToString(startDate),
+      endDate: formatDateToString(endDate),
+      dates: dates.map((date) => formatDateToString(date)),
+    });
+  }, [name, startDate, endDate]);
 
   return (
     <FlexBox fullWidth col gap={gap}>

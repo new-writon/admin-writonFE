@@ -7,6 +7,7 @@ import Switch from "./Switch";
 import InputChip from "./InputChip";
 import Line from "./Line";
 import SearchBar from "./SearchBar";
+import RadioButton from "./RadioButton";
 
 export {
   FlexBox,
@@ -18,4 +19,5 @@ export {
   InputChip,
   Line,
   SearchBar,
+  RadioButton,
 };

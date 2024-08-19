@@ -4,25 +4,32 @@ import { Button, FlexBox, InputChip } from "../atoms";
 import { BsPaperclip, FiPlus, FiX } from "../atoms/Icons";
 import { B2, L3 } from "../atoms/Text";
 import { ContentSection, InputDropdown } from "../molecules";
-import { emailList } from "../../data/ChallengeInfoPageData";
 import { useRef, useState } from "react";
-import { excelFileToArray } from "../../utils/excelUtils";
+import { excelFileToArray, downloadTemplate } from "../../utils/excelUtils";
 
 interface Participate {
   gap: number;
   isEdit?: boolean;
   isEditBtn?: boolean;
+  emailList: string[];
+  pendingEmailList?: string[];
+  setPendingEmailList?: React.Dispatch<React.SetStateAction<string[]>>;
+  isPending?: boolean; // 챌린지 개설 페이지에서 "0개의 이메일로 초대장이 전송됩니다." 텍스트 표시여부
 }
 
 const Participate = ({
   gap,
   isEdit = false,
   isEditBtn = true,
+  emailList,
+  pendingEmailList = [],
+  setPendingEmailList = () => {},
+  isPending,
 }: Participate) => {
-  const [pendingEmailList, setPendingEmailList] = useState<string[]>([]);
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [data, setData] = useState<string[][]>([]);
+  const [excelData, setExcelData] = useState<string[][]>([]);
+  const [selectedOption, setSelectedOption] = useState("excel");
 
   // 엑셀 파일 업로드
   const onClickUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +39,7 @@ const Participate = ({
     setExcelFile(file);
 
     // 엑셀 파일 데이터화
-    excelFileToArray(file, setData);
+    excelFileToArray(file, setExcelData);
   };
 
   // 엑셀 파일 삭제
@@ -65,7 +72,11 @@ const Participate = ({
       {/*  ========== 참여자 파일 ==========  */}
       <ContentSection
         title={isEdit ? "엑셀 파일 첨부" : "참여자 파일"}
-        titleWidth={156}
+        titleWidth={isEdit ? 204 : 156}
+        infoText={isEdit ? "추후 입력" : undefined}
+        option={isEdit ? "excel" : undefined}
+        selectedOption={isEdit ? selectedOption : undefined}
+        setSelectedOption={isEdit ? setSelectedOption : undefined}
       >
         <FlexBox col gap={12}>
           <FileInput $isEdit={isEdit}>
@@ -82,7 +93,7 @@ const Participate = ({
                 </button>
                 <button id="upload-btn">
                   <label htmlFor="upload-input">
-                    {excelFile ? "업로드" : "파일 첨부하기"}
+                    {excelFile ? "변경" : "파일 첨부하기"}
                     {!excelFile && (
                       <FiPlus size={16} color={theme.color.brand[50]} />
                     )}
@@ -99,9 +110,14 @@ const Participate = ({
             )}
           </FileInput>
           {isEdit && (
-            <B2 weight="r" color={theme.color.gray[60]}>
-              엑셀 파일에 기재된 이메일로 초대장이 전송됩니다.
-            </B2>
+            <Button
+              type="none"
+              size="sm"
+              downloadIcon
+              onClick={downloadTemplate}
+            >
+              파일 양식 다운로드
+            </Button>
           )}
         </FlexBox>
       </ContentSection>
@@ -109,7 +125,11 @@ const Participate = ({
       {/*  ========== 참여자 이메일 ==========  */}
       <ContentSection
         title={isEdit ? "참여자 이메일로 초대" : "참여자 이메일"}
-        titleWidth={156}
+        titleWidth={isEdit ? 204 : 156}
+        infoText={isEdit ? "추후 입력" : undefined}
+        option={isEdit ? "email" : undefined}
+        selectedOption={isEdit ? selectedOption : undefined}
+        setSelectedOption={isEdit ? setSelectedOption : undefined}
       >
         <FlexBox col isFlex1 gap={20}>
           {isEdit && (
@@ -119,30 +139,35 @@ const Participate = ({
               setList={setPendingEmailList}
             />
           )}
-          <L3 color={theme.color.gray[60]}>
-            {isEdit ? (
-              <>
-                기존에 전송된 메일 목록{" "}
-                <span style={{ color: theme.color.brand[50] }}>
-                  {emailList.length}건
-                </span>
-              </>
-            ) : (
-              <>
-                <span style={{ color: theme.color.brand[50] }}>
-                  {emailList.length}
-                </span>
-                개의 이메일로 초대장이 전송되었습니다.
-              </>
-            )}
-          </L3>
-          <FlexBox gap={8} style={{ flexWrap: "wrap", width: "550px" }}>
-            {emailList.map((email, idx) => (
-              <InputChip key={idx} color="gray">
-                <L3 color={theme.color.gray[80]}>{email}</L3>
-              </InputChip>
-            ))}
-          </FlexBox>
+          {emailList.length != 0 && (
+            <>
+              <L3 color={theme.color.gray[60]}>
+                {isEdit ? (
+                  <>
+                    기존에 전송된 메일 목록{" "}
+                    <span style={{ color: theme.color.brand[50] }}>
+                      {emailList.length}건
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span style={{ color: theme.color.brand[50] }}>
+                      {emailList.length}
+                    </span>
+                    개의 이메일로 초대장이{" "}
+                    {isPending ? "전송됩니다." : "전송되었습니다."}
+                  </>
+                )}
+              </L3>
+              <FlexBox gap={8} style={{ flexWrap: "wrap", width: "550px" }}>
+                {emailList.map((email, idx) => (
+                  <InputChip key={idx} color="gray">
+                    <L3 color={theme.color.gray[80]}>{email}</L3>
+                  </InputChip>
+                ))}
+              </FlexBox>
+            </>
+          )}
         </FlexBox>
       </ContentSection>
 

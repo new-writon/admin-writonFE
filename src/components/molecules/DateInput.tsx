@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { B2, C2 } from "../atoms/Text";
 import { FlexBox } from "../atoms";
 import { theme } from "../../styles/theme";
-import { formatDate } from "../../utils/formatUtils";
+import { formatDateToString } from "../../utils/formatUtils";
 import { IoCalendarOutline } from "../atoms/Icons";
 import { useState } from "react";
 import CalendarModal from "./CalendarModal";
@@ -34,7 +34,7 @@ const DateInput = ({
         $isOpenCalendar={isOpenCalendar}
         onClick={() => !disabled && setIsOpenCalendar(!isOpenCalendar)}
       >
-        <B2>{formatDate(value)}</B2>
+        <B2>{formatDateToString(value)}</B2>
         {!disabled && (
           <IoCalendarOutline
             color={

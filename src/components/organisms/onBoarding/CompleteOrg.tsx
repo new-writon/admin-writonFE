@@ -32,7 +32,9 @@ const CompleteOrg = ({ isChallenge }: CompleteOrg) => {
           size="lg"
           fullWidth
           onClick={() => {
-            navigate(isChallenge ? "/challenge/info" : "/challenge/create");
+            navigate(
+              isChallenge ? "/challenge/dashboard" : "/challenge/create"
+            );
           }}
         >
           {isChallenge ? "챌린지 보러 가기" : "챌린지 개설하기"}

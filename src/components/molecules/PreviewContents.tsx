@@ -32,8 +32,10 @@ const PreviewContents = ({ positionList, hasNotice }: PreviewContents) => {
         isRequired
       />
       <FlexBox fullWidth align="center" gap={8} style={{ flexWrap: "wrap" }}>
-        {positionList.map((pos) => (
-          <Select type="default">{pos}</Select>
+        {positionList.map((pos, idx) => (
+          <Select type="default" key={idx}>
+            {pos}
+          </Select>
         ))}
       </FlexBox>
 
