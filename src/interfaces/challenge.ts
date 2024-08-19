@@ -30,6 +30,22 @@ export interface Questions {
   data: QuestionsData | undefined;
   setData?: React.Dispatch<React.SetStateAction<QuestionsData>>;
 }
+
+export interface DashboardTableData {
+  name: string;
+  [date: string]: string;
+}
+
+interface Status {
+  date: string;
+  status: number;
+}
+
+export interface UserStatus {
+  name: string;
+  statusList: Status[];
+}
+
 // ========== API Interface ==========
 export interface PostChallengeCreateAPIParams
   extends BasicInfoData,

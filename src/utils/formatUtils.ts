@@ -1,4 +1,8 @@
-import { QuestionsData } from "../interfaces/challenge";
+import {
+  DashboardTableData,
+  QuestionsData,
+  UserStatus,
+} from "../interfaces/challenge";
 import { theme } from "../styles/theme";
 
 const formatDateToString = (date: Date) => {
@@ -77,10 +81,51 @@ const formatQuestions = (questionsData: QuestionsData): QuestionsData => {
   };
 };
 
+const formatDashboardData = (data: UserStatus[]): DashboardTableData[] => {
+  const getDayOfWeek = (date: Date) => {
+    const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+    return daysOfWeek[date.getDay()];
+  };
+
+  const getStatus = (status: number) => {
+    switch (status) {
+      case 1:
+        return "참여";
+      case 0:
+        return "늦참";
+      case -1:
+        return "미참여";
+      default:
+        return String(status);
+    }
+  };
+
+  return data.map((user) => {
+    // 변환된 데이터를 담을 객체
+    const transformedUser: DashboardTableData = { name: user.name };
+
+    // statusList를 순회하며 날짜와 상태를 변환
+    user.statusList.forEach((item) => {
+      const date = new Date(item.date); // 날짜 문자열을 Date 객체로 변환
+      const formattedDate = date.toLocaleDateString("ko-KR", {
+        month: "2-digit",
+        day: "2-digit",
+      });
+      const dayOfWeek = getDayOfWeek(date); // 요일 계산
+      const key = `${formattedDate} ${dayOfWeek}`; // 최종 키 생성
+
+      transformedUser[key] = getStatus(item.status); // 최종 객체에 상태 추가
+    });
+
+    return transformedUser; // 변환된 객체 반환
+  });
+};
+
 export {
   formatDateToString,
   formatStringToDate,
   fieldTranslations,
   tableCellColor,
   formatQuestions,
+  formatDashboardData,
 };
