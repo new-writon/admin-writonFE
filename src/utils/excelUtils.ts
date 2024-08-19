@@ -37,4 +37,15 @@ const excelFileToArray = (
   reader.readAsBinaryString(file);
 };
 
-export { downloadExcelFile, excelFileToArray };
+// Download Template Excel File
+const downloadTemplate = () => {
+  const fileUrl = "/files/writon_participate_template.xlsx";
+  const link = document.createElement("a");
+  link.href = fileUrl;
+  link.download = "writon_participate_template.xlsx";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+export { arrayToExcelFile, excelFileToArray, downloadTemplate };

@@ -99,9 +99,14 @@ const Participate = ({
             )}
           </FileInput>
           {isEdit && (
-            <B2 weight="r" color={theme.color.gray[60]}>
-              엑셀 파일에 기재된 이메일로 초대장이 전송됩니다.
-            </B2>
+            <Button
+              type="none"
+              size="sm"
+              downloadIcon
+              onClick={downloadTemplate}
+            >
+              파일 양식 다운로드
+            </Button>
           )}
         </FlexBox>
       </ContentSection>
