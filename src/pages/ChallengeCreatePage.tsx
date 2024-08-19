@@ -10,7 +10,7 @@ import {
 import { Button, FlexBox, Line } from "../components/atoms";
 import { ScrollContext } from "../states/FrameContext";
 import { BasicInfoData, QuestionsData } from "../interfaces/challenge";
-import { formatDateToString, formatQuestions } from "../utils/formatUtils";
+import { formatDateToString, formatQuestionsRemoveEmpty } from "../utils/formatUtils";
 import { useMutation } from "@tanstack/react-query";
 import { postChallengeAPI } from "../apis";
 import useChallengeStore from "../states/ChallengeStore";
@@ -93,7 +93,7 @@ const ChallengeCreatePage = () => {
     mutationFn: () =>
     postChallengeAPI({
         ...basicInfoData,
-        ...formatQuestions(questionsData),
+        ...formatQuestionsRemoveEmpty(questionsData),
         emailList,
       }),
     onSuccess: (data) => {
