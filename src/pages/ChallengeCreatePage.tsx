@@ -29,7 +29,19 @@ const ChallengeCreatePage = () => {
   ];
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const scrollToTop = useContext(ScrollContext);
+  const { setChallengeId, setChallengeList } = useChallengeStore();
+
+  const [basicInfoData, setBasicInfoData] = useState<BasicInfoData>({
+    name: "",
+    startDate: formatDateToString(new Date()),
+    endDate: formatDateToString(new Date()),
+    dates: ["2024-08-17", "2024-08-19", "2024-08-20"],
+  });
+  const [questionsData, setQuestionsData] = useState<QuestionsData>({
+    basicQuestions: ["", "", "", ""],
+    specialQuestions: [],
+  });
+  const [emailList, setEmailList] = useState<string[]>([]);
 
   const movePage = (path: -1 | 1) => {
     setSelectedCategory((prev) => prev + path);
@@ -91,18 +103,39 @@ const ChallengeCreatePage = () => {
         />
 
         {/* ========== Contents ========== */}
-        {selectedCategory == 0 && <BasicInfo isEdit gap={50} />}
-        {selectedCategory == 1 && <Questions isEdit gap={50} />}
+        {selectedCategory == 0 && (
+          <BasicInfo
+            isEdit
+            gap={50}
+            data={basicInfoData}
+            setData={setBasicInfoData}
+          />
+        )}
+        {selectedCategory == 1 && (
+          <Questions
+            isEdit
+            gap={50}
+            data={questionsData}
+            setData={setQuestionsData}
+          />
+        )}
         {selectedCategory == 2 && (
-          <Participate isEdit gap={50} isEditBtn={false} />
+          <Participate
+            isEdit
+            gap={50}
+            isEditBtn={false}
+            emailList={[]}
+            pendingEmailList={emailList}
+            setPendingEmailList={setEmailList}
+          />
         )}
         {selectedCategory == 3 && (
           <FlexBox fullWidth col gap={50}>
-            <BasicInfo gap={50} />
+            <BasicInfo gap={50} data={basicInfoData} />
             <Line />
-            <Questions gap={50} />
+            <Questions gap={50} data={questionsData} />
             <Line />
-            <Participate gap={50} />
+            <Participate gap={50} emailList={emailList} isPending />
           </FlexBox>
         )}
 
