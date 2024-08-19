@@ -43,7 +43,7 @@ const InfoManage = () => {
         </ContentSection>
 
         <ContentSection title="조직 로고" titleWidth={180}>
-          <ImageUpload image={logo} setImage={setLogo} disabled={!isEdit} />
+          <ImageUpload setImage={setLogo} disabled={!isEdit} />
         </ContentSection>
 
         <ContentSection title="테마 컬러 설정" titleWidth={180}>
@@ -61,7 +61,7 @@ const InfoManage = () => {
 const OnBoardingManage = () => {
   const [isEdit, setIsEdit] = useState(false);
 
-  const [positions, setPositions] = useState<string[]>();
+  const [positions, setPositions] = useState<string[]>([]);
 
   const handleEdit = () => {
     alert("수정 완료");
@@ -71,11 +71,9 @@ const OnBoardingManage = () => {
   return (
     <>
       <FlexBox fullWidth justify="flex-end">
-        <EditBtn
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          handleEdit={handleEdit}
-        >온보딩 항목 수정</EditBtn>
+        <EditBtn isEdit={isEdit} setIsEdit={setIsEdit} handleEdit={handleEdit}>
+          온보딩 항목 수정
+        </EditBtn>
       </FlexBox>
 
       <FlexBox col gap={48} align="center" fullWidth>
@@ -85,7 +83,7 @@ const OnBoardingManage = () => {
           </B2>
         )}
         <Form contentsWidth={430} noBackground>
-          {!isEdit ? <Preview /> : <ManageOrg disabled />}
+          {!isEdit ? <Preview /> : <ManageOrg data={[]} disabled />}
         </Form>
       </FlexBox>
     </>

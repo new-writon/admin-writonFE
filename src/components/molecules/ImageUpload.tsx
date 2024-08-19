@@ -5,12 +5,11 @@ import { L3 } from "../atoms/Text";
 import { theme } from "../../styles/theme";
 
 interface ImageUpload {
-  image: File | null;
   setImage: React.Dispatch<React.SetStateAction<File | null>>;
   disabled?: boolean;
 }
 
-const ImageUpload = ({ image, setImage, disabled = false }: ImageUpload) => {
+const ImageUpload = ({ setImage, disabled = false }: ImageUpload) => {
   const [preview, setPreview] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isChecked, setIsChecked] = useState(false);
@@ -22,25 +21,24 @@ const ImageUpload = ({ image, setImage, disabled = false }: ImageUpload) => {
       setIsChecked(false);
       file && setPreview(URL.createObjectURL(file));
     }
-
-    if (!image) return;
-    const formData = new FormData();
-    formData.append("file", image);
   };
 
-  const onClickDeleteLogo = () => {
+  const handelDeleteLogo = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    setImage(null);
     setPreview("");
   };
 
+  const onClickDeleteLogo = () => {
+    handelDeleteLogo();
+    setIsChecked(false);
+  };
+
   const onClickDefaultLogo = (checked: boolean) => {
-    if (checked) {
-      setPreview("/icons/default-logo.png");
-    } else {
-      onClickDeleteLogo();
-    }
+    handelDeleteLogo();
+    checked && setPreview("/icons/default-logo.png");
   };
 
   return (

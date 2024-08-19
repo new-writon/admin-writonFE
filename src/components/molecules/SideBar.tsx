@@ -55,6 +55,8 @@ const SideBar = () => {
         <img
           src={organizationLogo || "/icons/logo.svg"}
           onClick={() => navigate("/login")}
+          alt="organizaiton_logo"
+          id="organization_logo"
         />
         <B2 weight="sb" color={theme.color.gray[100]} style={{ flex: 1 }}>
           {organizationName}
@@ -121,6 +123,11 @@ const Container = styled.section`
   padding: 16px 10px;
   background-color: ${({ theme }) => theme.color.gray[10]};
   z-index: 1;
+
+  #organization_logo {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const Hyphen = styled.div`
