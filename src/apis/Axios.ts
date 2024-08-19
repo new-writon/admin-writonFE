@@ -10,6 +10,7 @@ const excludedUrl = [
   "/auth/logout",
   "/organization/info",
   "/organization/position",
+  "/challenge",
 ];
 
 // axios 기본설정

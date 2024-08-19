@@ -46,11 +46,32 @@ const ChallengeCreatePage = () => {
     movePage(1);
   };
 
+  const { mutate: handleCreateChallenge } = useMutation({
+    mutationFn: () =>
+      postChallengeCreateAPI({
+        ...basicInfoData,
+        ...formatQuestions(questionsData),
+        emailList,
+      }),
+    onSuccess: (data) => {
+      // Challenge Dropdown List 변경
+      const { challengeResponseList: list } = data;
+      setChallengeList(list);
+      setChallengeId(list[list.length - 1].id);
+
+      // Modal Open
+      setIsOpenModal(true);
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+
   const buttonFn = [
     completeStep1,
     completeStep2,
     completeStep3,
-    () => setIsOpenModal(true),
+    handleCreateChallenge,
   ];
 
   return (
