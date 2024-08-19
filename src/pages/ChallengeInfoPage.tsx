@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, FlexBox, Line } from "../components/atoms";
 import { H3 } from "../components/atoms/Text";
 import { EditBtn } from "../components/molecules";
@@ -10,22 +10,27 @@ import {
 } from "../components/organisms";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getChallengeInfoAPI, getChallengeQuestionsAPI } from "../apis";
+import {
+  getChallengeInfoAPI,
+  getChallengeQuestionsAPI,
+  putChallengeInfoAPI,
+} from "../apis";
 import useChallengeStore from "../states/ChallengeStore";
 import { BasicInfoData } from "../interfaces/challenge";
+import {
+  defaultBasicInfoData,
+  defaultQuestionsData,
+} from "../data/ChallengeData";
+import { formatQuestionsCreateEmpty } from "../utils/formatUtils";
 
 const ChallengeInfoPage = () => {
   const navigate = useNavigate();
-  const { challengeId } = useChallengeStore();
+  const { challengeId, challengeList, setChallengeList } = useChallengeStore();
 
   const [isEdit, setIsEdit] = useState(false);
-  const [basicInfoData, setBasicInfoData] = useState<BasicInfoData>();
+  const [basicInfoData, setBasicInfoData] =
+    useState<BasicInfoData>(defaultBasicInfoData);
   const emailList: string[] = [];
-
-  const handleEdit = () => {
-    alert("수정 완료");
-    setIsEdit(false);
-  };
 
   const { data: basicInfoResponse } = useQuery({
     queryKey: ["challenge-info", challengeId],
@@ -39,8 +44,34 @@ const ChallengeInfoPage = () => {
     staleTime: 60 * 1000,
   });
 
+  const { mutate: handleEditChallengeInfo } = useMutation({
+    mutationFn: () => putChallengeInfoAPI(basicInfoData),
+    onSuccess: (data) => {
+      setBasicInfoData(data);
+      setChallengeList(
+        challengeList.map((item) =>
+          item.id === challengeId
+            ? {
+                id: item.id,
+                name: data.name,
+              }
+            : item
+        )
+      );
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+
+  const handleEdit = () => {
+    handleEditChallengeInfo();
+    alert("수정 완료");
+    setIsEdit(false);
+  };
+
   useEffect(() => {
-    setBasicInfoData(basicInfoResponse);
+    basicInfoResponse && setBasicInfoData(basicInfoResponse);
   }, [basicInfoResponse]);
 
   return (
@@ -56,7 +87,11 @@ const ChallengeInfoPage = () => {
               handleEdit={handleEdit}
             />
           </FlexBox>
-          <BasicInfo isEdit={isEdit} data={basicInfoData} />
+          <BasicInfo
+            isEdit={isEdit}
+            data={basicInfoData}
+            setData={setBasicInfoData}
+          />
         </FlexBox>
         <Line />
 
