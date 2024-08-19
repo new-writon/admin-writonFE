@@ -2,17 +2,9 @@ import { Button, FlexBox } from "../../atoms";
 import { ColorPalette, ImageUpload, Input, Title } from "../../molecules";
 import { B1, H2 } from "../../atoms/Text";
 import { theme } from "../../../styles/theme";
-import { useState } from "react";
+import { CreateOrg } from "../../../interfaces/organization";
 
-interface CreateOrg {
-  moveStep: (path: -1 | 1) => void;
-}
-
-const CreateOrg = ({ moveStep }: CreateOrg) => {
-  const [name, setName] = useState(""); // 조직 이름
-  const [logo, setLogo] = useState<File | null>(null); // 조직 로고
-  const [selectedColor, setSelectedColor] = useState("brand"); // 테마컬러
-
+const CreateOrg = ({ moveStep, data, setData, setFile }: CreateOrg) => {
   return (
     <>
       {/* ========== Form Title ========== */}
@@ -27,10 +19,14 @@ const CreateOrg = ({ moveStep }: CreateOrg) => {
       <FlexBox col fullWidth gap={6}>
         <Title title="조직 이름" />
         <Input
-          value={name}
-          setValue={setName}
+          value={data.name}
+          setValue={(value: string) =>
+            setData((prev) => ({
+              ...prev,
+              name: value,
+            }))
+          }
           maxLength={20}
-          error="Message"
           placeHolder="조직 이름을 입력해주세요."
         />
       </FlexBox>
@@ -41,7 +37,7 @@ const CreateOrg = ({ moveStep }: CreateOrg) => {
           title="조직 로고"
           subTitle="조직에서 사용할 로고 이미지를 설정해주세요."
         />
-        <ImageUpload image={logo} setImage={setLogo} />
+        <ImageUpload setImage={setFile} />
       </FlexBox>
 
       {/* ========== 테마 컬러 설정 ========== */}
@@ -51,8 +47,13 @@ const CreateOrg = ({ moveStep }: CreateOrg) => {
           subTitle="조직에서 사용할 라이톤의 테마 컬러를 설정할 수 있어요."
         />
         <ColorPalette
-          selectedColor={selectedColor}
-          setSelectedColor={setSelectedColor}
+          selectedColor={data.themeColor}
+          setSelectedColor={(value: string) =>
+            setData((prev) => ({
+              ...prev,
+              themeColor: value,
+            }))
+          }
         />
       </FlexBox>
 

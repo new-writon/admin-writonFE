@@ -1,18 +1,17 @@
-import { useState } from "react";
 import { theme } from "../../../styles/theme";
 import { Button, FlexBox, Select } from "../../atoms";
 import { B1, H2, L3 } from "../../atoms/Text";
 import { InputDropdown, PreviewContents, Title } from "../../molecules";
 import styled from "styled-components";
+import { ManageOrg } from "../../../interfaces/organization";
 
-interface ManageOrg {
-  moveStep?: (path: -1 | 1) => void;
-  disabled?: boolean;
-}
-
-const ManageOrg = ({ moveStep, disabled }: ManageOrg) => {
-  const [positionList, setPositionList] = useState<string[]>([]);
-
+const ManageOrg = ({
+  moveStep,
+  disabled,
+  data,
+  setData,
+  handleCreate,
+}: ManageOrg) => {
   return (
     <>
       {/* ========== Form Title ========== */}
@@ -32,8 +31,13 @@ const ManageOrg = ({ moveStep, disabled }: ManageOrg) => {
         />
         <InputDropdown
           type="position"
-          list={positionList}
-          setList={setPositionList}
+          list={data}
+          setList={(value: string[]) =>
+            setData?.((prev) => ({
+              ...prev,
+              positions: value,
+            }))
+          }
         />
         <FlexBox col gap={10}>
           <L3 weight="sb" color={theme.color.gray[60]}>
@@ -46,8 +50,8 @@ const ManageOrg = ({ moveStep, disabled }: ManageOrg) => {
             style={{ flexWrap: "wrap" }}
           >
             <Select type="disabled">ex) 기획</Select>
-            {positionList.map((pos) => (
-              <Select type="default">{pos}</Select>
+            {data.map((pos, idx) => (
+              <Select type="default" key={idx}>{pos}</Select>
             ))}
           </FlexBox>
         </FlexBox>
@@ -55,7 +59,7 @@ const ManageOrg = ({ moveStep, disabled }: ManageOrg) => {
       <Line />
 
       {/* ========== Preview ========== */}
-      <PreviewContents positionList={positionList} hasNotice />
+      <PreviewContents positionList={data} hasNotice />
 
       {/* ========== Button ========== */}
       <FlexBox fullWidth align="center" gap={16}>
@@ -72,10 +76,13 @@ const ManageOrg = ({ moveStep, disabled }: ManageOrg) => {
           type="dark"
           size="lg"
           fullWidth
-          onClick={() => moveStep?.(1)}
+          onClick={() => {
+            handleCreate?.();
+            moveStep?.(1);
+          }}
           disabled={disabled}
         >
-          다음
+          개설 완료
         </Button>
       </FlexBox>
     </>
