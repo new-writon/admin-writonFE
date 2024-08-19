@@ -25,38 +25,19 @@ const Questions = ({
 }: Questions) => {
   // Data
   const [basicQuestions, setBasicQuestions] = useState<string[]>(
-    data.basicQuestions
+    data?.basicQuestions || []
   );
   const [specialQuestions, setSpecialQuestions] = useState<SpecialQuestion[]>(
-    data.specialQuestions
+    data?.specialQuestions || []
   );
-
-  useEffect(() => {
-    setData?.({
-      basicQuestions,
-      specialQuestions,
-    });
-  }, [basicQuestions, specialQuestions]);
-
-  // 키워드에 따른 스페셜 질문 필터링 기능
   const [selectedKeyword, setSelectedKeyword] = useState({
     idx: 0,
     keyword: specialQuestions[0]?.keyword,
   });
-
   const selectedQuestions =
     specialQuestions.find(({ keyword }) => keyword === selectedKeyword.keyword)
       ?.questions || [];
-
-  // 수정 완료 버튼
-  const handleEdit = () => {
-    alert("수정 완료");
-  };
-
-  // 키워드 관리
-  const [keywordList, setKeywordList] = useState<string[]>(
-    specialQuestions.map(({ keyword }) => keyword)
-  );
+  const [keywordList, setKeywordList] = useState<string[]>([]);
 
   useEffect(() => {
     // 키워드 리스트가 변경될 때마다 specialQuestionsData를 업데이트
@@ -91,6 +72,36 @@ const Questions = ({
     }
   }, [keywordList]);
 
+  useEffect(() => {
+    if (data) {
+      setBasicQuestions(
+        Array(4)
+          .fill(null)
+          .map((_, idx) => data.basicQuestions[idx] || "")
+      );
+      setSpecialQuestions(
+        data.specialQuestions.map((ques) => ({
+          ...ques,
+          questions: Array(4)
+            .fill(null)
+            .map((_, idx) => ques.questions[idx] || ""),
+        }))
+      );
+      setSelectedKeyword({
+        idx: 0,
+        keyword: data.specialQuestions[0]?.keyword,
+      });
+      setKeywordList(data.specialQuestions.map(({ keyword }) => keyword));
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setData?.({
+      basicQuestions,
+      specialQuestions,
+    });
+  }, [basicQuestions, specialQuestions]);
+
   // 베이직 질문 수정
   const setBasicInputValue = (value: string, curIdx: number) => {
     setBasicQuestions((prev) =>
@@ -113,6 +124,11 @@ const Questions = ({
         };
       })
     );
+  };
+
+  // 수정 완료 버튼
+  const handleEdit = () => {
+    alert("수정 완료");
   };
 
   return (

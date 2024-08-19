@@ -8,7 +8,7 @@ export interface BasicInfoData {
 export interface BasicInfo {
   isEdit?: boolean;
   gap?: number;
-  data: BasicInfoData;
+  data: BasicInfoData | undefined;
   setData?: React.Dispatch<React.SetStateAction<BasicInfoData>>;
 }
 
@@ -27,6 +27,28 @@ export interface Questions {
   hasEditBtn?: boolean;
   isEdit?: boolean;
   setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
-  data: QuestionsData;
+  data: QuestionsData | undefined;
   setData?: React.Dispatch<React.SetStateAction<QuestionsData>>;
+}
+
+export interface DashboardTableData {
+  name: string;
+  [date: string]: string;
+}
+
+interface Status {
+  date: string;
+  status: number;
+}
+
+export interface UserStatus {
+  name: string;
+  statusList: Status[];
+}
+
+// ========== API Interface ==========
+export interface PostChallengeCreateAPIParams
+  extends BasicInfoData,
+    QuestionsData {
+  emailList: string[];
 }

@@ -10,21 +10,32 @@ import {
 } from "../../utils/formatUtils";
 
 const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfo) => {
-  const [name, setName] = useState(data.name);
-  const [startDate, setstartDate] = useState<Date>(new Date(data.startDate));
-  const [endDate, setEndDate] = useState<Date>(new Date(data.endDate));
-  const [dates, setDates] = useState<Date[]>(
-    data.dates.map((date) => formatStringToDate(date))
+  const [name, setName] = useState(data?.name || "");
+  const [startDate, setStartDate] = useState<Date>(
+    new Date(data?.startDate || "")
   );
+  const [endDate, setEndDate] = useState<Date>(new Date(data?.endDate || ""));
+  const [dates, setDates] = useState<Date[]>(
+    data?.dates?.map((date) => formatStringToDate(date)) || []
+  );
+
+  useEffect(() => {
+    if (data) {
+      setName(data.name);
+      setStartDate(new Date(data.startDate));
+      setEndDate(new Date(data.endDate));
+      setDates(data.dates?.map((date) => formatStringToDate(date)));
+    }
+  }, [data]);
 
   useEffect(() => {
     setData?.({
       name,
       startDate: formatDateToString(startDate),
       endDate: formatDateToString(endDate),
-      dates: dates.map((date) => formatDateToString(date)),
+      dates: dates?.map((date) => formatDateToString(date)),
     });
-  }, [name, startDate, endDate]);
+  }, [name, startDate, endDate, dates]);
 
   return (
     <FlexBox fullWidth col gap={gap}>
@@ -38,7 +49,7 @@ const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfo) => {
           <DateInput
             type="start"
             value={startDate}
-            setValue={setstartDate}
+            setValue={setStartDate}
             disabled={!isEdit}
           />
           <H3 color={theme.color.gray[60]}>~</H3>

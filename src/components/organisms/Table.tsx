@@ -3,15 +3,13 @@ import React, { useState } from "react";
 import { theme } from "../../styles/theme";
 import { L3 } from "../atoms/Text";
 import { fieldTranslations, tableCellColor } from "../../utils/formatUtils";
-import {
-  ParticipationTableData,
-  isParticipateTableData,
-} from "../../interfaces/table";
+import { ParticipationTableData } from "../../interfaces/table";
 import { Button, CheckBox, FlexBox, Line } from "../atoms";
 import { CalendarModal } from "../molecules";
+import { DashboardTableData } from "../../interfaces/challenge";
 
 interface Table {
-  data: ParticipationTableData[] | isParticipateTableData[];
+  data: ParticipationTableData[] | DashboardTableData[];
   selectedValues?: number[];
   selectedRows?: number[];
   setSelectedRows?: React.Dispatch<React.SetStateAction<number[]>>;
@@ -98,79 +96,81 @@ const Table = ({
           )}
         </FlexBox>
       )}
-      <div id="table-container">
-        <table>
-          <thead>
-            <tr id="header-tr">
-              {isCheckBox && (
-                <td>
-                  <CheckBox
-                    size={14}
-                    checked={selectedRows.length === formatedData.length}
-                    onClick={handleSelectAll}
-                  />
-                </td>
-              )}
-              {Object.keys(data[0])
-                .filter((_, idx) =>
-                  selectedValues ? selectedValues.includes(idx) : true
-                )
-                .map((header, idx) => (
-                  <td key={idx}>
-                    <L3 color={theme.color.gray[80]} weight="sb">
-                      {fieldTranslations(header)}
-                    </L3>
+      {data.length != 0 && (
+        <div id="table-container">
+          <table>
+            <thead>
+              <tr id="header-tr">
+                {isCheckBox && (
+                  <td>
+                    <CheckBox
+                      size={14}
+                      checked={selectedRows.length === formatedData.length}
+                      onClick={handleSelectAll}
+                    />
                   </td>
-                ))}
-            </tr>
-          </thead>
-          <tbody>
-            {formatedData
-              // 검색기능 때문에 모든 요소들을 전부 String으로 변환
-              .map((row) => row.map((item) => String(item)))
-              .filter((row) => {
-                // 검색어가 없는 경우, 전부 반환
-                if (!searchValue) return true;
-
-                if (searchedIdx) {
-                  // 특정 인덱스를 지정하는 경우
-                  return searchedIdx.some((idx) =>
-                    row[idx].includes(searchValue)
-                  );
-                }
-                // 특정 인덱스를 지정하지 않는 경우 전체에서 검색
-                return row.some((col) => col.includes(searchValue));
-              })
-              .map((row, rowIndex) => (
-                <StyledTr
-                  key={rowIndex}
-                  $selected={selectedRows.includes(rowIndex)}
-                >
-                  {isCheckBox && (
-                    <td>
-                      <CheckBox
-                        size={14}
-                        checked={selectedRows.includes(rowIndex)}
-                        onClick={(_) => handleSelectRow(rowIndex)}
-                      />
+                )}
+                {Object.keys(data[0])
+                  .filter((_, idx) =>
+                    selectedValues ? selectedValues.includes(idx) : true
+                  )
+                  .map((header, idx) => (
+                    <td key={idx}>
+                      <L3 color={theme.color.gray[80]} weight="sb">
+                        {fieldTranslations(header)}
+                      </L3>
                     </td>
-                  )}
-                  {row
-                    .filter((_, idx) =>
-                      selectedValues ? selectedValues.includes(idx) : true
-                    )
-                    .map((cell, cellIndex) => (
-                      <td key={cellIndex}>
-                        <L3 weight="r" color={tableCellColor(cell)}>
-                          {cell}
-                        </L3>
+                  ))}
+              </tr>
+            </thead>
+            <tbody>
+              {formatedData
+                // 검색기능 때문에 모든 요소들을 전부 String으로 변환
+                .map((row) => row.map((item) => String(item)))
+                .filter((row) => {
+                  // 검색어가 없는 경우, 전부 반환
+                  if (!searchValue) return true;
+
+                  if (searchedIdx) {
+                    // 특정 인덱스를 지정하는 경우
+                    return searchedIdx.some((idx) =>
+                      row[idx].includes(searchValue)
+                    );
+                  }
+                  // 특정 인덱스를 지정하지 않는 경우 전체에서 검색
+                  return row.some((col) => col.includes(searchValue));
+                })
+                .map((row, rowIndex) => (
+                  <StyledTr
+                    key={rowIndex}
+                    $selected={selectedRows.includes(rowIndex)}
+                  >
+                    {isCheckBox && (
+                      <td>
+                        <CheckBox
+                          size={14}
+                          checked={selectedRows.includes(rowIndex)}
+                          onClick={(_) => handleSelectRow(rowIndex)}
+                        />
                       </td>
-                    ))}
-                </StyledTr>
-              ))}
-          </tbody>
-        </table>
-      </div>
+                    )}
+                    {row
+                      .filter((_, idx) =>
+                        selectedValues ? selectedValues.includes(idx) : true
+                      )
+                      .map((cell, cellIndex) => (
+                        <td key={cellIndex}>
+                          <L3 weight="r" color={tableCellColor(cell)}>
+                            {cell}
+                          </L3>
+                        </td>
+                      ))}
+                  </StyledTr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </Container>
   );
 };

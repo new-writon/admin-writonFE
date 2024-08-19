@@ -12,7 +12,7 @@ import { ScrollContext } from "../states/FrameContext";
 import { BasicInfoData, QuestionsData } from "../interfaces/challenge";
 import { formatDateToString, formatQuestions } from "../utils/formatUtils";
 import { useMutation } from "@tanstack/react-query";
-import { postChallengeCreateAPI } from "../apis/challengeAPI";
+import { postChallengeAPI } from "../apis";
 import useChallengeStore from "../states/ChallengeStore";
 
 const buttonText = {
@@ -91,7 +91,7 @@ const ChallengeCreatePage = () => {
 
   const { mutate: handleCreateChallenge } = useMutation({
     mutationFn: () =>
-      postChallengeCreateAPI({
+    postChallengeAPI({
         ...basicInfoData,
         ...formatQuestions(questionsData),
         emailList,
