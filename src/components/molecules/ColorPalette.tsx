@@ -7,7 +7,9 @@ import { FaCheck } from "../atoms/Icons";
 
 interface ColorPalette {
   selectedColor: string;
-  setSelectedColor: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedColor:
+    | React.Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
   disabled?: boolean;
 }
 

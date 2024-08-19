@@ -6,6 +6,10 @@ import {
   CompleteOrg,
 } from "../components/organisms";
 import { ScrollContext } from "../states/FrameContext";
+import { PostOrganizationAPIParams } from "../interfaces/organization";
+import { useMutation } from "@tanstack/react-query";
+import { postOrganizationAPI } from "../apis";
+import useOrganizationStore from "../states/OrganizationStore";
 
 const OnBoardingPage = () => {
   const [step, setStep] = useState(1);
@@ -18,10 +22,26 @@ const OnBoardingPage = () => {
       positions: [], // 포지션
     });
   const [file, setFile] = useState<File | null>(null); // 조직 로고
+
+  const { setOrganizationId, setOrganizationName, setOrganizationLogo } =
+    useOrganizationStore();
+
   const moveStep = (path: 1 | -1) => {
     setStep(step + path);
     scrollToTop();
   };
+
+  const { mutate: handleCreateOrganization } = useMutation({
+    mutationFn: () => postOrganizationAPI(file, createRequestDto),
+    onSuccess: ({ organizationId, organizationName, organizationLogo }) => {
+      setOrganizationId(organizationId);
+      setOrganizationName(organizationName);
+      setOrganizationLogo(organizationLogo || null);
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
 
   return (
     <Form contentsWidth={430} totalSteps={3} step={step}>
