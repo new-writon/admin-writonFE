@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { Button, FlexBox, Line } from "../components/atoms";
 import { H3 } from "../components/atoms/Text";
 import { EditBtn } from "../components/molecules";
@@ -7,17 +8,29 @@ import {
   Participate,
   Questions,
 } from "../components/organisms";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useChallengeStore from "../states/ChallengeStore";
+import { BasicInfoData } from "../interfaces/challenge";
 
 const ChallengeInfoPage = () => {
   const navigate = useNavigate();
+  const { challengeId } = useChallengeStore();
+
   const [isEdit, setIsEdit] = useState(false);
+  const [basicInfoData, setBasicInfoData] = useState<BasicInfoData>();
 
   const handleEdit = () => {
     alert("수정 완료");
     setIsEdit(false);
   };
+
+  const { data: basicInfoResponse } = useQuery({
+    queryKey: ["challenge-info", challengeId],
+    queryFn: () => getChallengeInfoAPI(),
+    staleTime: 60 * 1000,
+  });
+
 
   return (
     <Frame title="챌린지 정보">
@@ -32,7 +45,7 @@ const ChallengeInfoPage = () => {
               handleEdit={handleEdit}
             />
           </FlexBox>
-          <BasicInfo isEdit={isEdit} />
+          <BasicInfo isEdit={isEdit} data={basicInfoData} />
         </FlexBox>
         <Line />
 

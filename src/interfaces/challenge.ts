@@ -8,7 +8,7 @@ export interface BasicInfoData {
 export interface BasicInfo {
   isEdit?: boolean;
   gap?: number;
-  data: BasicInfoData;
+  data: BasicInfoData | undefined;
   setData?: React.Dispatch<React.SetStateAction<BasicInfoData>>;
 }
 
