@@ -15,6 +15,8 @@ import { postOrganizationAPI } from "./organizationAPI";
 import {
   getParticipationInfoAPI,
   getParticipationEmailAPI,
+  postParticipationWithdrawalAPI,
+  postParticipationParticipateAPI,
 } from "./participationAPI";
 
 export {
@@ -30,4 +32,6 @@ export {
   postOrganizationAPI,
   getParticipationInfoAPI,
   getParticipationEmailAPI,
+  postParticipationWithdrawalAPI,
+  postParticipationParticipateAPI,
 };

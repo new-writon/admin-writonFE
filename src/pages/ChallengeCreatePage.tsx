@@ -10,7 +10,10 @@ import {
 import { Button, FlexBox, Line } from "../components/atoms";
 import { ScrollContext } from "../states/FrameContext";
 import { BasicInfoData, QuestionsData } from "../interfaces/challenge";
-import { formatDateToString, formatQuestionsRemoveEmpty } from "../utils/formatUtils";
+import {
+  formatDateToString,
+  formatQuestionsRemoveEmpty,
+} from "../utils/formatUtils";
 import { useMutation } from "@tanstack/react-query";
 import { postChallengeAPI } from "../apis";
 import useChallengeStore from "../states/ChallengeStore";
@@ -91,7 +94,7 @@ const ChallengeCreatePage = () => {
 
   const { mutate: handleCreateChallenge } = useMutation({
     mutationFn: () =>
-    postChallengeAPI({
+      postChallengeAPI({
         ...basicInfoData,
         ...formatQuestionsRemoveEmpty(questionsData),
         emailList,
@@ -154,7 +157,6 @@ const ChallengeCreatePage = () => {
           <Participate
             isEdit
             gap={50}
-            isEditBtn={false}
             emailList={[]}
             pendingEmailList={emailList}
             setPendingEmailList={setEmailList}

@@ -4,32 +4,37 @@ import { Button, FlexBox, InputChip } from "../atoms";
 import { BsPaperclip, FiPlus, FiX } from "../atoms/Icons";
 import { B2, L3 } from "../atoms/Text";
 import { ContentSection, InputDropdown } from "../molecules";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { excelFileToArray, downloadTemplate } from "../../utils/excelUtils";
 
 interface Participate {
   gap: number;
   isEdit?: boolean;
-  isEditBtn?: boolean;
   emailList: string[];
   pendingEmailList?: string[];
   setPendingEmailList?: React.Dispatch<React.SetStateAction<string[]>>;
   isPending?: boolean; // 챌린지 개설 페이지에서 "0개의 이메일로 초대장이 전송됩니다." 텍스트 표시여부
+  handleParticipate?: () => void;
 }
 
 const Participate = ({
   gap,
   isEdit = false,
-  isEditBtn = true,
   emailList,
   pendingEmailList = [],
   setPendingEmailList = () => {},
   isPending,
+  handleParticipate,
 }: Participate) => {
+  const [selectedOption, setSelectedOption] = useState("excel");
+  const [inputDropdownList, setInputDropdownList] = useState<string[]>([]);
+
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [excelData, setExcelData] = useState<string[][]>([]);
-  const [selectedOption, setSelectedOption] = useState("excel");
+  const formatedExcelData = excelData
+    .filter((item, idx) => idx !== 0 && item.length !== 0)
+    .map((item) => item[1]);
 
   // 엑셀 파일 업로드
   const onClickUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,14 +56,39 @@ const Participate = ({
     }
   };
 
+  useEffect(() => {
+    selectedOption === "excel" && setPendingEmailList(formatedExcelData);
+    selectedOption === "email" && setPendingEmailList(inputDropdownList);
+  }, [selectedOption, excelData, inputDropdownList]);
+
+  const handleReset = () => {
+    onClickDelete();
+    setInputDropdownList([]);
+    setExcelData([]);
+    setPendingEmailList([]);
+  };
+
   // 초기화 버튼
   const onClickReset = () => {
-    alert("초기화 되었습니다.");
+    const checked = confirm(
+      "입력된 정보가 전부 사라집니다. 초기화 하시겠습니까?"
+    );
+    checked && handleReset();
   };
 
   // 초대 완료 버튼
-  const onClickParticipate = () => {
-    alert("초대가 완료되었습니다.");
+  const onClickParticipate = async () => {
+    if (pendingEmailList.length === 0) {
+      alert("입력된 이메일 리스트가 없습니다");
+    } else {
+      const checked = confirm(
+        "선택된 방법으로 참여자 초대 메일을 전송하시겠습니까?"
+      );
+      if (checked) {
+        await handleParticipate?.();
+        handleReset();
+      }
+    }
   };
 
   return (
@@ -135,24 +165,24 @@ const Participate = ({
           {isEdit && (
             <InputDropdown
               type="email"
-              list={pendingEmailList}
-              setList={setPendingEmailList}
+              list={inputDropdownList}
+              setList={setInputDropdownList}
             />
           )}
-          {emailList.length != 0 && (
+          {emailList?.length != 0 && (
             <>
               <L3 color={theme.color.gray[60]}>
                 {isEdit ? (
                   <>
                     기존에 전송된 메일 목록{" "}
                     <span style={{ color: theme.color.brand[50] }}>
-                      {emailList.length}건
+                      {emailList?.length}건
                     </span>
                   </>
                 ) : (
                   <>
                     <span style={{ color: theme.color.brand[50] }}>
-                      {emailList.length}
+                      {emailList?.length}
                     </span>
                     개의 이메일로 초대장이{" "}
                     {isPending ? "전송됩니다." : "전송되었습니다."}
@@ -160,7 +190,7 @@ const Participate = ({
                 )}
               </L3>
               <FlexBox gap={8} style={{ flexWrap: "wrap", width: "550px" }}>
-                {emailList.map((email, idx) => (
+                {emailList?.map((email, idx) => (
                   <InputChip key={idx} color="gray" size="sm">
                     {email}
                   </InputChip>
@@ -172,7 +202,7 @@ const Participate = ({
       </ContentSection>
 
       {/*  ========== 버튼 ==========  */}
-      {isEdit && isEditBtn && (
+      {handleParticipate && (
         <FlexBox fullWidth justify="center" align="center" gap={12}>
           <Button type="empty" size="lg" onClick={onClickReset}>
             초기화

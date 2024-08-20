@@ -44,17 +44,17 @@ const Table = ({
   // Table 선택 기능
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedRows?.(formatedData.map((_, idx) => idx));
+      setSelectedRows?.(formatedData.map((item) => item[0]));
     } else {
       setSelectedRows?.([]);
     }
   };
 
-  const handleSelectRow = (rowIndex: number) => {
-    if (selectedRows.includes(rowIndex)) {
-      setSelectedRows?.(selectedRows.filter((idx) => idx !== rowIndex));
+  const handleSelectRow = (selectedId: number) => {
+    if (selectedRows.includes(selectedId)) {
+      setSelectedRows?.(selectedRows.filter((id) => id !== selectedId));
     } else {
-      setSelectedRows?.([...selectedRows, rowIndex]);
+      setSelectedRows?.([...selectedRows, selectedId]);
     }
   };
 
@@ -150,17 +150,18 @@ const Table = ({
                   // 특정 인덱스를 지정하지 않는 경우 전체에서 검색
                   return row.some((col) => col.includes(searchValue));
                 })
-                .map((row, rowIndex) => (
+                .map((row) => (
                   <StyledTr
-                    key={rowIndex}
-                    $selected={selectedRows.includes(rowIndex)}
+                    key={row[0]}
+                    $selected={selectedRows.includes(Number(row[0]))}
+                    $withdrawn={row[1] === "true"}
                   >
                     {isCheckBox && (
                       <td>
                         <CheckBox
                           size={14}
-                          checked={selectedRows.includes(rowIndex)}
-                          onClick={(_) => handleSelectRow(rowIndex)}
+                          checked={selectedRows.includes(Number(row[0]))}
+                          onClick={(_) => handleSelectRow(Number(row[0]))}
                         />
                       </td>
                     )}
@@ -173,7 +174,14 @@ const Table = ({
                       )
                       .map((cell, cellIndex) => (
                         <td key={cellIndex}>
-                          <L3 weight="r" color={tableCellColor(cell)}>
+                          <L3
+                            weight="r"
+                            color={
+                              row[1] === "true"
+                                ? theme.color.gray[60]
+                                : tableCellColor(cell)
+                            }
+                          >
                             {cell}
                           </L3>
                         </td>
@@ -224,9 +232,13 @@ const Container = styled.div`
   }
 `;
 
-const StyledTr = styled.tr<{ $selected?: boolean }>`
-  background-color: ${({ theme, $selected }) =>
-    $selected ? theme.color.brand[10] : "white"};
+const StyledTr = styled.tr<{ $selected?: boolean; $withdrawn?: boolean }>`
+  background-color: ${({ theme, $selected, $withdrawn }) =>
+    $selected
+      ? theme.color.brand[10]
+      : $withdrawn
+      ? theme.color.gray[10]
+      : "white"};
   transition: all 0.2s ease-in-out;
 `;
 

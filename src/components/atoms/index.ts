@@ -8,6 +8,7 @@ import InputChip from "./InputChip";
 import Line from "./Line";
 import SearchBar from "./SearchBar";
 import RadioButton from "./RadioButton";
+import Loading from "./Loading";
 
 export {
   FlexBox,
@@ -20,4 +21,5 @@ export {
   Line,
   SearchBar,
   RadioButton,
+  Loading,
 };

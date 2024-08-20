@@ -7,7 +7,7 @@ import { Axios } from "./Axios";
 // 조직 개설 API
 export const postOrganizationAPI = async (
   file: File | null,
-  createRequestDto: PostOrganizationAPIParams
+  createOrganizationRequestDto: PostOrganizationAPIParams
 ): Promise<PostOrganizationAPI> => {
   try {
     const formData = new FormData();
@@ -17,8 +17,8 @@ export const postOrganizationAPI = async (
     }
 
     formData.append(
-      "createRequestDto",
-      new Blob([JSON.stringify(createRequestDto)], { type: "application/json" })
+      "createOrganizationRequestDto",
+      new Blob([JSON.stringify(createOrganizationRequestDto)], { type: "application/json" })
     );
 
     const {
