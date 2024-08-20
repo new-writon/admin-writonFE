@@ -52,6 +52,25 @@ export const getParticipationEmailAPI = async () => {
     const {
       data: { data },
     } = await Axios.get("/participation/email");
+// 참여자 강퇴 API
+export const postParticipationWithdrawalAPI = async (
+  userChallengeIdList: number[]
+) => {
+  try {
+    const {
+      data: { data },
+    } = await Axios.post("/participation/withdrawal", userChallengeIdList);
+    console.log(data);
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error("Server Error:", error.response.data);
+    } else {
+      console.error("Error creating question:", error.message);
+    }
+    throw error;
+  }
+};
 
     console.log(data);
     return data;
