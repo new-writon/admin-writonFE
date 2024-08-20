@@ -20,7 +20,7 @@ const excludedTokenUrl = ["/auth/login"];
 // axios 기본설정
 export const Axios = axios.create({
   baseURL,
-  timeout: 5000,
+  timeout: 60 * 60 * 1000, // 1시간 (이메일 전송시간 오래걸림)
   withCredentials: true,
 });
 
