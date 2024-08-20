@@ -52,6 +52,18 @@ export const getParticipationEmailAPI = async () => {
     const {
       data: { data },
     } = await Axios.get("/participation/email");
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error("Server Error:", error.response.data);
+    } else {
+      console.error("Error creating question:", error.message);
+    }
+    throw error;
+  }
+};
+
 // 참여자 강퇴 API
 export const postParticipationWithdrawalAPI = async (
   userChallengeIdList: number[]
@@ -71,6 +83,14 @@ export const postParticipationWithdrawalAPI = async (
     throw error;
   }
 };
+
+// 참여자 초대 API
+export const postParticipationParticipateAPI = async (emailList: string[]) => {
+  console.log(emailList);
+  try {
+    const {
+      data: { data },
+    } = await Axios.post("/participation/participate", emailList);
 
     console.log(data);
     return data;
