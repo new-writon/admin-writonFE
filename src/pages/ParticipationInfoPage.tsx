@@ -1,18 +1,27 @@
 import { Button, FlexBox, SearchBar } from "../components/atoms";
 import { H4 } from "../components/atoms/Text";
 import { Frame, Table } from "../components/organisms";
-import { participationTableData } from "../data/TableData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { arrayToExcelFile } from "../utils/excelUtils";
 import { fieldTranslations } from "../utils/formatUtils";
 import { Filter } from "../components/molecules";
+import { useQuery } from "@tanstack/react-query";
+import useChallengeStore from "../states/ChallengeStore";
+import { getParticipationInfoAPI } from "../apis";
 
 const ParticipationInfoPage = () => {
-  const [data, setData] = useState(participationTableData);
-  const filterList: string[] = Object.keys(data[0]);
-  const [selectedValues, setSelectedValues] = useState<number[]>(
-    filterList.map((_, idx) => idx)
+  const { challengeId } = useChallengeStore();
+
+  const { data: participationData } = useQuery({
+    queryKey: ["participation-info", challengeId],
+    queryFn: () => getParticipationInfoAPI(),
+    staleTime: 60 * 1000,
+  });
+
+  const filterList: string[] = Object.keys(
+    participationData ? participationData[0] : []
   );
+  const [selectedValues, setSelectedValues] = useState<number[]>([]);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [searchValue, setSearchValue] = useState("");
 
@@ -26,15 +35,23 @@ const ParticipationInfoPage = () => {
   const onClickDownloadExcel = () => {
     const result = confirm("다운로드 받으시겠습니까?");
 
-    if (result) {
+    if (result && participationData) {
       const downloadData = [
-        filterList.map((value) => fieldTranslations(value)),
-        ...data.map((item) => Object.values(item)),
+        filterList
+          .filter((_, idx) => idx !== 0)
+          .map((value) => fieldTranslations(value)),
+        ...participationData.map((item) =>
+          Object.values(item).filter((_, idx) => idx !== 0)
+        ),
       ];
 
       arrayToExcelFile(downloadData);
     }
   };
+
+  useEffect(() => {
+    setSelectedValues(filterList.map((_, idx) => idx));
+  }, [participationData]);
 
   return (
     <Frame title="참여자 정보">
@@ -42,7 +59,7 @@ const ParticipationInfoPage = () => {
         {/* ========== SearchBar ==========  */}
         <FlexBox fullWidth align="center" justify="space-between">
           <FlexBox gap={20} align="center">
-            <H4 weight="sb">전체 {data.length}명</H4>
+            <H4 weight="sb">전체 {participationData?.length}명</H4>
             <SearchBar setValue={setSearchValue} />
           </FlexBox>
           <FlexBox align="center" gap={4}>

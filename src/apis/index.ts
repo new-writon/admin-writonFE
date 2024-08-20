@@ -12,6 +12,9 @@ import {
   putChallengeQuestionsAPI,
 } from "./challengeAPI";
 import { postOrganizationAPI } from "./organizationAPI";
+import {
+  getParticipationInfoAPI,
+} from "./participationAPI";
 
 export {
   postAuthLoginAPI,
@@ -24,4 +27,5 @@ export {
   putChallengeInfoAPI,
   putChallengeQuestionsAPI,
   postOrganizationAPI,
+  getParticipationInfoAPI,
 };

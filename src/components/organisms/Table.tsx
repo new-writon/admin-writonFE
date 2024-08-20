@@ -96,6 +96,8 @@ const Table = ({
           )}
         </FlexBox>
       )}
+
+      {/* ========== Table ========== */}
       {data.length != 0 && (
         <div id="table-container">
           <table>
@@ -126,7 +128,9 @@ const Table = ({
             <tbody>
               {formatedData
                 // 검색기능 때문에 모든 요소들을 전부 String으로 변환
-                .map((row) => row.map((item) => String(item)))
+                .map((row) =>
+                  row.map((item) => String(item === null ? "-" : item))
+                )
                 .filter((row) => {
                   // 검색어가 없는 경우, 전부 반환
                   if (!searchValue) return true;
