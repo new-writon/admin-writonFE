@@ -14,6 +14,7 @@ import {
 import { postOrganizationAPI } from "./organizationAPI";
 import {
   getParticipationInfoAPI,
+  getParticipationEmailAPI,
 } from "./participationAPI";
 
 export {
@@ -28,4 +29,5 @@ export {
   putChallengeQuestionsAPI,
   postOrganizationAPI,
   getParticipationInfoAPI,
+  getParticipationEmailAPI,
 };
