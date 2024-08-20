@@ -22,7 +22,7 @@ const ChallengeDashboardPage = () => {
 
   return (
     <Frame title="챌린지 참여 현황" noLine>
-      <FlexBox fullWidth col gap={40} onClick={() => console.log(data)}>
+      <FlexBox fullWidth col gap={40}>
         {/* ========== Categories ========== */}
         <Categories
           list={categoryList}

@@ -11,6 +11,7 @@ import {
   borderRadius,
   boxShadow,
   chipColor,
+  chipSize,
   placeHolder,
   subItemNotice,
   width,
@@ -76,6 +77,7 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
           <InputChip
             key={idx}
             color={chipColor[type]}
+            size={chipSize[type]}
             deleteItem={() => deleteItem(idx)}
           >
             {item}
@@ -102,6 +104,7 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
               <InputChip
                 key={idx}
                 color={chipColor[type]}
+                size={chipSize[type]}
                 onClick={
                   type == "keyword"
                     ? () => {

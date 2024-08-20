@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import {
   getChallengeInfoAPI,
   getChallengeQuestionsAPI,
+  getParticipationEmailAPI,
   putChallengeInfoAPI,
 } from "../apis";
 import useChallengeStore from "../states/ChallengeStore";
@@ -30,7 +31,6 @@ const ChallengeInfoPage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [basicInfoData, setBasicInfoData] =
     useState<BasicInfoData>(defaultBasicInfoData);
-  const emailList: string[] = [];
 
   const { data: basicInfoResponse } = useQuery({
     queryKey: ["challenge-info", challengeId],
@@ -41,6 +41,12 @@ const ChallengeInfoPage = () => {
   const { data: questionsResponse } = useQuery({
     queryKey: ["challenge-questions", challengeId],
     queryFn: () => getChallengeQuestionsAPI(),
+    staleTime: 60 * 1000,
+  });
+
+  const { data: emailResponse } = useQuery({
+    queryKey: ["participation-email", challengeId],
+    queryFn: () => getParticipationEmailAPI(),
     staleTime: 60 * 1000,
   });
 
@@ -126,12 +132,12 @@ const ChallengeInfoPage = () => {
               size="md"
               type="light"
               rightArrow
-              onClick={() => navigate("/participation/participate")}
+              onClick={() => navigate("/participation/info")}
             >
               참여자 정보 보러가기
             </Button>
           </FlexBox>
-          <Participate gap={24} emailList={emailList} />
+          <Participate gap={24} emailList={emailResponse} />
         </FlexBox>
       </FlexBox>
     </Frame>

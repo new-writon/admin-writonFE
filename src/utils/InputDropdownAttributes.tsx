@@ -1,4 +1,4 @@
-import { ChipColor } from "../interfaces/inputDropdown";
+import { ChipColor, ChipSize } from "../interfaces/inputDropdown";
 import { theme } from "../styles/theme";
 
 const placeHolder = {
@@ -31,6 +31,12 @@ const chipColor: ChipColor = {
   email: "gray",
 };
 
+const chipSize: ChipSize = {
+  position: "lg",
+  keyword: "lg",
+  email: "sm",
+};
+
 const width = {
   position: "100%",
   keyword: "460px",
@@ -53,6 +59,7 @@ export {
   placeHolder,
   subItemNotice,
   chipColor,
+  chipSize,
   width,
   boxShadow,
   borderRadius,

@@ -5,13 +5,17 @@ const baseURL = "http://localhost:8080";
 // const baseURL = "https://api.writon.co.kr";
 
 // challengeId param값으로 넣지 않을 API URL
-const excludedUrl = [
+const excludedParamsUrl = [
+  "/auth/login",
   "/auth/reissue",
   "/auth/logout",
+  "/organization",
   "/organization/info",
   "/organization/position",
   "/challenge",
 ];
+
+const excludedTokenUrl = ["/auth/login"];
 
 // axios 기본설정
 export const Axios = axios.create({
@@ -24,14 +28,14 @@ Axios.interceptors.request.use(
   (config) => {
     // Token Header 설정
     const token = localStorage.getItem("accessToken");
-    if (token) {
+    if (token && !excludedTokenUrl.includes(config.url || "")) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
     // ChallengeId Param 설정
     const { challengeId } = useChallengeStore.getState();
 
-    if (challengeId && !excludedUrl.includes(config.url || "")) {
+    if (challengeId && !excludedParamsUrl.includes(config.url || "")) {
       config.params = {
         ...config.params,
         challengeId,

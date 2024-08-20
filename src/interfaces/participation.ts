@@ -1,13 +1,14 @@
-interface ParticipationTableData {
-  name: string;
+export interface ParticipationTableData {
+  id: number;
   nickname: string;
   challengeCnt: number;
-  challenges: string;
+  challenges: string; // 추후 변경 예정
   startDate: string;
   position: string;
   teamName: string;
   joinDate: string;
-  accountNum: number;
+  bank?: string;
+  accountNum: string;
   email: string;
   deposit: number;
   writingCnt: number;
@@ -15,5 +16,3 @@ interface ParticipationTableData {
   smallTalkCnt: number;
   oneLine: string;
 }
-
-export type { ParticipationTableData };
