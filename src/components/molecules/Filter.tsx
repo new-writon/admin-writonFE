@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
 import { BsFilter } from "../atoms/Icons";
@@ -28,8 +28,6 @@ const Filter = ({ list, selectedValues, setSelectedValues }: Filter) => {
     }
   };
 
-  useEffect(() => {}, [selectedValues]);
-
   return (
     <FilterContainer>
       <BsFilter id="icon" size={20} color={theme.color.gray[50]} />
@@ -51,6 +49,9 @@ const Filter = ({ list, selectedValues, setSelectedValues }: Filter) => {
           {fieldTranslations(value)}
         </Select>
       ))}
+          <Fragment key={value} />
+        )
+      )}
     </FilterContainer>
   );
 };
