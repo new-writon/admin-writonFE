@@ -161,8 +161,8 @@ const Participate = ({
               </L3>
               <FlexBox gap={8} style={{ flexWrap: "wrap", width: "550px" }}>
                 {emailList.map((email, idx) => (
-                  <InputChip key={idx} color="gray">
-                    <L3 color={theme.color.gray[80]}>{email}</L3>
+                  <InputChip key={idx} color="gray" size="sm">
+                    {email}
                   </InputChip>
                 ))}
               </FlexBox>

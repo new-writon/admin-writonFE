@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
-import { L2 } from "./Text";
+import { L2, L3 } from "./Text";
 import { FiX } from "./Icons";
 import React from "react";
 
 interface InputChip {
   children: React.ReactNode;
   color: "blue" | "gray";
+  size: "lg" | "sm";
   onClick?: () => void;
   deleteItem?: () => void;
 }
@@ -26,7 +27,13 @@ const iconColor = {
   gray: theme.color.gray[50],
 };
 
-const InputChip = ({ children, color, onClick, deleteItem }: InputChip) => {
+const InputChip = ({
+  children,
+  color,
+  size,
+  onClick,
+  deleteItem,
+}: InputChip) => {
   return (
     <Container
       as={onClick ? "button" : "div"}
@@ -34,7 +41,11 @@ const InputChip = ({ children, color, onClick, deleteItem }: InputChip) => {
       $isBtn={deleteItem ? true : false}
       $bgColor={bgColor[color]}
     >
-      <L2 color={fontColor[color]}>{children}</L2>
+      {size == "lg" ? (
+        <L2 color={fontColor[color]}>{children}</L2>
+      ) : (
+        <L3 color={fontColor[color]}>{children}</L3>
+      )}
       {deleteItem && (
         <button type="button" onClick={deleteItem}>
           <FiX size={18} color={iconColor[color]} />

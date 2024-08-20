@@ -9,6 +9,7 @@ interface InputDropdown {
 }
 
 type chipColorType = "blue" | "gray";
+type chipSizeType = "sm" | "lg";
 
 interface ChipColor {
   position: chipColorType;
@@ -16,4 +17,16 @@ interface ChipColor {
   email: chipColorType;
 }
 
-export type { inputDropdowType, InputDropdown, chipColorType, ChipColor };
+interface ChipSize {
+  position: chipSizeType;
+  keyword: chipSizeType;
+  email: chipSizeType;
+}
+
+export type {
+  inputDropdowType,
+  InputDropdown,
+  chipColorType,
+  ChipColor,
+  ChipSize,
+};
