@@ -84,17 +84,19 @@ const ParticipationInfoPage = () => {
           list={filterList}
           selectedValues={selectedValues}
           setSelectedValues={setSelectedValues}
+          hiddenCols={[0]}
         />
 
         {/* ========== Table ==========  */}
         <Table
-          data={participationTableData}
+          data={participationData || []}
           selectedValues={selectedValues}
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
           searchValue={searchValue}
           searchedIdx={[0, 1, 9]} // 이름 index
           isCheckBox
+          hiddenCols={[0]}
         />
       </FlexBox>
     </Frame>

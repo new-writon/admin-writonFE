@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import React, { useState } from "react";
 import { theme } from "../../styles/theme";
-import { L3 } from "../atoms/Text";
-import { fieldTranslations, tableCellColor } from "../../utils/formatUtils";
-import { ParticipationTableData } from "../../interfaces/table";
+
 import { Button, CheckBox, FlexBox, Line } from "../atoms";
+import { L3 } from "../atoms/Text";
 import { CalendarModal } from "../molecules";
+
+import { fieldTranslations, tableCellColor } from "../../utils/formatUtils";
+import { ParticipationTableData } from "../../interfaces/participation";
 import { DashboardTableData } from "../../interfaces/challenge";
 
 interface Table {
@@ -18,6 +20,7 @@ interface Table {
   isCheckBox?: boolean; // 첫번째 col 체크박스 여부
   isSort?: boolean; // 정렬 기능 존재여부
   isButton?: boolean; // 버튼 존재여부
+  hiddenCols?: number[]; // 숨기고 싶은 col list
 }
 
 const Table = ({
@@ -30,6 +33,7 @@ const Table = ({
   isCheckBox,
   isSort,
   isButton,
+  hiddenCols,
 }: Table) => {
   const formatedData = data.map((item) => Object.values(item));
   const sortList = ["이름순", "참여순", "미참여순"];
@@ -113,8 +117,10 @@ const Table = ({
                   </td>
                 )}
                 {Object.keys(data[0])
-                  .filter((_, idx) =>
-                    selectedValues ? selectedValues.includes(idx) : true
+                  .filter(
+                    (_, idx) =>
+                      (selectedValues ? selectedValues.includes(idx) : true) &&
+                      !hiddenCols?.includes(idx)
                   )
                   .map((header, idx) => (
                     <td key={idx}>
@@ -159,8 +165,11 @@ const Table = ({
                       </td>
                     )}
                     {row
-                      .filter((_, idx) =>
-                        selectedValues ? selectedValues.includes(idx) : true
+                      .filter(
+                        (_, idx) =>
+                          (selectedValues
+                            ? selectedValues.includes(idx)
+                            : true) && !hiddenCols?.includes(idx)
                       )
                       .map((cell, cellIndex) => (
                         <td key={cellIndex}>

@@ -9,9 +9,15 @@ interface Filter {
   list: string[]; // Filter에 나타낼 요소들
   selectedValues: number[]; // Filter에서 선택되는 요소들
   setSelectedValues: React.Dispatch<React.SetStateAction<number[]>>;
+  hiddenCols?: number[]; // 숨기고 싶은 col list
 }
 
-const Filter = ({ list, selectedValues, setSelectedValues }: Filter) => {
+const Filter = ({
+  list,
+  selectedValues,
+  setSelectedValues,
+  hiddenCols,
+}: Filter) => {
   const handleSelectAll = () => {
     if (list.length !== selectedValues.length) {
       setSelectedValues(list.map((_, idx) => idx));
@@ -38,17 +44,18 @@ const Filter = ({ list, selectedValues, setSelectedValues }: Filter) => {
         전체
       </Select>
       <Line vertical />
-      {list.map((value, idx) => (
-        <Select
-          key={value}
-          type={selectedValues.includes(idx) ? "outline" : "default"}
-          onClick={() => {
-            handleSelectRow(idx);
-          }}
-        >
-          {fieldTranslations(value)}
-        </Select>
-      ))}
+      {list.map((value, idx) =>
+        !hiddenCols?.includes(idx) ? (
+          <Select
+            key={value}
+            type={selectedValues.includes(idx) ? "outline" : "default"}
+            onClick={() => {
+              handleSelectRow(idx);
+            }}
+          >
+            {fieldTranslations(value)}
+          </Select>
+        ) : (
           <Fragment key={value} />
         )
       )}
