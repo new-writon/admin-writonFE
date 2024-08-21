@@ -115,12 +115,30 @@ const OnBoardingManage = () => {
     }
   }, [data]);
 
+  const { mutateAsync: handleEdit } = useMutation({
+    mutationFn: () => patchOrganizationPositionAPI(positionList),
+    onSuccess: (data) => {
+      setPositionList(data);
+      alert("수정 완료");
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+
+  const handleCancel = () => {
+    setPositionList(backupData);
   };
 
   return (
     <>
       <FlexBox fullWidth justify="flex-end">
-        <EditBtn isEdit={isEdit} setIsEdit={setIsEdit} handleEdit={handleEdit}>
+        <EditBtn
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          handleEdit={handleEdit}
+          handleCancel={handleCancel}
+        >
           온보딩 항목 수정
         </EditBtn>
       </FlexBox>
