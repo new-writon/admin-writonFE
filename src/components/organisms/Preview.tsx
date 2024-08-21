@@ -3,9 +3,11 @@ import { Button, FlexBox } from "../atoms";
 import { B1, H2 } from "../atoms/Text";
 import { PreviewContents } from "../molecules";
 
-const Preview = () => {
-  const positionList = ["포지션1", "포지션2"];
+interface Preview {
+  positionList: string[];
+}
 
+const Preview = ({ positionList }: Preview) => {
   return (
     <>
       {/* ========== Title ========== */}

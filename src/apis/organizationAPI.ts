@@ -1,4 +1,5 @@
 import {
+  PatchOrganizationInfoAPIParams,
   PostOrganizationAPI,
   PostOrganizationAPIParams,
 } from "../interfaces/organization";
@@ -18,7 +19,9 @@ export const postOrganizationAPI = async (
 
     formData.append(
       "createOrganizationRequestDto",
-      new Blob([JSON.stringify(createOrganizationRequestDto)], { type: "application/json" })
+      new Blob([JSON.stringify(createOrganizationRequestDto)], {
+        type: "application/json",
+      })
     );
 
     const {
@@ -28,6 +31,82 @@ export const postOrganizationAPI = async (
         "Content-Type": "multipart/form-data",
       },
     });
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error("Server Error:", error.response.data);
+    } else {
+      console.error("Error creating question:", error.message);
+    }
+    throw error;
+  }
+};
+
+// 조직 정보 수정 API
+export const patchOrganizationInfoAPI = async (
+  file: File | null,
+  editOrganizationRequestDto: PatchOrganizationInfoAPIParams
+) => {
+  try {
+    const formData = new FormData();
+
+    if (file) {
+      formData.append("file", file);
+    }
+
+    formData.append(
+      "editOrganizationRequestDto",
+      new Blob([JSON.stringify(editOrganizationRequestDto)], {
+        type: "application/json",
+      })
+    );
+
+    const {
+      data: { data },
+    } = await Axios.patch("/organization/info", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error("Server Error:", error.response.data);
+    } else {
+      console.error("Error creating question:", error.message);
+    }
+    throw error;
+  }
+};
+
+// 조직 온보딩 수정 API
+export const patchOrganizationPositionAPI = async (
+  positionList: string[]
+): Promise<string[]> => {
+  try {
+    const {
+      data: { data },
+    } = await Axios.patch("/organization/position", positionList);
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error("Server Error:", error.response.data);
+    } else {
+      console.error("Error creating question:", error.message);
+    }
+    throw error;
+  }
+};
+
+// 조직 포지션 목록 조회 API
+export const getOrganizationPositionAPI = async (): Promise<string[]> => {
+  try {
+    const {
+      data: { data },
+    } = await Axios.get("/organization/position");
 
     return data;
   } catch (error: any) {

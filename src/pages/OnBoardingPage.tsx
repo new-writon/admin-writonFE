@@ -23,8 +23,12 @@ const OnBoardingPage = () => {
     });
   const [file, setFile] = useState<File | null>(null); // 조직 로고
 
-  const { setOrganizationId, setOrganizationName, setOrganizationLogo } =
-    useOrganizationStore();
+  const {
+    setOrganizationId,
+    setOrganizationName,
+    setOrganizationLogo,
+    setThemeColor,
+  } = useOrganizationStore();
 
   const moveStep = (path: 1 | -1) => {
     setStep(step + path);
@@ -33,10 +37,16 @@ const OnBoardingPage = () => {
 
   const { mutate: handleCreateOrganization } = useMutation({
     mutationFn: () => postOrganizationAPI(file, createRequestDto),
-    onSuccess: ({ organizationId, organizationName, organizationLogo }) => {
+    onSuccess: ({
+      organizationId,
+      organizationName,
+      organizationLogo,
+      themeColor,
+    }) => {
       setOrganizationId(organizationId);
       setOrganizationName(organizationName);
       setOrganizationLogo(organizationLogo || null);
+      setThemeColor(themeColor);
     },
     onError: (err) => {
       console.error(err);
@@ -57,7 +67,12 @@ const OnBoardingPage = () => {
         <ManageOrg
           moveStep={moveStep}
           data={createRequestDto.positions}
-          setData={setCreateRequestDto}
+          setData={(value: string[]) =>
+            setCreateRequestDto((prev) => ({
+              ...prev,
+              positions: value,
+            }))
+          }
           handleCreate={handleCreateOrganization}
         />
       )}

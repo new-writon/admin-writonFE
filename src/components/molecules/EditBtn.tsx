@@ -15,8 +15,8 @@ const EditBtn = ({
   handleCancel,
   children,
 }: EditBtn) => {
-  const onClickEdit = () => {
-    handleEdit();
+  const onClickEdit = async () => {
+    await handleEdit();
     setIsEdit(false);
   };
 

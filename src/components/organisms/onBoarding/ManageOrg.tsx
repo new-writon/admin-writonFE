@@ -32,12 +32,7 @@ const ManageOrg = ({
         <InputDropdown
           type="position"
           list={data}
-          setList={(value: string[]) =>
-            setData?.((prev) => ({
-              ...prev,
-              positions: value,
-            }))
-          }
+          setList={(value: string[]) => setData?.(value)}
         />
         <FlexBox col gap={10}>
           <L3 weight="sb" color={theme.color.gray[60]}>
@@ -51,7 +46,9 @@ const ManageOrg = ({
           >
             <Select type="disabled">ex) 기획</Select>
             {data.map((pos, idx) => (
-              <Select type="default" key={idx}>{pos}</Select>
+              <Select type="default" key={idx}>
+                {pos}
+              </Select>
             ))}
           </FlexBox>
         </FlexBox>

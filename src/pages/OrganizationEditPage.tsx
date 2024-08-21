@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlexBox } from "../components/atoms";
 import {
   Categories,
@@ -11,18 +11,50 @@ import {
 import { Form, Frame, Preview, ManageOrg } from "../components/organisms";
 import { B2, H3 } from "../components/atoms/Text";
 import { theme } from "../styles/theme";
+import useOrganizationStore from "../states/OrganizationStore";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  getOrganizationPositionAPI,
+  patchOrganizationInfoAPI,
+  patchOrganizationPositionAPI,
+} from "../apis/organizationAPI";
+import useChallengeStore from "../states/ChallengeStore";
 
 const InfoManage = () => {
   const [isEdit, setIsEdit] = useState(false);
 
-  const [name, setName] = useState("라이톤");
-  const [selectedColor, setSelectedColor] = useState("brand");
-  const [logo, setLogo] = useState<File | null>(null);
+  const {
+    organizationName,
+    organizationLogo,
+    themeColor: color,
+    setOrganizationName,
+    setOrganizationLogo,
+    setThemeColor: setColor,
+  } = useOrganizationStore();
 
-  const handleEdit = () => {
-    alert("수정 완료");
-    setIsEdit(false);
-  };
+  const [name, setName] = useState<string>(organizationName || "");
+  const [logo, setLogo] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string>(organizationLogo || "");
+  const [themeColor, setThemeColor] = useState(color || "");
+
+  const { mutateAsync: handleEdit } = useMutation({
+    mutationFn: () =>
+      patchOrganizationInfoAPI(logo, {
+        name,
+        themeColor,
+        logo: preview,
+      }),
+    onSuccess: ({ organizationName, organizationLogo, themeColor }) => {
+      alert("수정 완료");
+      console.log(organizationName, organizationLogo, themeColor);
+      setOrganizationName(organizationName);
+      setOrganizationLogo(organizationLogo);
+      setColor(themeColor);
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
 
   return (
     <>
@@ -39,17 +71,22 @@ const InfoManage = () => {
       {/* ========== Contents ========== */}
       <FlexBox col fullWidth gap={52} style={{ width: "600px" }}>
         <ContentSection title="조직 이름" titleWidth={180}>
-          <Input value={name} setValue={setName} disabled={!isEdit} />
+          <Input value={name || ""} setValue={setName} disabled={!isEdit} />
         </ContentSection>
 
         <ContentSection title="조직 로고" titleWidth={180}>
-          <ImageUpload setImage={setLogo} disabled={!isEdit} />
+          <ImageUpload
+            preview={preview}
+            setPreview={setPreview}
+            setImage={setLogo}
+            disabled={!isEdit}
+          />
         </ContentSection>
 
         <ContentSection title="테마 컬러 설정" titleWidth={180}>
           <ColorPalette
-            selectedColor={selectedColor}
-            setSelectedColor={setSelectedColor}
+            selectedColor={themeColor || ""}
+            setSelectedColor={setThemeColor}
             disabled={!isEdit}
           />
         </ContentSection>
@@ -59,19 +96,49 @@ const InfoManage = () => {
 };
 
 const OnBoardingManage = () => {
+  const { challengeId } = useChallengeStore();
+
   const [isEdit, setIsEdit] = useState(false);
+  const [positionList, setPositionList] = useState<string[]>([]);
+  const [backupData, setBackupData] = useState<string[]>([]);
 
-  const [positions, setPositions] = useState<string[]>([]);
+  const { data } = useQuery({
+    queryKey: ["organization-position", challengeId],
+    queryFn: () => getOrganizationPositionAPI(),
+    staleTime: 60 * 1000,
+  });
 
-  const handleEdit = () => {
-    alert("수정 완료");
-    setIsEdit(false);
+  useEffect(() => {
+    if (data) {
+      setPositionList(data);
+      setBackupData(data);
+    }
+  }, [data]);
+
+  const { mutateAsync: handleEdit } = useMutation({
+    mutationFn: () => patchOrganizationPositionAPI(positionList),
+    onSuccess: (data) => {
+      setPositionList(data);
+      alert("수정 완료");
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+
+  const handleCancel = () => {
+    setPositionList(backupData);
   };
 
   return (
     <>
       <FlexBox fullWidth justify="flex-end">
-        <EditBtn isEdit={isEdit} setIsEdit={setIsEdit} handleEdit={handleEdit}>
+        <EditBtn
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          handleEdit={handleEdit}
+          handleCancel={handleCancel}
+        >
           온보딩 항목 수정
         </EditBtn>
       </FlexBox>
@@ -83,7 +150,11 @@ const OnBoardingManage = () => {
           </B2>
         )}
         <Form contentsWidth={430} noBackground>
-          {!isEdit ? <Preview /> : <ManageOrg data={[]} disabled />}
+          {!isEdit ? (
+            <Preview positionList={positionList} />
+          ) : (
+            <ManageOrg data={positionList} setData={setPositionList} disabled />
+          )}
         </Form>
       </FlexBox>
     </>

@@ -52,12 +52,13 @@ const SideBar = () => {
         padding="0px 10px"
         style={{ width: "240px" }}
       >
-        <img
-          src={organizationLogo || "/icons/logo.svg"}
-          onClick={() => navigate("/login")}
-          alt="organizaiton_logo"
-          id="organization_logo"
-        />
+        <ImgConatainer>
+          <img
+            src={organizationLogo || "/icons/ex-logo.png"}
+            onClick={() => navigate("/login")}
+            alt="organizaiton_logo"
+          />
+        </ImgConatainer>
         <B2 weight="sb" color={theme.color.gray[100]} style={{ flex: 1 }}>
           {organizationName}
         </B2>
@@ -123,11 +124,6 @@ const Container = styled.section`
   padding: 16px 10px;
   background-color: ${({ theme }) => theme.color.gray[10]};
   z-index: 1;
-
-  #organization_logo {
-    width: 40px;
-    height: 40px;
-  }
 `;
 
 const Hyphen = styled.div`
@@ -147,4 +143,20 @@ const MenuContainer = styled.button`
 const ButtonContainer = styled.div`
   width: 100%;
   padding: 0 10px;
+`;
+
+const ImgConatainer = styled.div`
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 `;
