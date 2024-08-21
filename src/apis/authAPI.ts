@@ -61,28 +61,3 @@ export const postAuthReissueAPI = async () => {
     throw error;
   }
 };
-
-// const { data: relatedData } = useQuery({
-//     queryKey: ['related-products', productId],
-//     queryFn: () =>
-//       getCategoryProductsAPI({
-//         family: infoData?.family || '',
-//         sorter: 'REVIEW_COUNT_DESC',
-//         limit: 12,
-//       }),
-//     staleTime: 60 * 1000,
-//     enabled: isSuccess,
-//   });
-
-// const { mutate } = useMutation({
-//     mutationFn: () => postReviewRecommendAPI(data?.id),
-//     onSuccess: () => {
-//       setShowRecommended((prev) => !prev);
-//       showRecommended
-//         ? setShowRecommendCount((prev) => prev - 1)
-//         : setShowRecommendCount((prev) => prev + 1);
-//     },
-//     onError: (err) => {
-//       console.error(err);
-//     },
-//   });

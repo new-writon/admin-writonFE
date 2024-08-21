@@ -5,12 +5,21 @@ import { L3 } from "../atoms/Text";
 import { theme } from "../../styles/theme";
 
 interface ImageUpload {
+  preview: string;
+  setPreview: React.Dispatch<React.SetStateAction<string>>;
   setImage: React.Dispatch<React.SetStateAction<File | null>>;
   disabled?: boolean;
 }
 
-const ImageUpload = ({ setImage, disabled = false }: ImageUpload) => {
-  const [preview, setPreview] = useState("");
+const ImageUpload = ({
+  preview,
+  setPreview,
+  setImage,
+  disabled = false,
+}: ImageUpload) => {
+  const defaultLogoUrl =
+    "https://hoon-test-bucket.s3.ap-northeast-2.amazonaws.com/default-logo.png";
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -38,7 +47,7 @@ const ImageUpload = ({ setImage, disabled = false }: ImageUpload) => {
 
   const onClickDefaultLogo = (checked: boolean) => {
     handelDeleteLogo();
-    checked && setPreview("/icons/default-logo.png");
+    checked && setPreview(defaultLogoUrl);
   };
 
   return (
@@ -74,7 +83,7 @@ const ImageUpload = ({ setImage, disabled = false }: ImageUpload) => {
             <Button
               size="sm"
               type="empty"
-              disabled={preview == ""}
+              disabled={!preview || disabled}
               onClick={onClickDeleteLogo}
             >
               삭제

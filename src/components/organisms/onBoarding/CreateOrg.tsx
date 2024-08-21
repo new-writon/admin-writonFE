@@ -3,8 +3,11 @@ import { ColorPalette, ImageUpload, Input, Title } from "../../molecules";
 import { B1, H2 } from "../../atoms/Text";
 import { theme } from "../../../styles/theme";
 import { CreateOrg } from "../../../interfaces/organization";
+import { useState } from "react";
 
 const CreateOrg = ({ moveStep, data, setData, setFile }: CreateOrg) => {
+  const [preview, setPreview] = useState("");
+
   return (
     <>
       {/* ========== Form Title ========== */}
@@ -37,7 +40,11 @@ const CreateOrg = ({ moveStep, data, setData, setFile }: CreateOrg) => {
           title="조직 로고"
           subTitle="조직에서 사용할 로고 이미지를 설정해주세요."
         />
-        <ImageUpload setImage={setFile} />
+        <ImageUpload
+          setImage={setFile}
+          preview={preview}
+          setPreview={setPreview}
+        />
       </FlexBox>
 
       {/* ========== 테마 컬러 설정 ========== */}
