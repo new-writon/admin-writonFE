@@ -81,3 +81,20 @@ export const patchOrganizationInfoAPI = async (
   }
 };
 
+// 조직 포지션 목록 조회 API
+export const getOrganizationPositionAPI = async (): Promise<string[]> => {
+  try {
+    const {
+      data: { data },
+    } = await Axios.get("/organization/position");
+
+    return data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error("Server Error:", error.response.data);
+    } else {
+      console.error("Error creating question:", error.message);
+    }
+    throw error;
+  }
+};

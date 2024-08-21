@@ -67,7 +67,12 @@ const OnBoardingPage = () => {
         <ManageOrg
           moveStep={moveStep}
           data={createRequestDto.positions}
-          setData={setCreateRequestDto}
+          setData={(value: string[]) =>
+            setCreateRequestDto((prev) => ({
+              ...prev,
+              positions: value,
+            }))
+          }
           handleCreate={handleCreateOrganization}
         />
       )}

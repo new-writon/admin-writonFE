@@ -9,7 +9,9 @@ export interface ManageOrg {
   moveStep?: (path: -1 | 1) => void;
   disabled?: boolean;
   data: string[];
-  setData?: React.Dispatch<React.SetStateAction<PostOrganizationAPIParams>>;
+  setData?:
+    | React.Dispatch<React.SetStateAction<string[]>>
+    | ((value: string[]) => void);
   handleCreate?: () => void;
 }
 

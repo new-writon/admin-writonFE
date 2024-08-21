@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlexBox } from "../components/atoms";
 import {
   Categories,
@@ -96,13 +96,25 @@ const InfoManage = () => {
 };
 
 const OnBoardingManage = () => {
+  const { challengeId } = useChallengeStore();
+
   const [isEdit, setIsEdit] = useState(false);
+  const [positionList, setPositionList] = useState<string[]>([]);
+  const [backupData, setBackupData] = useState<string[]>([]);
 
-  const [positions, setPositions] = useState<string[]>([]);
+  const { data } = useQuery({
+    queryKey: ["organization-position", challengeId],
+    queryFn: () => getOrganizationPositionAPI(),
+    staleTime: 60 * 1000,
+  });
 
-  const handleEdit = () => {
-    alert("수정 완료");
-    setIsEdit(false);
+  useEffect(() => {
+    if (data) {
+      setPositionList(data);
+      setBackupData(data);
+    }
+  }, [data]);
+
   };
 
   return (
@@ -120,7 +132,11 @@ const OnBoardingManage = () => {
           </B2>
         )}
         <Form contentsWidth={430} noBackground>
-          {!isEdit ? <Preview /> : <ManageOrg data={[]} disabled />}
+          {!isEdit ? (
+            <Preview positionList={positionList} />
+          ) : (
+            <ManageOrg data={positionList} setData={setPositionList} disabled />
+          )}
         </Form>
       </FlexBox>
     </>
