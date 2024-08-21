@@ -5,10 +5,12 @@ interface OrganizationStore {
   organizationId: number | null;
   organizationName: string | null;
   organizationLogo: string | null;
+  themeColor: string | null;
 
   setOrganizationId: (id: number | null) => void;
   setOrganizationName: (name: string | null) => void;
   setOrganizationLogo: (logo: string | null) => void;
+  setThemeColor: (themeColor: string | null) => void;
 }
 
 const useOrganizationStore = create(
@@ -17,12 +19,14 @@ const useOrganizationStore = create(
       organizationId: null,
       organizationName: null,
       organizationLogo: null,
+      themeColor: null,
 
       setOrganizationId: (id: number | null) => set({ organizationId: id }),
       setOrganizationName: (name: string | null) =>
         set({ organizationName: name }),
       setOrganizationLogo: (logo: string | null) =>
         set({ organizationLogo: logo }),
+      setThemeColor: (themeColor: string | null) => set({ themeColor }),
     }),
     {
       name: "organizaiton-store",

@@ -24,4 +24,11 @@ export interface PostOrganizationAPI {
   organizationId: number;
   organizationName: string;
   organizationLogo?: string;
+  themeColor: string;
+}
+
+export interface PatchOrganizationInfoAPIParams {
+  name: string;
+  themeColor: string;
+  logo: string | null;
 }

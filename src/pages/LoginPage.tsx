@@ -16,8 +16,12 @@ const LoginPage = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setOrganizationId, setOrganizationName, setOrganizationLogo } =
-    useOrganizationStore();
+  const {
+    setOrganizationId,
+    setOrganizationName,
+    setOrganizationLogo,
+    setThemeColor,
+  } = useOrganizationStore();
   const { setChallengeId, setChallengeList } = useChallengeStore();
 
   const { mutate: submitLogin } = useMutation({
@@ -29,6 +33,7 @@ const LoginPage = () => {
       organizationId,
       organizationName,
       organizationLogo,
+      themeColor,
     }) => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
@@ -36,6 +41,7 @@ const LoginPage = () => {
       setOrganizationId(organizationId);
       setOrganizationName(organizationName);
       setOrganizationLogo(organizationLogo);
+      setThemeColor(themeColor);
 
       setChallengeId(21);
       setChallengeList([
