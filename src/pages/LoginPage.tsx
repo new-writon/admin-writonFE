@@ -27,7 +27,7 @@ const LoginPage = () => {
   } = useOrganizationStore();
   const { setChallengeId, setChallengeList } = useChallengeStore();
 
-  const { mutate: submitLogin } = useMutation({
+  const { mutate: handleLogin } = useMutation({
     mutationFn: () => postAuthLoginAPI(id, password),
     onSuccess: ({
       accessToken,
@@ -37,6 +37,7 @@ const LoginPage = () => {
       organizationName,
       organizationLogo,
       themeColor,
+      challengeList,
     }) => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
@@ -46,14 +47,16 @@ const LoginPage = () => {
       setOrganizationLogo(organizationLogo);
       setThemeColor(themeColor);
 
-      setChallengeId(21);
-      setChallengeList([
-        { id: 21, name: "test-challenge-edit" },
-        { id: 22, name: "test2-challenge" },
-        { id: 23, name: "test3-challenge" },
-      ]);
+      setChallengeList(challengeList);
+      setChallengeId(challengeList.length === 0 ? 0 : challengeList[0].id);
 
-      navigate(hasOrganization ? "/challenge/dashboard" : "/onBoarding");
+      navigate(
+        !hasOrganization
+          ? "/onBoarding"
+          : challengeList.length === 0
+          ? "/empty"
+          : "/challenge/dashboard"
+      );
     },
     onError: (err: AxiosError<ErrorResponse>) => {
       const data = err.response?.data;
@@ -62,8 +65,13 @@ const LoginPage = () => {
     },
   });
 
+  const submitLogin = (e: FormEvent) => {
+    e.preventDefault();
+    handleLogin();
+  };
+
   return (
-    <Form contentsWidth={370}>
+    <Form contentsWidth={370} isLoginForm onSubmit={submitLogin}>
       {/* ========== Title ========== */}
       <FlexBox align="center" gap={10}>
         <TitleTxt>Admin</TitleTxt>
