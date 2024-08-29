@@ -116,7 +116,7 @@ const ParticipationInfoPage = () => {
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
           searchValue={searchValue}
-          searchedIdx={[0, 1, 9]} // 이름 index
+          searchedIdx={[2, 10]} // 닉네임, 이메일 index
           isCheckBox
           hiddenCols={[0, 1]}
         />
