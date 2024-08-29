@@ -70,7 +70,7 @@ const Table = ({
                   <Button type="none" size="sm" disabled={idx !== selectedSort}>
                     {item}
                   </Button>
-                  <Line vertical /> {/* 추후 수정 */}
+                  {idx !== 2 && <Line height={16} />}
                 </React.Fragment>
               ))}
             </FlexBox>
