@@ -6,7 +6,11 @@ import { Button, CheckBox, FlexBox, Line } from "../atoms";
 import { L3 } from "../atoms/Text";
 import { CalendarModal } from "../molecules";
 
-import { fieldTranslations, tableCellColor } from "../../utils/formatUtils";
+import {
+  fieldTranslations,
+  formatDateToString,
+  tableCellColor,
+} from "../../utils/formatUtils";
 import { ParticipationTableData } from "../../interfaces/participation";
 import { DashboardTableData } from "../../interfaces/challenge";
 
@@ -14,6 +18,7 @@ interface Table {
   data: ParticipationTableData[] | DashboardTableData[];
   selectedValues?: number[];
   selectedRows?: number[];
+  setSelectedValues?: React.Dispatch<React.SetStateAction<number[]>>;
   setSelectedRows?: React.Dispatch<React.SetStateAction<number[]>>;
   searchValue?: string; // 검색어
   searchedIdx?: number[]; // 검색어가 필터링되는 항목의 index배열
@@ -35,11 +40,16 @@ const Table = ({
   isButton,
   hiddenCols,
 }: Table) => {
+  const [data, setData] = useState<
+    ParticipationTableData[] | DashboardTableData[]
+  >([]);
   const formatedData = data.map((item) => Object.values(item));
+  const headerList = data.length !== 0 ? Object.keys(data[0]) : [];
+
   const sortList = ["이름순", "참여순", "미참여순"];
   const [selectedSort, setSelectedSort] = useState(0);
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [dates, setDates] = useState<Date[]>([]);
 
   // Table 선택 기능
   const handleSelectAll = (checked: boolean) => {
@@ -57,6 +67,29 @@ const Table = ({
       setSelectedRows?.([...selectedRows, selectedId]);
     }
   };
+  // 날짜 필터링 기능
+  const handleFilter = (startDate: Date, endDate: Date) => {
+    const filteredIndexList = headerList
+      .filter((item, idx) => {
+        const date = new Date(item);
+        date.setHours(0, 0, 0, 0);
+
+        return idx === 0 || (date >= startDate && date <= endDate);
+      })
+      .map((_, idx) => idx);
+
+    setSelectedValues?.(filteredIndexList);
+  };
+
+  useEffect(() => {
+    data.length === 0 && setData(originalData);
+    dates.length === 0 &&
+      headerList.length !== 0 &&
+      setDates([
+        new Date(headerList[1]),
+        new Date(headerList[headerList.length - 1]),
+      ]);
+  }, [originalData]);
 
   return (
     <Container>
@@ -84,16 +117,20 @@ const Table = ({
                 size="sm"
                 calendarIcon
                 onClick={() => setIsOpenCalendar(!isOpenCalendar)}
+                fullWidth
+                style={{ justifyContent: "flex-start", minWidth: "230px" }}
               >
-                2024년 7월 1일 ~ 2024년 7월 31일
+                {formatDateToString(dates[0])} ~ {formatDateToString(dates[1])}
               </Button>
               {isOpenCalendar && (
                 <CalendarModal
                   setIsOpenCalendar={setIsOpenCalendar}
-                  date={date}
-                  setDate={setDate}
+                  date={dates}
+                  setDate={(date) => Array.isArray(date) && setDates(date)}
                   top={38}
                   left={-20}
+                  isRange
+                  handleFilter={handleFilter}
                 />
               )}
             </CalendarContainer>
