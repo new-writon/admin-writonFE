@@ -96,6 +96,7 @@ const LoginPage = () => {
             placeHolder="비밀번호를 입력해주세요."
             value={password}
             setValue={setPassword}
+            type="password"
             error={error}
           />
         </FlexBox>

@@ -16,6 +16,7 @@ interface Input {
   hasDeleteBtn?: boolean;
   fullWidth?: boolean;
   disabled?: boolean;
+  type?: string;
 }
 
 const Input = ({
@@ -27,6 +28,7 @@ const Input = ({
   hasDeleteBtn,
   fullWidth,
   disabled = false,
+  type,
 }: Input) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -42,6 +44,7 @@ const Input = ({
           disabled={disabled}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          type={type || "text"}
         />
         {hasDeleteBtn && (
           <button onClick={() => setValue?.("")} disabled={disabled}>
