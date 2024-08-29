@@ -1,8 +1,8 @@
 import axios from "axios";
 import useChallengeStore from "../states/ChallengeStore";
 
-const baseURL = "http://localhost:8080";
-// const baseURL = "https://api.writon.co.kr";
+// const baseURL = "http://localhost:8080";
+const baseURL = "https://admin.writon.co.kr";
 
 // challengeId param값으로 넣지 않을 API URL
 const excludedParamsUrl = [
