@@ -1,14 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-
-import FontPretendardBlack from "./fonts/Pretendard-Black.woff2";
-import FontPretendardBold from "./fonts/Pretendard-Bold.woff2";
-import FontPretendardExtraBold from "./fonts/Pretendard-ExtraBold.woff2";
-import FontPretendardExtraLight from "./fonts/Pretendard-ExtraLight.woff2";
-import FontPretendardLight from "./fonts/Pretendard-Light.woff2";
-import FontPretendardMedium from "./fonts/Pretendard-Medium.woff2";
-import FontPretendardRegular from "./fonts/Pretendard-Regular.woff2";
-import FontPretendardSemiBold from "./fonts/Pretendard-SemiBold.woff2";
-import FontPretendardThin from "./fonts/Pretendard-Thin.woff2";
+import '/src/styles/GlobalFonts.css';
 
 const GlobalStyle = createGlobalStyle`
   /* =============== Global Style 설정 =============== */
@@ -115,93 +106,6 @@ const GlobalStyle = createGlobalStyle`
 
   a:hover {
     color: #535bf2;
-  }
-
-  /* =============== Font 설정 =============== */
-  @font-face {
-    font-family: 'Pretendard';
-    font-weight: 100;
-    font-style: normal;
-    src: url('${FontPretendardThin}') format('woff2');
-    font-display: block;
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-weight: 200;
-    font-style: normal;
-    src: url('${FontPretendardExtraLight}') format('woff2');
-    font-display: block;
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-weight: 300;
-    font-style: normal;
-    src: url('${FontPretendardLight}') format('woff2');
-    font-display: block;
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-weight: 400;
-    font-style: normal;
-    src: url('${FontPretendardRegular}') format('woff2');
-    font-display: block;
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-weight: 500;
-    font-style: normal;
-    src: url('${FontPretendardMedium}') format('woff2');
-    font-display: block;
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-weight: 600;
-    font-style: normal;
-    src: url('${FontPretendardSemiBold}') format('woff2');
-    font-display: block;
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-weight: 700;
-    font-style: normal;
-    src: url('${FontPretendardBold}') format('woff2');
-    font-display: block;
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-weight: 800;
-    font-style: normal;
-    src: url('${FontPretendardExtraBold}') format('woff2');
-    font-display: block;
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-weight: 900;
-    font-style: normal;
-    src: url('${FontPretendardBlack}') format('woff2');
-    font-display: block;
-  }
-
-  @font-face {
-      font-family: 'Happiness-Sans-Bold';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Happiness-Sans-Bold.woff2') format('woff2');
-      font-weight: 700;
-      font-style: normal;
-  }
-
-  @font-face {
-      font-family: 'Happiness-Sans-Regular';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Happiness-Sans-Regular.woff2') format('woff2');
-      font-weight: 400;
-      font-style: normal;
   }
 `;
 
