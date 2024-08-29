@@ -31,7 +31,6 @@ const excelFileToArray = (
       header: 1,
     }) as string[][];
     setData(sheetData);
-    console.log(sheetData);
   };
 
   reader.readAsBinaryString(file);

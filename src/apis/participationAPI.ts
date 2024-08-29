@@ -72,7 +72,7 @@ export const postParticipationWithdrawalAPI = async (
     const {
       data: { data },
     } = await Axios.post("/participation/withdrawal", userChallengeIdList);
-    console.log(data);
+
     return data;
   } catch (error: any) {
     if (error.response) {
@@ -86,13 +86,12 @@ export const postParticipationWithdrawalAPI = async (
 
 // 참여자 초대 API
 export const postParticipationParticipateAPI = async (emailList: string[]) => {
-  console.log(emailList);
   try {
     const {
       data: { data },
     } = await Axios.post("/participation/participate", emailList);
 
-    console.log(data);
+
     return data;
   } catch (error: any) {
     if (error.response) {

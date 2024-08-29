@@ -47,7 +47,6 @@ const Button = ({
   size,
   type,
   onClick,
-  // onSubmit,
   fullWidth,
   disabled,
   style,
@@ -63,7 +62,6 @@ const Button = ({
     <Container
       disabled={disabled}
       onClick={onClick && onClick}
-      // onSubmit={onSubmit && onSubmit}
       style={{
         width: fullWidth ? "100%" : "fit-content",
         border:
