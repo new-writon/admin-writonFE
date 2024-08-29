@@ -10,11 +10,14 @@ import { useMutation } from "@tanstack/react-query";
 import { postAuthLoginAPI } from "../apis";
 import useOrganizationStore from "../states/OrganizationStore";
 import useChallengeStore from "../states/ChallengeStore";
+import { AxiosError } from "axios";
+import { ErrorResponse } from "../interfaces/error";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const {
     setOrganizationId,
@@ -52,8 +55,10 @@ const LoginPage = () => {
 
       navigate(hasOrganization ? "/challenge/dashboard" : "/onBoarding");
     },
-    onError: (err) => {
-      console.error(err);
+    onError: (err: AxiosError<ErrorResponse>) => {
+      const data = err.response?.data;
+
+      if (data?.code === "A01") setError("아이디와 비밀번호를 확인해주세요.");
     },
   });
 
@@ -73,6 +78,7 @@ const LoginPage = () => {
             placeHolder="이메일 형식의 아이디를 입력해주세요."
             value={id}
             setValue={setId}
+            error={error}
           />
         </FlexBox>
 
@@ -82,6 +88,7 @@ const LoginPage = () => {
             placeHolder="비밀번호를 입력해주세요."
             value={password}
             setValue={setPassword}
+            error={error}
           />
         </FlexBox>
       </FlexBox>
