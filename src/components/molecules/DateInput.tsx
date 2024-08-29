@@ -49,7 +49,7 @@ const DateInput = ({
         <CalendarModal
           setIsOpenCalendar={setIsOpenCalendar}
           date={value}
-          setDate={setValue}
+          setDate={(date) => date instanceof Date && setValue(date)}
           top={76}
         />
       )}

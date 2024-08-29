@@ -1,8 +1,8 @@
 import axios from "axios";
 import useChallengeStore from "../states/ChallengeStore";
 
-const baseURL = "http://localhost:8080";
-// const baseURL = "https://api.writon.co.kr";
+// const baseURL = "http://localhost:8080";
+const baseURL = "https://admin.writon.co.kr";
 
 // challengeId param값으로 넣지 않을 API URL
 const excludedParamsUrl = [
@@ -58,9 +58,14 @@ Axios.interceptors.response.use(
     const customStatusCode = error.response.data.code;
     switch (customStatusCode) {
       case "A01": {
+        // alert("로그인 세션이 만료되었습니다.");
+        // window.location.href = "/login";
+        // console.error("토큰 만료", customStatusCode);
+        break;
+      }
+      case "A02": {
         alert("로그인 세션이 만료되었습니다.");
         window.location.href = "/login";
-        console.error("토큰 만료", customStatusCode);
         break;
       }
       default:

@@ -43,7 +43,7 @@ const Filter = ({
       >
         전체
       </Select>
-      <Line vertical />
+      <Line height={30} />
       {list.map((value, idx) =>
         !hiddenCols?.includes(idx) ? (
           <Select

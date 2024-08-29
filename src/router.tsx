@@ -10,7 +10,8 @@ import {
   OnBoardingPage,
   ParticipationInfoPage,
   ParticipationParticipatePage,
-  OrganizationEditPage
+  OrganizationEditPage,
+  EmptyChallengePage,
 } from "./pages";
 
 export const router = createBrowserRouter([
@@ -70,6 +71,11 @@ export const router = createBrowserRouter([
       {
         path: "/organization/edit",
         element: <OrganizationEditPage />,
+        errorElement: <div>Unknown Error</div>,
+      },
+      {
+        path: "/empty",
+        element: <EmptyChallengePage />,
         errorElement: <div>Unknown Error</div>,
       },
     ],

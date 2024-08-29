@@ -1,8 +1,10 @@
 export interface CreateOrg {
   moveStep: (path: -1 | 1) => void;
   data: PostOrganizationAPIParams;
+  preview: string;
   setData: React.Dispatch<React.SetStateAction<PostOrganizationAPIParams>>;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
+  setPreview: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface ManageOrg {

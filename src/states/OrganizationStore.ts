@@ -11,15 +11,20 @@ interface OrganizationStore {
   setOrganizationName: (name: string | null) => void;
   setOrganizationLogo: (logo: string | null) => void;
   setThemeColor: (themeColor: string | null) => void;
+  reset: () => void;
 }
+
+const initialState = {
+  organizationId: null,
+  organizationName: null,
+  organizationLogo: null,
+  themeColor: null,
+};
 
 const useOrganizationStore = create(
   persist<OrganizationStore>(
     (set) => ({
-      organizationId: null,
-      organizationName: null,
-      organizationLogo: null,
-      themeColor: null,
+      ...initialState,
 
       setOrganizationId: (id: number | null) => set({ organizationId: id }),
       setOrganizationName: (name: string | null) =>
@@ -27,6 +32,9 @@ const useOrganizationStore = create(
       setOrganizationLogo: (logo: string | null) =>
         set({ organizationLogo: logo }),
       setThemeColor: (themeColor: string | null) => set({ themeColor }),
+
+      // 초기화 함수
+      reset: () => set(initialState),
     }),
     {
       name: "organizaiton-store",

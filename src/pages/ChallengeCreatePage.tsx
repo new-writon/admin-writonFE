@@ -17,6 +17,10 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { postChallengeAPI } from "../apis";
 import useChallengeStore from "../states/ChallengeStore";
+import {
+  defaultBasicInfoData,
+  defaultQuestionsData,
+} from "../data/ChallengeData";
 
 const buttonText = {
   empty: ["", "이전", "이전", "이전"],
@@ -42,16 +46,10 @@ const ChallengeCreatePage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const { setChallengeId, setChallengeList } = useChallengeStore();
 
-  const [basicInfoData, setBasicInfoData] = useState<BasicInfoData>({
-    name: "",
-    startDate: formatDateToString(new Date()),
-    endDate: formatDateToString(new Date()),
-    dates: ["2024-08-17", "2024-08-19", "2024-08-20"],
-  });
-  const [questionsData, setQuestionsData] = useState<QuestionsData>({
-    basicQuestions: ["", "", "", ""],
-    specialQuestions: [],
-  });
+  const [basicInfoData, setBasicInfoData] =
+    useState<BasicInfoData>(defaultBasicInfoData);
+  const [questionsData, setQuestionsData] =
+    useState<QuestionsData>(defaultQuestionsData);
   const [emailList, setEmailList] = useState<string[]>([]);
 
   const movePage = (path: -1 | 1) => {
@@ -64,7 +62,7 @@ const ChallengeCreatePage = () => {
       basicInfoData.name &&
       basicInfoData.startDate &&
       basicInfoData.endDate &&
-      basicInfoData.dates.length != 0
+      basicInfoData.processDates.length != 0
     ) {
       movePage(1);
     } else {
@@ -101,9 +99,9 @@ const ChallengeCreatePage = () => {
       }),
     onSuccess: (data) => {
       // Challenge Dropdown List 변경
-      const { challengeResponseList: list } = data;
-      setChallengeList(list);
-      setChallengeId(list[list.length - 1].id);
+      const { challengeList } = data;
+      setChallengeList(challengeList);
+      setChallengeId(challengeList[challengeList.length - 1].id);
 
       // Modal Open
       setIsOpenModal(true);
@@ -151,6 +149,7 @@ const ChallengeCreatePage = () => {
             gap={50}
             data={questionsData}
             setData={setQuestionsData}
+            backupData={defaultQuestionsData}
           />
         )}
         {selectedCategory == 2 && (
@@ -166,7 +165,11 @@ const ChallengeCreatePage = () => {
           <FlexBox fullWidth col gap={50}>
             <BasicInfo gap={50} data={basicInfoData} />
             <Line />
-            <Questions gap={50} data={questionsData} />
+            <Questions
+              gap={50}
+              data={questionsData}
+              backupData={questionsData}
+            />
             <Line />
             <Participate gap={50} emailList={emailList} isPending />
           </FlexBox>

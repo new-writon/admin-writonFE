@@ -1,19 +1,30 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { theme } from "../../styles/theme";
 
 import { Button, CheckBox, FlexBox, Line } from "../atoms";
-import { L3 } from "../atoms/Text";
+import { B2, L3 } from "../atoms/Text";
 import { CalendarModal } from "../molecules";
 
-import { fieldTranslations, tableCellColor } from "../../utils/formatUtils";
+import {
+  fieldTranslations,
+  formatDateToString,
+  tableCellColor,
+} from "../../utils/formatUtils";
 import { ParticipationTableData } from "../../interfaces/participation";
 import { DashboardTableData } from "../../interfaces/challenge";
+import {
+  sortByName,
+  sortByNonParticipation,
+  sortByParticipation,
+} from "../../utils/sortUtils";
+import { MdContentCopy } from "../atoms/Icons";
 
 interface Table {
   data: ParticipationTableData[] | DashboardTableData[];
   selectedValues?: number[];
   selectedRows?: number[];
+  setSelectedValues?: React.Dispatch<React.SetStateAction<number[]>>;
   setSelectedRows?: React.Dispatch<React.SetStateAction<number[]>>;
   searchValue?: string; // 검색어
   searchedIdx?: number[]; // 검색어가 필터링되는 항목의 index배열
@@ -23,10 +34,59 @@ interface Table {
   hiddenCols?: number[]; // 숨기고 싶은 col list
 }
 
+interface SortButton {
+  children: React.ReactNode;
+  selected: boolean;
+  onClick: () => void;
+}
+
+interface Cell {
+  text: string;
+  hasCopyBtn?: boolean;
+}
+
+const SortButton = ({ children, selected, onClick }: SortButton) => {
+  return (
+    <ButtonContainer onClick={onClick}>
+      <B2
+        weight="sb"
+        color={selected ? theme.color.brand[50] : theme.color.gray[50]}
+      >
+        {children}
+      </B2>
+    </ButtonContainer>
+  );
+};
+
+const Cell = ({ text, hasCopyBtn }: Cell) => {
+  const handleCopyClipBoard = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("복사되었습니다.");
+    } catch (e) {
+      alert("복사 실패");
+    }
+  };
+
+  return (
+    <FlexBox justify="center" align="center" gap={6}>
+      <L3 weight="r" color={tableCellColor(text)}>
+        {text}
+      </L3>
+      {hasCopyBtn && (
+        <CopyButton onClick={handleCopyClipBoard}>
+          <MdContentCopy color={theme.color.brand[50]} size={14} />
+        </CopyButton>
+      )}
+    </FlexBox>
+  );
+};
+
 const Table = ({
-  data,
+  data: originalData,
   selectedValues,
   selectedRows = [],
+  setSelectedValues,
   setSelectedRows,
   searchValue,
   searchedIdx,
@@ -35,11 +95,16 @@ const Table = ({
   isButton,
   hiddenCols,
 }: Table) => {
+  const [data, setData] = useState<
+    ParticipationTableData[] | DashboardTableData[]
+  >([]);
   const formatedData = data.map((item) => Object.values(item));
+  const headerList = data.length !== 0 ? Object.keys(data[0]) : [];
+
   const sortList = ["이름순", "참여순", "미참여순"];
   const [selectedSort, setSelectedSort] = useState(0);
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [dates, setDates] = useState<Date[]>([]);
 
   // Table 선택 기능
   const handleSelectAll = (checked: boolean) => {
@@ -58,6 +123,51 @@ const Table = ({
     }
   };
 
+  const isDashboardTableDataArray = (
+    data: any[]
+  ): data is DashboardTableData[] => {
+    return Array.isArray(data) && data.every((item) => "name" in item);
+  };
+
+  // 정렬 기능
+  const handleSort = (idx: number) => {
+    if (isDashboardTableDataArray(data)) {
+      setSelectedSort(idx);
+      const sortedData =
+        idx === 0
+          ? sortByName(data)
+          : idx === 1
+          ? sortByParticipation(data)
+          : sortByNonParticipation(data);
+
+      setData(sortedData);
+    }
+  };
+
+  // 날짜 필터링 기능
+  const handleFilter = (startDate: Date, endDate: Date) => {
+    const filteredIndexList = headerList
+      .filter((item, idx) => {
+        const date = new Date(item);
+        date.setHours(0, 0, 0, 0);
+
+        return idx === 0 || (date >= startDate && date <= endDate);
+      })
+      .map((_, idx) => idx);
+
+    setSelectedValues?.(filteredIndexList);
+  };
+
+  useEffect(() => {
+    data.length === 0 && setData(originalData);
+    dates.length === 0 &&
+      headerList.length !== 0 &&
+      setDates([
+        new Date(headerList[1]),
+        new Date(headerList[headerList.length - 1]),
+      ]);
+  }, [originalData]);
+
   return (
     <Container>
       {(isSort || isButton) && (
@@ -67,10 +177,13 @@ const Table = ({
             <FlexBox align="center" gap={4}>
               {sortList.map((item, idx) => (
                 <React.Fragment key={idx}>
-                  <Button type="none" size="sm" disabled={idx !== selectedSort}>
+                  <SortButton
+                    selected={idx === selectedSort}
+                    onClick={() => handleSort(idx)}
+                  >
                     {item}
-                  </Button>
-                  <Line vertical /> {/* 추후 수정 */}
+                  </SortButton>
+                  {idx !== 2 && <Line height={16} />}
                 </React.Fragment>
               ))}
             </FlexBox>
@@ -84,16 +197,20 @@ const Table = ({
                 size="sm"
                 calendarIcon
                 onClick={() => setIsOpenCalendar(!isOpenCalendar)}
+                fullWidth
+                style={{ justifyContent: "flex-start", minWidth: "230px" }}
               >
-                2024년 7월 1일 ~ 2024년 7월 31일
+                {formatDateToString(dates[0])} ~ {formatDateToString(dates[1])}
               </Button>
               {isOpenCalendar && (
                 <CalendarModal
                   setIsOpenCalendar={setIsOpenCalendar}
-                  date={date}
-                  setDate={setDate}
+                  date={dates}
+                  setDate={(date) => Array.isArray(date) && setDates(date)}
                   top={38}
                   left={-20}
+                  isRange
+                  handleFilter={handleFilter}
                 />
               )}
             </CalendarContainer>
@@ -135,7 +252,22 @@ const Table = ({
               {formatedData
                 // 검색기능 때문에 모든 요소들을 전부 String으로 변환
                 .map((row) =>
-                  row.map((item) => String(item === null ? "-" : item))
+                  row.map((item, idx) => {
+                    let formatedItem = String(item);
+                    if (item === null) {
+                      formatedItem = "-";
+                    } else if (isCheckBox) {
+                      if ([3, 12, 14].includes(idx)) {
+                        formatedItem = `${item}회`;
+                      } else if (idx === 11) {
+                        formatedItem = `${item}원`;
+                      } else if (idx === 13) {
+                        formatedItem = `${item}개`;
+                      }
+                    }
+
+                    return formatedItem;
+                  })
                 )
                 .filter((row) => {
                   // 검색어가 없는 경우, 전부 반환
@@ -174,16 +306,12 @@ const Table = ({
                       )
                       .map((cell, cellIndex) => (
                         <td key={cellIndex}>
-                          <L3
-                            weight="r"
-                            color={
-                              row[1] === "true"
-                                ? theme.color.gray[60]
-                                : tableCellColor(cell)
+                          <Cell
+                            text={cell}
+                            hasCopyBtn={
+                              isCheckBox && [7, 8].includes(cellIndex)
                             }
-                          >
-                            {cell}
-                          </L3>
+                          />
                         </td>
                       ))}
                   </StyledTr>
@@ -244,4 +372,26 @@ const StyledTr = styled.tr<{ $selected?: boolean; $withdrawn?: boolean }>`
 
 const CalendarContainer = styled.div`
   position: relative;
+`;
+
+const ButtonContainer = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  border-radius: 6px;
+`;
+
+const CopyButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.brand[10]};
+  }
 `;

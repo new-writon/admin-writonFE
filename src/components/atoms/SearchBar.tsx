@@ -6,9 +6,10 @@ import { FormEvent, useState } from "react";
 interface SearchBar {
   setValue: React.Dispatch<React.SetStateAction<string>>;
   fullWidth?: boolean;
+  placeholder: string;
 }
 
-const SearchBar = ({ setValue, fullWidth }: SearchBar) => {
+const SearchBar = ({ setValue, fullWidth, placeholder }: SearchBar) => {
   const [isFocused, setIsFocused] = useState(false);
   const [curValue, setCurValue] = useState("");
 
@@ -28,7 +29,7 @@ const SearchBar = ({ setValue, fullWidth }: SearchBar) => {
         size={20}
       />
       <input
-        placeholder="이름, 닉네임, 이메일 등으로 검색해보세요."
+        placeholder={placeholder}
         value={curValue}
         onChange={(e) => setCurValue(e.currentTarget.value)}
         onFocus={() => setIsFocused(true)}

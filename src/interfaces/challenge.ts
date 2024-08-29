@@ -2,7 +2,7 @@ export interface BasicInfoData {
   name: string;
   startDate: string;
   endDate: string;
-  dates: string[];
+  processDates: string[];
 }
 
 export interface BasicInfo {

@@ -46,7 +46,7 @@ const Dropdown = ({ list, selectedItemId, setSelectedItemId }: Dropdown) => {
     <Container>
       <Header onClick={toggle} $visible={visible}>
         <L2 weight="sb" color={theme.color.brand[50]}>
-          {list.filter(({ id }) => selectedItemId == id)[0].name}
+          {list.filter(({ id }) => selectedItemId == id)[0]?.name}
         </L2>
         <IoIosArrowUp color={theme.color.gray[70]} size={16} />
       </Header>

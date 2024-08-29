@@ -3,11 +3,15 @@ import { ColorPalette, ImageUpload, Input, Title } from "../../molecules";
 import { B1, H2 } from "../../atoms/Text";
 import { theme } from "../../../styles/theme";
 import { CreateOrg } from "../../../interfaces/organization";
-import { useState } from "react";
 
-const CreateOrg = ({ moveStep, data, setData, setFile }: CreateOrg) => {
-  const [preview, setPreview] = useState("");
-
+const CreateOrg = ({
+  moveStep,
+  data,
+  preview,
+  setData,
+  setFile,
+  setPreview,
+}: CreateOrg) => {
   return (
     <>
       {/* ========== Form Title ========== */}

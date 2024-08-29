@@ -8,6 +8,7 @@ import {
   participationMenuList,
 } from "../../data/SideBarMenu";
 import useOrganizationStore from "../../states/OrganizationStore";
+import useChallengeStore from "../../states/ChallengeStore";
 
 interface Menu {
   isTitle?: boolean;
@@ -19,12 +20,17 @@ const Menu = ({ isTitle, children, path }: Menu) => {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
+  const { challengeList } = useChallengeStore();
+
   const isCurPath = pathname == path;
+  const disabled = challengeList.length === 0;
 
   return (
     <MenuContainer
       as={isTitle ? "div" : "button"}
       onClick={() => !isTitle && navigate(`${path}`)}
+      disabled={disabled}
+      $disabled={disabled}
     >
       <B2
         weight={isTitle || isCurPath ? "sb" : "r"}
@@ -133,7 +139,7 @@ const Hyphen = styled.div`
   background-color: ${({ theme }) => theme.color.gray[30]};
 `;
 
-const MenuContainer = styled.button`
+const MenuContainer = styled.button<{ $disabled: boolean }>`
   display: flex;
   width: 100%;
   padding: 8px 10px;

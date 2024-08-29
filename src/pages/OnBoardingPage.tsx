@@ -22,6 +22,7 @@ const OnBoardingPage = () => {
       positions: [], // 포지션
     });
   const [file, setFile] = useState<File | null>(null); // 조직 로고
+  const [preview, setPreview] = useState("");
 
   const {
     setOrganizationId,
@@ -59,8 +60,10 @@ const OnBoardingPage = () => {
         <CreateOrg
           moveStep={moveStep}
           data={createRequestDto}
+          preview={preview}
           setData={setCreateRequestDto}
           setFile={setFile}
+          setPreview={setPreview}
         />
       )}
       {step == 2 && (

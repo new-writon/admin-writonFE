@@ -10,6 +10,7 @@ interface InputChip {
   size: "lg" | "sm";
   onClick?: () => void;
   deleteItem?: () => void;
+  disabled?: boolean;
 }
 
 const fontColor = {
@@ -33,18 +34,25 @@ const InputChip = ({
   size,
   onClick,
   deleteItem,
+  disabled = false,
 }: InputChip) => {
   return (
     <Container
       as={onClick ? "button" : "div"}
       onClick={onClick}
-      $isBtn={deleteItem ? true : false}
+      $hasBtn={deleteItem ? true : false}
       $bgColor={bgColor[color]}
+      $disabled={disabled}
+      disabled={disabled}
     >
       {size == "lg" ? (
-        <L2 color={fontColor[color]}>{children}</L2>
+        <L2 color={disabled ? theme.color.gray[60] : fontColor[color]}>
+          {children}
+        </L2>
       ) : (
-        <L3 color={fontColor[color]}>{children}</L3>
+        <L3 color={disabled ? theme.color.gray[60] : fontColor[color]}>
+          {children}
+        </L3>
       )}
       {deleteItem && (
         <button type="button" onClick={deleteItem}>
@@ -57,14 +65,19 @@ const InputChip = ({
 
 export default InputChip;
 
-const Container = styled.div<{ $isBtn: boolean; $bgColor: string }>`
+const Container = styled.div<{
+  $hasBtn: boolean;
+  $bgColor: string;
+  $disabled: boolean;
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  padding: ${({ $isBtn }) => ($isBtn ? "6px 8px 6px 12px" : "6px 10px")};
+  padding: ${({ $hasBtn }) => ($hasBtn ? "6px 8px 6px 12px" : "6px 10px")};
   border-radius: 8px;
-  background: ${({ $bgColor }) => $bgColor};
+  background: ${({ $bgColor, $disabled, theme }) =>
+    $disabled ? theme.color.gray[20] : $bgColor};
 
   button {
     display: flex;

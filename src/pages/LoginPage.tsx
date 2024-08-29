@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Button, FlexBox } from "../components/atoms";
 import { Input, Title } from "../components/molecules";
 import { H2, L3 } from "../components/atoms/Text";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { theme } from "../styles/theme";
 import { useNavigate } from "react-router-dom";
 import { Form } from "../components/organisms";
@@ -10,11 +10,14 @@ import { useMutation } from "@tanstack/react-query";
 import { postAuthLoginAPI } from "../apis";
 import useOrganizationStore from "../states/OrganizationStore";
 import useChallengeStore from "../states/ChallengeStore";
+import { AxiosError } from "axios";
+import { ErrorResponse } from "../interfaces/error";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const {
     setOrganizationId,
@@ -24,7 +27,7 @@ const LoginPage = () => {
   } = useOrganizationStore();
   const { setChallengeId, setChallengeList } = useChallengeStore();
 
-  const { mutate: submitLogin } = useMutation({
+  const { mutate: handleLogin } = useMutation({
     mutationFn: () => postAuthLoginAPI(id, password),
     onSuccess: ({
       accessToken,
@@ -34,6 +37,7 @@ const LoginPage = () => {
       organizationName,
       organizationLogo,
       themeColor,
+      challengeList,
     }) => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
@@ -43,22 +47,31 @@ const LoginPage = () => {
       setOrganizationLogo(organizationLogo);
       setThemeColor(themeColor);
 
-      setChallengeId(21);
-      setChallengeList([
-        { id: 21, name: "test-challenge-edit" },
-        { id: 22, name: "test2-challenge" },
-        { id: 23, name: "test3-challenge" },
-      ]);
+      setChallengeList(challengeList);
+      setChallengeId(challengeList.length === 0 ? 0 : challengeList[0].id);
 
-      navigate(hasOrganization ? "/challenge/dashboard" : "/onBoarding");
+      navigate(
+        !hasOrganization
+          ? "/onBoarding"
+          : challengeList.length === 0
+          ? "/empty"
+          : "/challenge/dashboard"
+      );
     },
-    onError: (err) => {
-      console.error(err);
+    onError: (err: AxiosError<ErrorResponse>) => {
+      const data = err.response?.data;
+
+      if (data?.code === "A01") setError("아이디와 비밀번호를 확인해주세요.");
     },
   });
 
+  const submitLogin = (e: FormEvent) => {
+    e.preventDefault();
+    handleLogin();
+  };
+
   return (
-    <Form contentsWidth={370}>
+    <Form contentsWidth={370} isLoginForm onSubmit={submitLogin}>
       {/* ========== Title ========== */}
       <FlexBox align="center" gap={10}>
         <TitleTxt>Admin</TitleTxt>
@@ -73,6 +86,7 @@ const LoginPage = () => {
             placeHolder="이메일 형식의 아이디를 입력해주세요."
             value={id}
             setValue={setId}
+            error={error}
           />
         </FlexBox>
 
@@ -82,6 +96,8 @@ const LoginPage = () => {
             placeHolder="비밀번호를 입력해주세요."
             value={password}
             setValue={setPassword}
+            type="password"
+            error={error}
           />
         </FlexBox>
       </FlexBox>
@@ -90,7 +106,7 @@ const LoginPage = () => {
       <L3 color={theme.color.brand[50]}>
         이메일로 받은 아이디와 비밀번호를 입력해주세요!
       </L3>
-      <Button fullWidth type="dark" size="lg" onClick={submitLogin}>
+      <Button fullWidth type="dark" size="lg">
         로그인
       </Button>
     </Form>

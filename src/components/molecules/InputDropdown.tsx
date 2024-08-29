@@ -20,7 +20,6 @@ import { recommendKeywords } from "../../data/ChallengeData";
 
 const InputDropdown = ({ type, list, setList }: InputDropdown) => {
   const [item, setItem] = useState("");
-  const [subItemList, setSubItemList] = useState<string[]>(recommendKeywords);
 
   const addItem = (e: FormEvent) => {
     e.preventDefault();
@@ -39,17 +38,12 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
   };
 
   // type == 'keyword' 인 경우에만 사용
-  const onClickItem = (selectedIdx: number) => {
-    let selectedItem = "";
-    setSubItemList(
-      subItemList.filter((item, idx) => {
-        if (idx == selectedIdx) {
-          selectedItem = item;
-        }
-        return idx != selectedIdx;
-      })
-    );
-    setList([...list, selectedItem]);
+  const onClickItem = (selectedItem: string) => {
+    if (list.includes(selectedItem)) {
+      alert("중복된 값이 존재합니다.");
+    } else {
+      setList([...list, selectedItem]);
+    }
   };
 
   const itemInputList = {
@@ -60,7 +54,7 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
 
   const subItemContainerList = {
     position: [],
-    keyword: subItemList,
+    keyword: recommendKeywords,
     email: list,
   };
 
@@ -108,7 +102,7 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
                 onClick={
                   type == "keyword"
                     ? () => {
-                        onClickItem(idx);
+                        onClickItem(item);
                       }
                     : undefined
                 }
@@ -119,6 +113,7 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
                       }
                     : undefined
                 }
+                disabled={type === "keyword" && list.includes(item)}
               >
                 {item}
               </InputChip>

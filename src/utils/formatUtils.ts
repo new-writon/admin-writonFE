@@ -5,12 +5,14 @@ import {
 } from "../interfaces/challenge";
 import { theme } from "../styles/theme";
 
-const formatDateToString = (date: Date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 1을 더해줌
-  const day = String(date.getDate()).padStart(2, "0");
+const formatDateToString = (date: Date | null) => {
+  if (date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 1을 더해줌
+    const day = String(date.getDate()).padStart(2, "0");
 
-  return `${year}-${month}-${day}`;
+    return `${year}-${month}-${day}`;
+  } else return "";
 };
 
 const formatStringToDate = (dateString: string) => {
@@ -51,7 +53,7 @@ const fieldTranslations = (key: string) => {
     case "oneLine":
       return "한 줄 소개";
     default:
-      return key;
+      return formatDashboardDate(key);
   }
 };
 
@@ -101,11 +103,6 @@ const formatQuestionsCreateEmpty = (questionsData: QuestionsData) => {
 };
 
 const formatDashboardData = (data: UserStatus[]): DashboardTableData[] => {
-  const getDayOfWeek = (date: Date) => {
-    const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-    return daysOfWeek[date.getDay()];
-  };
-
   const getStatus = (status: number) => {
     switch (status) {
       case 1:
@@ -125,19 +122,27 @@ const formatDashboardData = (data: UserStatus[]): DashboardTableData[] => {
 
     // statusList를 순회하며 날짜와 상태를 변환
     user.statusList.forEach((item) => {
-      const date = new Date(item.date); // 날짜 문자열을 Date 객체로 변환
-      const formattedDate = date.toLocaleDateString("ko-KR", {
-        month: "2-digit",
-        day: "2-digit",
-      });
-      const dayOfWeek = getDayOfWeek(date); // 요일 계산
-      const key = `${formattedDate} ${dayOfWeek}`; // 최종 키 생성
-
-      transformedUser[key] = getStatus(item.status); // 최종 객체에 상태 추가
+      transformedUser[item.date] = getStatus(item.status); // 최종 객체에 상태 추가
     });
 
     return transformedUser; // 변환된 객체 반환
   });
+};
+
+const formatDashboardDate = (stringDate: string) => {
+  const getDayOfWeek = (date: Date) => {
+    const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+    return daysOfWeek[date.getDay()];
+  };
+
+  const date = new Date(stringDate); // 날짜 문자열을 Date 객체로 변환
+  const formattedDate = date.toLocaleDateString("ko-KR", {
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const dayOfWeek = getDayOfWeek(date); // 요일 계산
+
+  return `${formattedDate} ${dayOfWeek}`;
 };
 
 export {
@@ -148,4 +153,5 @@ export {
   formatQuestionsRemoveEmpty,
   formatQuestionsCreateEmpty,
   formatDashboardData,
+  formatDashboardDate,
 };

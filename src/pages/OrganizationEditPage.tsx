@@ -46,7 +46,6 @@ const InfoManage = () => {
       }),
     onSuccess: ({ organizationName, organizationLogo, themeColor }) => {
       alert("수정 완료");
-      console.log(organizationName, organizationLogo, themeColor);
       setOrganizationName(organizationName);
       setOrganizationLogo(organizationLogo);
       setColor(themeColor);
