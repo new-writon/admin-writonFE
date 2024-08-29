@@ -11,16 +11,24 @@ interface ChallengeStore {
   challengeList: Challenge[];
   setChallengeId: (id: number) => void;
   setChallengeList: (list: Challenge[]) => void;
+  reset: () => void;
 }
+
+const initialState = {
+  challengeId: 0,
+  challengeList: [],
+};
 
 const useChallengeStore = create(
   persist<ChallengeStore>(
     (set) => ({
-      challengeId: 0,
-      challengeList: [],
+      ...initialState,
 
       setChallengeId: (id: number) => set({ challengeId: id }),
       setChallengeList: (list: Challenge[]) => set({ challengeList: list }),
+
+      // 초기화 함수
+      reset: () => set(initialState),
     }),
     {
       name: "challenge-store",

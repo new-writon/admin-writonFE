@@ -28,9 +28,6 @@ export const postAuthLoginAPI = async (
 export const postAuthLogoutAPI = async () => {
   try {
     await Axios.delete("/auth/logout");
-
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
   } catch (error: any) {
     if (error.response) {
       console.error("Server Error:", error.response.data);
