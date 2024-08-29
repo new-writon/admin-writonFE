@@ -33,10 +33,12 @@ const ChallengeDashboardPage = () => {
         <FlexBox col fullWidth gap={24}>
           {/* ========== SearchBar ========== */}
           <FlexBox fullWidth gap={20} align="center">
-            <H4 weight="sb">
-              전체 {formatDashboardData(data || [])?.length}명
-            </H4>
-            <SearchBar setValue={setSearchValue} fullWidth />
+            <H4 weight="sb">전체 {data.length}명</H4>
+            <SearchBar
+              setValue={setSearchValue}
+              fullWidth
+              placeholder="이름으로 검색해보세요."
+            />
           </FlexBox>
 
           {/* ========== Table ========== */}

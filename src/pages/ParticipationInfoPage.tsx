@@ -82,7 +82,10 @@ const ParticipationInfoPage = () => {
         <FlexBox fullWidth align="center" justify="space-between">
           <FlexBox gap={20} align="center">
             <H4 weight="sb">전체 {data?.length}명</H4>
-            <SearchBar setValue={setSearchValue} />
+            <SearchBar
+              setValue={setSearchValue}
+              placeholder="닉네임, 이메일로 검색해보세요."
+            />
           </FlexBox>
           <FlexBox align="center" gap={4}>
             <Button size="sm" type="none" onClick={onClickWithdrawal}>
