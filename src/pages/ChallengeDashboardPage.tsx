@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlexBox, SearchBar } from "../components/atoms";
 import { Frame, Table } from "../components/organisms";
 import { H4 } from "../components/atoms/Text";
@@ -7,18 +7,30 @@ import { useQuery } from "@tanstack/react-query";
 import useChallengeStore from "../states/ChallengeStore";
 import { getChallengeDashboardAPI } from "../apis";
 import { formatDashboardData } from "../utils/formatUtils";
+import { DashboardTableData } from "../interfaces/challenge";
 
 const ChallengeDashboardPage = () => {
   const categoryList = ["참여자 별 참여 현황", "챌린지 날짜 별 참여 현황"];
   const [selectedCategory, setSelectedCategory] = useState(0);
+
   const [searchValue, setSearchValue] = useState("");
+  const [selectedValues, setSelectedValues] = useState<number[]>([]);
   const { challengeId } = useChallengeStore();
 
-  const { data } = useQuery({
+  const { data: dashboardData } = useQuery({
     queryKey: ["challenge-dashboard", challengeId],
     queryFn: () => getChallengeDashboardAPI(),
     staleTime: 60 * 1000,
   });
+  const data: DashboardTableData[] = dashboardData
+    ? formatDashboardData(dashboardData)
+    : [];
+
+  useEffect(() => {
+    setSelectedValues(
+      Object.keys(data.length !== 0 ? data[0] : []).map((_, idx) => idx)
+    );
+  }, [dashboardData]);
 
   return (
     <Frame title="챌린지 참여 현황" noLine>
@@ -43,9 +55,11 @@ const ChallengeDashboardPage = () => {
 
           {/* ========== Table ========== */}
           <Table
-            data={formatDashboardData(data || [])}
+            data={data}
             searchValue={searchValue}
-            searchedIdx={[0]} // 이름, 닉네임, 이메일 index
+            searchedIdx={[0]} // 닉네임 index
+            selectedValues={selectedValues}
+            setSelectedValues={setSelectedValues}
             isSort
             isButton
           />

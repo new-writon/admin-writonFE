@@ -24,7 +24,9 @@ const ParticipationInfoPage = () => {
   });
 
   const filterList: string[] = Object.keys(
-    participationData ? participationData[0] : []
+    participationData && participationData.length > 0
+      ? participationData[0]
+      : []
   );
   const [selectedValues, setSelectedValues] = useState<number[]>([]);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
