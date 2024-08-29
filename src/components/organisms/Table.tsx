@@ -18,6 +18,7 @@ import {
   sortByNonParticipation,
   sortByParticipation,
 } from "../../utils/sortUtils";
+import { MdContentCopy } from "../atoms/Icons";
 
 interface Table {
   data: ParticipationTableData[] | DashboardTableData[];
@@ -39,6 +40,11 @@ interface SortButton {
   onClick: () => void;
 }
 
+interface Cell {
+  text: string;
+  hasCopyBtn?: boolean;
+}
+
 const SortButton = ({ children, selected, onClick }: SortButton) => {
   return (
     <ButtonContainer onClick={onClick}>
@@ -52,6 +58,29 @@ const SortButton = ({ children, selected, onClick }: SortButton) => {
   );
 };
 
+const Cell = ({ text, hasCopyBtn }: Cell) => {
+  const handleCopyClipBoard = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("복사되었습니다.");
+    } catch (e) {
+      alert("복사 실패");
+    }
+  };
+
+  return (
+    <FlexBox justify="center" align="center" gap={6}>
+      <L3 weight="r" color={tableCellColor(text)}>
+        {text}
+      </L3>
+      {hasCopyBtn && (
+        <CopyButton onClick={handleCopyClipBoard}>
+          <MdContentCopy color={theme.color.brand[50]} size={14} />
+        </CopyButton>
+      )}
+    </FlexBox>
+  );
+};
 
 const Table = ({
   data: originalData,
@@ -223,7 +252,22 @@ const Table = ({
               {formatedData
                 // 검색기능 때문에 모든 요소들을 전부 String으로 변환
                 .map((row) =>
-                  row.map((item) => String(item === null ? "-" : item))
+                  row.map((item, idx) => {
+                    let formatedItem = String(item);
+                    if (item === null) {
+                      formatedItem = "-";
+                    } else if (isCheckBox) {
+                      if ([3, 12, 14].includes(idx)) {
+                        formatedItem = `${item}회`;
+                      } else if (idx === 11) {
+                        formatedItem = `${item}원`;
+                      } else if (idx === 13) {
+                        formatedItem = `${item}개`;
+                      }
+                    }
+
+                    return formatedItem;
+                  })
                 )
                 .filter((row) => {
                   // 검색어가 없는 경우, 전부 반환
@@ -262,16 +306,12 @@ const Table = ({
                       )
                       .map((cell, cellIndex) => (
                         <td key={cellIndex}>
-                          <L3
-                            weight="r"
-                            color={
-                              row[1] === "true"
-                                ? theme.color.gray[60]
-                                : tableCellColor(cell)
+                          <Cell
+                            text={cell}
+                            hasCopyBtn={
+                              isCheckBox && [7, 8].includes(cellIndex)
                             }
-                          >
-                            {cell}
-                          </L3>
+                          />
                         </td>
                       ))}
                   </StyledTr>

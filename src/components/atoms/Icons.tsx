@@ -15,6 +15,7 @@ import { IoMdSearch } from "@react-icons/all-files/io/IoMdSearch";
 import { FiDownload } from "@react-icons/all-files/fi/FiDownload";
 import { BsFilter } from "@react-icons/all-files/bs/BsFilter";
 import { BsQuestionCircleFill } from "@react-icons/all-files/bs/BsQuestionCircleFill";
+import { MdContentCopy } from "@react-icons/all-files/md/MdContentCopy";
 
 export {
   FiPlus,
@@ -31,4 +32,5 @@ export {
   FiDownload,
   BsFilter,
   BsQuestionCircleFill,
+  MdContentCopy
 };
