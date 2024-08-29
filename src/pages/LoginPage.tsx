@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Button, FlexBox } from "../components/atoms";
 import { Input, Title } from "../components/molecules";
 import { H2, L3 } from "../components/atoms/Text";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { theme } from "../styles/theme";
 import { useNavigate } from "react-router-dom";
 import { Form } from "../components/organisms";
@@ -106,7 +106,7 @@ const LoginPage = () => {
       <L3 color={theme.color.brand[50]}>
         이메일로 받은 아이디와 비밀번호를 입력해주세요!
       </L3>
-      <Button fullWidth type="dark" size="lg" onClick={submitLogin}>
+      <Button fullWidth type="dark" size="lg">
         로그인
       </Button>
     </Form>

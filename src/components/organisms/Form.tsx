@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FlexBox } from "../atoms";
+import { FormEvent } from "react";
 
 interface Form {
   children: React.ReactNode;
@@ -8,6 +9,7 @@ interface Form {
   totalSteps?: number;
   step?: number;
   noBackground?: boolean;
+  onSubmit?: (e: FormEvent) => void;
 }
 
 const Form = ({
@@ -17,12 +19,14 @@ const Form = ({
   totalSteps,
   step,
   noBackground,
+  onSubmit
 }: Form) => {
   const container = (
     <Container $isLoginForm={isLoginForm}>
       <FormContainer
         as={isLoginForm ? "form" : "section"}
         style={{ maxWidth: contentsWidth }}
+        onSubmit={onSubmit}
       >
         {totalSteps && (
           <FlexBox gap={5}>
