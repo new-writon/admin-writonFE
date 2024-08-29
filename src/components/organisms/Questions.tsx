@@ -3,7 +3,7 @@ import { Chip, FlexBox, Select } from "../atoms";
 import { B2 } from "../atoms/Text";
 import { ContentSection, EditBtn, Input, InputDropdown } from "../molecules";
 import { useEffect, useState } from "react";
-import type { Questions } from "../../interfaces/challenge";
+import { QuestionsProps } from "../../interfaces/challenge";
 
 const StatusChip = ({ idx }: { idx: number }) => {
   const isRequired = idx == 0;
@@ -23,7 +23,7 @@ const Questions = ({
   data,
   setData,
   backupData,
-}: Questions) => {
+}: QuestionsProps) => {
   const [selectedKeyword, setSelectedKeyword] = useState({
     idx: 0,
     keyword: "",

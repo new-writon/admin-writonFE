@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { L3 } from "../atoms/Text";
 import { Button, FlexBox, InputChip } from "../atoms";
 import { theme } from "../../styles/theme";
-import type {
-  InputDropdown,
-  inputDropdowType,
+import {
+  InputDropdownProps,
+  inputDropdownType,
 } from "../../interfaces/inputDropdown";
 import {
   borderRadius,
@@ -18,7 +18,7 @@ import {
 } from "../../utils/InputDropdownAttributes";
 import { recommendKeywords } from "../../data/ChallengeData";
 
-const InputDropdown = ({ type, list, setList }: InputDropdown) => {
+const InputDropdown = ({ type, list, setList }: InputDropdownProps) => {
   const [item, setItem] = useState("");
 
   const addItem = (e: FormEvent) => {
@@ -127,7 +127,7 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
 
 export default InputDropdown;
 
-const Container = styled.div<{ $type: inputDropdowType }>`
+const Container = styled.div<{ $type: inputDropdownType }>`
   width: ${({ $type }) => width[$type]};
   flex: 1;
   display: flex;

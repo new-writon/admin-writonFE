@@ -2,7 +2,7 @@ import { Button, FlexBox } from "../../atoms";
 import { ColorPalette, ImageUpload, Input, Title } from "../../molecules";
 import { B1, H2 } from "../../atoms/Text";
 import { theme } from "../../../styles/theme";
-import type { CreateOrg } from "../../../interfaces/organization";
+import { CreateOrgProps } from "../../../interfaces/organization";
 
 const CreateOrg = ({
   moveStep,
@@ -11,7 +11,7 @@ const CreateOrg = ({
   setData,
   setFile,
   setPreview,
-}: CreateOrg) => {
+}: CreateOrgProps) => {
   return (
     <>
       {/* ========== Form Title ========== */}

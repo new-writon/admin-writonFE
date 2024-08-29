@@ -3,7 +3,7 @@ import { Button, FlexBox, Select } from "../../atoms";
 import { B1, H2, L3 } from "../../atoms/Text";
 import { InputDropdown, PreviewContents, Title } from "../../molecules";
 import styled from "styled-components";
-import type { ManageOrg } from "../../../interfaces/organization";
+import { ManageOrgProps } from "../../../interfaces/organization";
 
 const ManageOrg = ({
   moveStep,
@@ -11,7 +11,7 @@ const ManageOrg = ({
   data,
   setData,
   handleCreate,
-}: ManageOrg) => {
+}: ManageOrgProps) => {
   return (
     <>
       {/* ========== Form Title ========== */}

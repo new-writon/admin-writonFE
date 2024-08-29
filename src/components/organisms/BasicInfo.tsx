@@ -2,10 +2,10 @@ import { theme } from "../../styles/theme";
 import { FlexBox } from "../atoms";
 import { H3 } from "../atoms/Text";
 import { ContentSection, Input, DateInput } from "../molecules";
-import type { BasicInfo } from "../../interfaces/challenge";
+import { BasicInfoProps } from "../../interfaces/challenge";
 import { formatDateToString } from "../../utils/formatUtils";
 
-const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfo) => {
+const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfoProps) => {
   function handleSetValue(field: string, value: string | Date) {
     setData?.((prev) => ({
       ...prev,

@@ -5,7 +5,7 @@ export interface BasicInfoData {
   processDates: string[];
 }
 
-export interface BasicInfo {
+export interface BasicInfoProps {
   isEdit?: boolean;
   gap?: number;
   data: BasicInfoData;
@@ -22,7 +22,7 @@ export interface QuestionsData {
   specialQuestions: SpecialQuestion[];
 }
 
-export interface Questions {
+export interface QuestionsProps {
   gap: number;
   isEdit?: boolean;
   setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
