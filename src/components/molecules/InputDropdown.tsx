@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { L3 } from "../atoms/Text";
 import { Button, FlexBox, InputChip } from "../atoms";
 import { theme } from "../../styles/theme";
-import {
+import type {
   InputDropdown,
   inputDropdowType,
 } from "../../interfaces/inputDropdown";
@@ -61,7 +61,7 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
   return (
     <Container $type={type}>
       <form
-        id="item-input"
+        id='item-input'
         style={{
           padding: list.length == 0 || type == "email" ? "8px 16px" : "8px",
         }}
@@ -83,13 +83,13 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
           placeholder={placeHolder[type]}
         />
         {type == "email" && (
-          <Button size="sm" type="none">
+          <Button size='sm' type='none'>
             추가
           </Button>
         )}
       </form>
       {type != "position" && (
-        <div id="sub-item-container">
+        <div id='sub-item-container'>
           <L3 color={theme.color.gray[60]}>
             {subItemNotice(type, list.length)}
           </L3>
