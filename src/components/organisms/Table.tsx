@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { theme } from "../../styles/theme";
 
 import { Button, CheckBox, FlexBox, Line } from "../atoms";
-import { L3 } from "../atoms/Text";
+import { B2, L3 } from "../atoms/Text";
 import { CalendarModal } from "../molecules";
 
 import {
@@ -13,6 +13,11 @@ import {
 } from "../../utils/formatUtils";
 import { ParticipationTableData } from "../../interfaces/participation";
 import { DashboardTableData } from "../../interfaces/challenge";
+import {
+  sortByName,
+  sortByNonParticipation,
+  sortByParticipation,
+} from "../../utils/sortUtils";
 
 interface Table {
   data: ParticipationTableData[] | DashboardTableData[];
@@ -28,10 +33,31 @@ interface Table {
   hiddenCols?: number[]; // 숨기고 싶은 col list
 }
 
+interface SortButton {
+  children: React.ReactNode;
+  selected: boolean;
+  onClick: () => void;
+}
+
+const SortButton = ({ children, selected, onClick }: SortButton) => {
+  return (
+    <ButtonContainer onClick={onClick}>
+      <B2
+        weight="sb"
+        color={selected ? theme.color.brand[50] : theme.color.gray[50]}
+      >
+        {children}
+      </B2>
+    </ButtonContainer>
+  );
+};
+
+
 const Table = ({
-  data,
+  data: originalData,
   selectedValues,
   selectedRows = [],
+  setSelectedValues,
   setSelectedRows,
   searchValue,
   searchedIdx,
@@ -67,6 +93,28 @@ const Table = ({
       setSelectedRows?.([...selectedRows, selectedId]);
     }
   };
+
+  const isDashboardTableDataArray = (
+    data: any[]
+  ): data is DashboardTableData[] => {
+    return Array.isArray(data) && data.every((item) => "name" in item);
+  };
+
+  // 정렬 기능
+  const handleSort = (idx: number) => {
+    if (isDashboardTableDataArray(data)) {
+      setSelectedSort(idx);
+      const sortedData =
+        idx === 0
+          ? sortByName(data)
+          : idx === 1
+          ? sortByParticipation(data)
+          : sortByNonParticipation(data);
+
+      setData(sortedData);
+    }
+  };
+
   // 날짜 필터링 기능
   const handleFilter = (startDate: Date, endDate: Date) => {
     const filteredIndexList = headerList
@@ -100,9 +148,12 @@ const Table = ({
             <FlexBox align="center" gap={4}>
               {sortList.map((item, idx) => (
                 <React.Fragment key={idx}>
-                  <Button type="none" size="sm" disabled={idx !== selectedSort}>
+                  <SortButton
+                    selected={idx === selectedSort}
+                    onClick={() => handleSort(idx)}
+                  >
                     {item}
-                  </Button>
+                  </SortButton>
                   {idx !== 2 && <Line height={16} />}
                 </React.Fragment>
               ))}
@@ -281,4 +332,26 @@ const StyledTr = styled.tr<{ $selected?: boolean; $withdrawn?: boolean }>`
 
 const CalendarContainer = styled.div`
   position: relative;
+`;
+
+const ButtonContainer = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  border-radius: 6px;
+`;
+
+const CopyButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.brand[10]};
+  }
 `;
