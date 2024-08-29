@@ -43,7 +43,7 @@ const CompleteOrg = ({ isChallenge }: CompleteOrg) => {
           type="none"
           size="lg"
           onClick={() => {
-            navigate("/challenge/dashboard");
+            navigate(isChallenge ? "/challenge/dashboard" : "/empty");
           }}
         >
           어드민 홈으로
