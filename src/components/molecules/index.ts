@@ -15,6 +15,7 @@ import ImageUpload from "./ImageUpload";
 import ColorPalette from "./ColorPalette";
 import PreviewContents from "./PreviewContents";
 import MainCalendar from "./MainCalendar";
+import SelectCalendar  from "./SelectCalendar";
 
 export {
   SideBar,
@@ -34,4 +35,5 @@ export {
   ColorPalette,
   PreviewContents,
   MainCalendar,
+  SelectCalendar
 };

@@ -1,5 +1,8 @@
 // Arrow
 import { IoIosArrowUp } from "@react-icons/all-files/io/IoIosArrowUp";
+import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
+import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
+import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
 import { RiArrowRightLine } from "@react-icons/all-files/ri/RiArrowRightLine";
 import { RiArrowLeftLine } from "@react-icons/all-files/ri/RiArrowLeftLine";
 
@@ -16,6 +19,7 @@ import { FiDownload } from "@react-icons/all-files/fi/FiDownload";
 import { BsFilter } from "@react-icons/all-files/bs/BsFilter";
 import { BsQuestionCircleFill } from "@react-icons/all-files/bs/BsQuestionCircleFill";
 import { MdContentCopy } from "@react-icons/all-files/md/MdContentCopy";
+import { IoReload } from "@react-icons/all-files/io5/IoReload";
 
 export {
   FiPlus,
@@ -32,5 +36,9 @@ export {
   FiDownload,
   BsFilter,
   BsQuestionCircleFill,
-  MdContentCopy
+  MdContentCopy,
+  IoIosArrowDown,
+  IoIosArrowBack,
+  IoIosArrowForward,
+  IoReload,
 };
