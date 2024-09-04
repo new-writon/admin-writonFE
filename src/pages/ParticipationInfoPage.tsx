@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { arrayToExcelFile } from "../utils/excelUtils";
 import { fieldTranslations } from "../utils/formatUtils";
 import { Filter } from "../components/molecules";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useChallengeStore from "../states/ChallengeStore";
 import {
   getParticipationInfoAPI,
@@ -14,6 +14,7 @@ import {
 import { ParticipationTableData } from "../interfaces/participation";
 
 const ParticipationInfoPage = () => {
+  const queryClient = useQueryClient();
   const { challengeId } = useChallengeStore();
   const [data, setData] = useState<ParticipationTableData[]>([]);
 
@@ -39,6 +40,7 @@ const ParticipationInfoPage = () => {
       alert("선택된 유저들이 강퇴되었습니다.");
       setSelectedRows([]);
       setData(data);
+      queryClient.setQueryData(["participation-info"], data);
     },
     onError: (err) => {
       console.error(err);

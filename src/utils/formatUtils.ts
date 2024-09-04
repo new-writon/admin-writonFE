@@ -1,4 +1,5 @@
 import {
+  CalendarData,
   DashboardTableData,
   QuestionsData,
   UserStatus,
@@ -145,6 +146,32 @@ const formatDashboardDate = (stringDate: string) => {
   return `${formattedDate} ${dayOfWeek}`;
 };
 
+const formatMainCalendarData = (data: UserStatus[]): CalendarData[] => {
+  // 결과를 저장할 배열 초기화
+  const result: CalendarData[] = [];
+
+  // 각 사용자에 대해 반복
+  data.forEach((user) => {
+    user.statusList.forEach(({ date, status }) => {
+      // 해당 날짜의 객체가 이미 존재하는지 확인
+      let dateEntry = result.find((entry) => entry.date === date);
+
+      // 존재하지 않으면 새로운 객체를 배열에 추가
+      if (!dateEntry) {
+        dateEntry = { date: date, participationCnt: 0 };
+        result.push(dateEntry);
+      }
+
+      // status가 1이나 0인 경우 participationCnt 증가
+      if (status === 1 || status === 0) {
+        dateEntry.participationCnt += 1;
+      }
+    });
+  });
+
+  return result;
+};
+
 export {
   formatDateToString,
   formatStringToDate,
@@ -154,4 +181,5 @@ export {
   formatQuestionsCreateEmpty,
   formatDashboardData,
   formatDashboardDate,
+  formatMainCalendarData,
 };

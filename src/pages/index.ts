@@ -9,6 +9,7 @@ import ChallengeDashboardPage from "./ChallengeDashboardPage";
 import ChallengeCreatePage from "./ChallengeCreatePage";
 import OrganizationEditPage from "./OrganizationEditPage";
 import EmptyChallengePage from "./EmptyChallengePage";
+import HomePage from "./HomePage";
 
 export {
   LoginPage,
@@ -22,4 +23,5 @@ export {
   ChallengeCreatePage,
   OrganizationEditPage,
   EmptyChallengePage,
+  HomePage,
 };

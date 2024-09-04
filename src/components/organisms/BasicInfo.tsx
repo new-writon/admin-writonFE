@@ -1,7 +1,7 @@
 import { theme } from "../../styles/theme";
 import { FlexBox } from "../atoms";
 import { H3 } from "../atoms/Text";
-import { ContentSection, Input, DateInput } from "../molecules";
+import { ContentSection, Input, DateInput, SelectCalendar } from "../molecules";
 import { BasicInfoProps } from "../../interfaces/challenge";
 import { formatDateToString } from "../../utils/formatUtils";
 
@@ -47,8 +47,15 @@ const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfoProps) => {
       </ContentSection>
 
       {/*  챌린지 진행 날짜  */}
-      <ContentSection title='챌린지 진행 날짜' titleWidth={180}>
-        <Input disabled value='라이톤 끄적끄적 챌린지' />
+      <ContentSection title="챌린지 진행 날짜" titleWidth={180}>
+        <SelectCalendar
+          CalendarData={[data.startDate, data.endDate]}
+          selectedDates={data.processDates}
+          setSelectedDates={(selectedDates) =>
+            setData?.((prev) => ({ ...prev, processDates: selectedDates }))
+          }
+          isEdit={isEdit}
+        />
       </ContentSection>
     </FlexBox>
   );
