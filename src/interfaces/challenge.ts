@@ -47,6 +47,16 @@ export interface UserStatus {
   statusList: Status[];
 }
 
+export interface CalendarData {
+  date: string;
+  participationCnt: number;
+}
+
+export interface MainCalendarProps {
+  calendarData: CalendarData[];
+  totalCnt: number;
+}
+
 // ========== API Interface ==========
 export interface PostChallengeCreateAPIParams
   extends BasicInfoData,
