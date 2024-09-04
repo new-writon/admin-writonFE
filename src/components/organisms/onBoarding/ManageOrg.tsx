@@ -3,7 +3,7 @@ import { Button, FlexBox, Select } from "../../atoms";
 import { B1, H2, L3 } from "../../atoms/Text";
 import { InputDropdown, PreviewContents, Title } from "../../molecules";
 import styled from "styled-components";
-import { ManageOrg } from "../../../interfaces/organization";
+import { ManageOrgProps } from "../../../interfaces/organization";
 
 const ManageOrg = ({
   moveStep,
@@ -11,11 +11,11 @@ const ManageOrg = ({
   data,
   setData,
   handleCreate,
-}: ManageOrg) => {
+}: ManageOrgProps) => {
   return (
     <>
       {/* ========== Form Title ========== */}
-      <FlexBox col align="center" gap={10}>
+      <FlexBox col align='center' gap={10}>
         <H2>조직 온보딩 관리</H2>
         <B1 color={theme.color.gray[60]}>
           조직에 가입할 유저의 온보딩 항목을 관리합니다.
@@ -25,28 +25,28 @@ const ManageOrg = ({
       {/* ========== Position Input ========== */}
       <FlexBox col fullWidth gap={20}>
         <Title
-          title="포지션 설정"
-          subTitle="유저가 가입 시 선택할 포지션을 설정해주세요."
+          title='포지션 설정'
+          subTitle='유저가 가입 시 선택할 포지션을 설정해주세요.'
           isRequired
         />
         <InputDropdown
-          type="position"
+          type='position'
           list={data}
           setList={(value: string[]) => setData?.(value)}
         />
         <FlexBox col gap={10}>
-          <L3 weight="sb" color={theme.color.gray[60]}>
+          <L3 weight='sb' color={theme.color.gray[60]}>
             등록된 포지션
           </L3>
           <FlexBox
             fullWidth
-            align="center"
+            align='center'
             gap={8}
             style={{ flexWrap: "wrap" }}
           >
-            <Select type="disabled">ex) 기획</Select>
+            <Select type='disabled'>ex) 기획</Select>
             {data.map((pos, idx) => (
-              <Select type="default" key={idx}>
+              <Select type='default' key={idx}>
                 {pos}
               </Select>
             ))}
@@ -59,10 +59,10 @@ const ManageOrg = ({
       <PreviewContents positionList={data} hasNotice />
 
       {/* ========== Button ========== */}
-      <FlexBox fullWidth align="center" gap={16}>
+      <FlexBox fullWidth align='center' gap={16}>
         <Button
-          type="empty"
-          size="lg"
+          type='empty'
+          size='lg'
           fullWidth
           onClick={() => moveStep?.(-1)}
           disabled={disabled}
@@ -70,8 +70,8 @@ const ManageOrg = ({
           이전
         </Button>
         <Button
-          type="dark"
-          size="lg"
+          type='dark'
+          size='lg'
           fullWidth
           onClick={() => {
             handleCreate?.();

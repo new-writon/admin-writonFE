@@ -4,8 +4,8 @@ import { L3 } from "../atoms/Text";
 import { Button, FlexBox, InputChip } from "../atoms";
 import { theme } from "../../styles/theme";
 import {
-  InputDropdown,
-  inputDropdowType,
+  InputDropdownProps,
+  inputDropdownType,
 } from "../../interfaces/inputDropdown";
 import {
   borderRadius,
@@ -18,7 +18,7 @@ import {
 } from "../../utils/InputDropdownAttributes";
 import { recommendKeywords } from "../../data/ChallengeData";
 
-const InputDropdown = ({ type, list, setList }: InputDropdown) => {
+const InputDropdown = ({ type, list, setList }: InputDropdownProps) => {
   const [item, setItem] = useState("");
 
   const addItem = (e: FormEvent) => {
@@ -61,7 +61,7 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
   return (
     <Container $type={type}>
       <form
-        id="item-input"
+        id='item-input'
         style={{
           padding: list.length == 0 || type == "email" ? "8px 16px" : "8px",
         }}
@@ -83,13 +83,13 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
           placeholder={placeHolder[type]}
         />
         {type == "email" && (
-          <Button size="sm" type="none">
+          <Button size='sm' type='none'>
             추가
           </Button>
         )}
       </form>
       {type != "position" && (
-        <div id="sub-item-container">
+        <div id='sub-item-container'>
           <L3 color={theme.color.gray[60]}>
             {subItemNotice(type, list.length)}
           </L3>
@@ -127,7 +127,7 @@ const InputDropdown = ({ type, list, setList }: InputDropdown) => {
 
 export default InputDropdown;
 
-const Container = styled.div<{ $type: inputDropdowType }>`
+const Container = styled.div<{ $type: inputDropdownType }>`
   width: ${({ $type }) => width[$type]};
   flex: 1;
   display: flex;

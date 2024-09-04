@@ -1,11 +1,11 @@
-type inputDropdowType = "position" | "keyword" | "email";
+type inputDropdownType = "position" | "keyword" | "email";
 
-interface InputDropdown {
+interface InputDropdownProps {
   list: string[];
   setList:
     | React.Dispatch<React.SetStateAction<string[]>>
     | ((value: string[]) => void);
-  type: inputDropdowType;
+  type: inputDropdownType;
 }
 
 type chipColorType = "blue" | "gray";
@@ -24,8 +24,8 @@ interface ChipSize {
 }
 
 export type {
-  inputDropdowType,
-  InputDropdown,
+  inputDropdownType,
+  InputDropdownProps,
   chipColorType,
   ChipColor,
   ChipSize,

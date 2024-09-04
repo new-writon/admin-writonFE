@@ -2,10 +2,10 @@ import { theme } from "../../styles/theme";
 import { FlexBox } from "../atoms";
 import { H3 } from "../atoms/Text";
 import { ContentSection, Input, DateInput, SelectCalendar } from "../molecules";
-import { BasicInfo } from "../../interfaces/challenge";
+import { BasicInfoProps } from "../../interfaces/challenge";
 import { formatDateToString } from "../../utils/formatUtils";
 
-const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfo) => {
+const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfoProps) => {
   function handleSetValue(field: string, value: string | Date) {
     setData?.((prev) => ({
       ...prev,
@@ -19,7 +19,7 @@ const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfo) => {
   return (
     <FlexBox fullWidth col gap={gap}>
       {/*  챌린지 이름  */}
-      <ContentSection title="챌린지 이름" titleWidth={180}>
+      <ContentSection title='챌린지 이름' titleWidth={180}>
         <Input
           disabled={!isEdit}
           value={data.name}
@@ -28,17 +28,17 @@ const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfo) => {
       </ContentSection>
 
       {/*  챌린지 진행 기간  */}
-      <ContentSection title="챌린지 진행 기간" titleWidth={180}>
-        <FlexBox gap={14} align="center">
+      <ContentSection title='챌린지 진행 기간' titleWidth={180}>
+        <FlexBox gap={14} align='center'>
           <DateInput
-            type="start"
+            type='start'
             value={new Date(data.startDate)}
             setValue={(value: Date) => handleSetValue("startDate", value)}
             disabled={!isEdit}
           />
           <H3 color={theme.color.gray[60]}>~</H3>
           <DateInput
-            type="end"
+            type='end'
             value={new Date(data?.endDate)}
             setValue={(value: Date) => handleSetValue("endDate", value)}
             disabled={!isEdit}

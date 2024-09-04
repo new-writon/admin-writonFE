@@ -1,4 +1,4 @@
-export interface CreateOrg {
+export interface CreateOrgProps {
   moveStep: (path: -1 | 1) => void;
   data: PostOrganizationAPIParams;
   preview: string;
@@ -7,7 +7,7 @@ export interface CreateOrg {
   setPreview: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export interface ManageOrg {
+export interface ManageOrgProps {
   moveStep?: (path: -1 | 1) => void;
   disabled?: boolean;
   data: string[];
