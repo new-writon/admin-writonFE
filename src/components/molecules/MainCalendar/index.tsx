@@ -9,7 +9,7 @@ import RenderCell from "./RenderCells";
 import RenderDays from "./RenderDays";
 import type { MainCalendarProps } from "../../../interfaces/challenge";
 
-const MainCalendar = ({ calendarData, totalCnt }: MainCalendarProps) => {
+const MainCalendar = ({ calendarData, totalCnt, style }: MainCalendarProps) => {
   const [calendarToggle, setCalendarToggle] = useState(false); // 달력 펼치기/접기
   const [calendarToday, setCalendarToday] = useState<Date>(
     calendarData.length > 0 &&
@@ -26,7 +26,7 @@ const MainCalendar = ({ calendarData, totalCnt }: MainCalendarProps) => {
       : new Date();
 
   return (
-    <Container>
+    <Container style={{ ...style }}>
       <TopBar>
         <TopBarLeft>
           {`${format(calendarToday, "yyyy")}년 ${format(calendarToday, "M")}월`}

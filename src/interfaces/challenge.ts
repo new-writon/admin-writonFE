@@ -55,6 +55,7 @@ export interface CalendarData {
 export interface MainCalendarProps {
   calendarData: CalendarData[];
   totalCnt: number;
+  style?: React.CSSProperties;
 }
 
 // ========== API Interface ==========

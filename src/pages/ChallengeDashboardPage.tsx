@@ -46,38 +46,44 @@ const ChallengeDashboardPage = () => {
         />
 
         {/* ========== 참여자 별 참여 현황 ========== */}
-        {selectedCategory === 0 && (
-          <FlexBox col fullWidth gap={24}>
-            {/* ========== SearchBar ========== */}
-            <FlexBox fullWidth gap={20} align="center">
-              <H4 weight="sb">전체 {data.length}명</H4>
-              <SearchBar
-                setValue={setSearchValue}
-                fullWidth
-                placeholder="이름으로 검색해보세요."
-              />
-            </FlexBox>
-
-            {/* ========== Table ========== */}
-            <Table
-              data={data}
-              searchValue={searchValue}
-              searchedIdx={[0]} // 닉네임 index
-              selectedValues={selectedValues}
-              setSelectedValues={setSelectedValues}
-              isSort
-              isButton
+        <FlexBox
+          col
+          fullWidth
+          gap={24}
+          style={{
+            display: selectedCategory === 0 ? "flex" : "none",
+          }}
+        >
+          {/* ========== SearchBar ========== */}
+          <FlexBox fullWidth gap={20} align="center">
+            <H4 weight="sb">전체 {data.length}명</H4>
+            <SearchBar
+              setValue={setSearchValue}
+              fullWidth
+              placeholder="이름으로 검색해보세요."
             />
           </FlexBox>
-        )}
+
+          {/* ========== Table ========== */}
+          <Table
+            data={data}
+            searchValue={searchValue}
+            searchedIdx={[0]} // 닉네임 index
+            selectedValues={selectedValues}
+            setSelectedValues={setSelectedValues}
+            isSort
+            isButton
+          />
+        </FlexBox>
 
         {/* ========== 챌린지 날짜 별 참여 현황 ========== */}
-        {selectedCategory === 1 && (
-          <MainCalendar
-            calendarData={formatMainCalendarData(dashboardData || [])}
-            totalCnt={dashboardData?.length || 0}
-          />
-        )}
+        <MainCalendar
+          calendarData={formatMainCalendarData(dashboardData || [])}
+          totalCnt={dashboardData?.length || 0}
+          style={{
+            display: selectedCategory === 1 ? "flex" : "none",
+          }}
+        />
       </FlexBox>
     </Frame>
   );
