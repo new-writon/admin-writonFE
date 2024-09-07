@@ -97,30 +97,34 @@ const ParticipationInfoPage = () => {
               placeholder="닉네임, 이메일로 검색해보세요."
             />
           </FlexBox>
-          <FlexBox align="center" gap={4}>
-            <Button size="sm" type="none" onClick={onClickWithdrawal}>
-              강퇴
-            </Button>
-            <Button
-              size="sm"
-              type="none"
-              downloadIcon
-              onClick={onClickDownloadExcel}
-            >
-              다운
-            </Button>
-          </FlexBox>
+          {data.length !== 0 && (
+            <FlexBox align="center" gap={4}>
+              <Button size="sm" type="none" onClick={onClickWithdrawal}>
+                강퇴
+              </Button>
+              <Button
+                size="sm"
+                type="none"
+                downloadIcon
+                onClick={onClickDownloadExcel}
+              >
+                다운
+              </Button>
+            </FlexBox>
+          )}
         </FlexBox>
       </FlexBox>
 
       <FlexBox col fullWidth gap={4}>
         {/* ========== Filter ==========  */}
-        <Filter
-          list={filterList}
-          selectedValues={selectedValues}
-          setSelectedValues={setSelectedValues}
-          hiddenCols={[0, 1]}
-        />
+        {data.length !== 0 && (
+          <Filter
+            list={filterList}
+            selectedValues={selectedValues}
+            setSelectedValues={setSelectedValues}
+            hiddenCols={[0, 1]}
+          />
+        )}
 
         {/* ========== Table ==========  */}
         <Table
