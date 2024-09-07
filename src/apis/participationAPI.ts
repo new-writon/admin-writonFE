@@ -1,4 +1,5 @@
 import { ParticipationTableData } from "../interfaces/participation";
+import { formatParticipationInfoData } from "../utils/formatUtils";
 import { Axios } from "./Axios";
 
 interface APIResponse {
@@ -14,28 +15,7 @@ export const getParticipationInfoAPI = async (): Promise<
       data: { data },
     } = await Axios.get<APIResponse>("/participation/info");
 
-    return data.map(
-      ({
-        bank,
-        accountNum,
-        email,
-        deposit,
-        writingCnt,
-        commentCnt,
-        smallTalkCnt,
-        oneLine,
-        ...rest
-      }) => ({
-        ...rest,
-        accountNum: bank ? `${bank} ${accountNum}` : `${accountNum}`,
-        email,
-        deposit,
-        writingCnt,
-        commentCnt,
-        smallTalkCnt,
-        oneLine,
-      })
-    );
+    return formatParticipationInfoData(data);
   } catch (error: any) {
     if (error.response) {
       console.error("Server Error:", error.response.data);
@@ -67,13 +47,16 @@ export const getParticipationEmailAPI = async () => {
 // 참여자 강퇴 API
 export const postParticipationWithdrawalAPI = async (
   userChallengeIdList: number[]
-) => {
+): Promise<ParticipationTableData[]> => {
   try {
     const {
       data: { data },
-    } = await Axios.post("/participation/withdrawal", userChallengeIdList);
+    } = await Axios.post<APIResponse>(
+      "/participation/withdrawal",
+      userChallengeIdList
+    );
 
-    return data;
+    return formatParticipationInfoData(data);
   } catch (error: any) {
     if (error.response) {
       console.error("Server Error:", error.response.data);
@@ -90,7 +73,6 @@ export const postParticipationParticipateAPI = async (emailList: string[]) => {
     const {
       data: { data },
     } = await Axios.post("/participation/participate", emailList);
-
 
     return data;
   } catch (error: any) {
