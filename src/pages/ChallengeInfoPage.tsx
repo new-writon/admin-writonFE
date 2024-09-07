@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, FlexBox, Line } from "../components/atoms";
 import { H3 } from "../components/atoms/Text";
 import { EditBtn } from "../components/molecules";
@@ -27,6 +27,7 @@ import { formatQuestionsCreateEmpty } from "../utils/formatUtils";
 const ChallengeInfoPage = () => {
   const navigate = useNavigate();
   const { challengeId, challengeList, setChallengeList } = useChallengeStore();
+  const queryClient = useQueryClient();
 
   const [isEdit, setIsEdit] = useState(false);
   const [basicInfoData, setBasicInfoData] =
@@ -64,6 +65,8 @@ const ChallengeInfoPage = () => {
             : item
         )
       );
+
+      queryClient.setQueryData(["challenge-info", challengeId], data);
     },
     onError: (err) => {
       console.error(err);

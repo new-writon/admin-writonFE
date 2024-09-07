@@ -40,7 +40,7 @@ const ParticipationInfoPage = () => {
       alert("선택된 유저들이 강퇴되었습니다.");
       setSelectedRows([]);
       setData(data);
-      queryClient.setQueryData(["participation-info"], data);
+      queryClient.setQueryData(["participation-info", challengeId], data);
     },
     onError: (err) => {
       console.error(err);

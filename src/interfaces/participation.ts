@@ -1,5 +1,6 @@
 export interface ParticipationTableData {
   id: number;
+  withdrawn: boolean;
   nickname: string;
   challengeCnt: number;
   challenges: string; // 추후 변경 예정
