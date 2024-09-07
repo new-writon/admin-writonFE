@@ -58,19 +58,25 @@ const ParticipationInfoPage = () => {
 
   // 엑셀파일 다운 기능
   const onClickDownloadExcel = () => {
-    const result = confirm("다운로드 받으시겠습니까?");
+    if (selectedRows.length === 0) {
+      alert("선택된 유저가 없습니다.");
+    } else {
+      const checked = confirm("다운로드 받으시겠습니까?");
 
-    if (result && data) {
-      const downloadData = [
-        filterList
-          .filter((_, idx) => idx !== 0)
-          .map((value) => fieldTranslations(value)),
-        ...data.map((item) =>
-          Object.values(item).filter((_, idx) => idx !== 0)
-        ),
-      ];
+      if (checked && data) {
+        const downloadData = [
+          filterList
+            .filter((_, idx) => idx !== 0 && idx !== 1)
+            .map((value) => fieldTranslations(value)),
+          ...data
+            .filter((item) => selectedRows.includes(item.id))
+            .map((item) =>
+              Object.values(item).filter((_, idx) => idx !== 0 && idx !== 1)
+            ),
+        ];
 
-      arrayToExcelFile(downloadData);
+        arrayToExcelFile(downloadData);
+      }
     }
   };
 
