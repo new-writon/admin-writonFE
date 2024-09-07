@@ -12,7 +12,7 @@ import { Form, Frame, Preview, ManageOrg } from "../components/organisms";
 import { B2, H3 } from "../components/atoms/Text";
 import { theme } from "../styles/theme";
 import useOrganizationStore from "../states/OrganizationStore";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getOrganizationPositionAPI,
   patchOrganizationInfoAPI,
@@ -55,6 +55,13 @@ const InfoManage = () => {
     },
   });
 
+  const handleCancel = () => {
+    setName(organizationName || "");
+    setLogo(null);
+    setPreview(organizationLogo || "");
+    setThemeColor(color || "");
+  };
+
   return (
     <>
       {/* ========== Title ========== */}
@@ -64,6 +71,7 @@ const InfoManage = () => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           handleEdit={handleEdit}
+          handleCancel={handleCancel}
         />
       </FlexBox>
 
@@ -95,6 +103,7 @@ const InfoManage = () => {
 };
 
 const OnBoardingManage = () => {
+  const queryClient = useQueryClient();
   const { challengeId } = useChallengeStore();
 
   const [isEdit, setIsEdit] = useState(false);
@@ -118,6 +127,7 @@ const OnBoardingManage = () => {
     mutationFn: () => patchOrganizationPositionAPI(positionList),
     onSuccess: (data) => {
       setPositionList(data);
+      queryClient.setQueryData(["organization-position", challengeId], data);
       alert("수정 완료");
     },
     onError: (err) => {

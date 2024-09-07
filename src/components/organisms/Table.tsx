@@ -43,6 +43,7 @@ interface SortButton {
 interface Cell {
   text: string;
   hasCopyBtn?: boolean;
+  isWithdrawn?: boolean;
 }
 
 const SortButton = ({ children, selected, onClick }: SortButton) => {
@@ -58,7 +59,7 @@ const SortButton = ({ children, selected, onClick }: SortButton) => {
   );
 };
 
-const Cell = ({ text, hasCopyBtn }: Cell) => {
+const Cell = ({ text, hasCopyBtn, isWithdrawn }: Cell) => {
   const handleCopyClipBoard = async () => {
     try {
       await navigator.clipboard.writeText(text);
@@ -70,7 +71,10 @@ const Cell = ({ text, hasCopyBtn }: Cell) => {
 
   return (
     <FlexBox justify="center" align="center" gap={6}>
-      <L3 weight="r" color={tableCellColor(text)}>
+      <L3
+        weight="r"
+        color={isWithdrawn ? theme.color.gray[60] : tableCellColor(text)}
+      >
         {text}
       </L3>
       {hasCopyBtn && (
@@ -159,18 +163,16 @@ const Table = ({
   };
 
   useEffect(() => {
-    data.length === 0 && setData(originalData);
-    dates.length === 0 &&
-      headerList.length !== 0 &&
-      setDates([
-        new Date(headerList[1]),
-        new Date(headerList[headerList.length - 1]),
-      ]);
+    setData(originalData);
+    setDates([
+      new Date(headerList[1]),
+      new Date(headerList[headerList.length - 1]),
+    ]);
   }, [originalData]);
 
   return (
     <Container>
-      {(isSort || isButton) && (
+      {(isSort || isButton) && data.length != 0 && (
         <FlexBox fullWidth justify="space-between" align="center">
           {/* ========== Sort ========== */}
           {isSort && (
@@ -311,6 +313,7 @@ const Table = ({
                             hasCopyBtn={
                               isCheckBox && [7, 8].includes(cellIndex)
                             }
+                            isWithdrawn={row[1] === "true"}
                           />
                         </td>
                       ))}

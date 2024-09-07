@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Frame, Questions } from "../components/organisms";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getChallengeQuestionsAPI, putChallengeQuestionsAPI } from "../apis";
 import useChallengeStore from "../states/ChallengeStore";
 import { QuestionsData } from "../interfaces/challenge";
@@ -11,6 +11,8 @@ import {
 import { defaultQuestionsData } from "../data/ChallengeData";
 
 const ChallengeQuestionPage = () => {
+  const queryClient = useQueryClient();
+
   const [isEdit, setIsEdit] = useState(false);
   const { challengeId } = useChallengeStore();
   const [questionsData, setQuestionsData] =
@@ -29,6 +31,7 @@ const ChallengeQuestionPage = () => {
       putChallengeQuestionsAPI(formatQuestionsRemoveEmpty(questionsData)),
     onSuccess: (data) => {
       setQuestionsData(formatQuestionsCreateEmpty(data));
+      queryClient.setQueryData(["challenge-questions", challengeId], data);
     },
     onError: (err) => {
       console.error(err);

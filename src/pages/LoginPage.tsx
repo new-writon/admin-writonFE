@@ -10,8 +10,6 @@ import { useMutation } from "@tanstack/react-query";
 import { postAuthLoginAPI } from "../apis";
 import useOrganizationStore from "../states/OrganizationStore";
 import useChallengeStore from "../states/ChallengeStore";
-import { AxiosError } from "axios";
-import { ErrorResponse } from "../interfaces/error";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -58,10 +56,11 @@ const LoginPage = () => {
           : "/challenge/dashboard"
       );
     },
-    onError: (err: AxiosError<ErrorResponse>) => {
-      const data = err.response?.data;
+    onError: () => {
+      // const data = err.response?.data;
+      // if (data?.code === "A01") 
 
-      if (data?.code === "A01") setError("아이디와 비밀번호를 확인해주세요.");
+      setError("아이디와 비밀번호를 확인해주세요.");
     },
   });
 

@@ -9,7 +9,7 @@ const StatusChip = ({ idx }: { idx: number }) => {
   const isRequired = idx == 0;
 
   return (
-    <Chip size='sm' color={isRequired ? "red" : "green"}>
+    <Chip size="sm" color={isRequired ? "red" : "green"}>
       {isRequired ? "필수" : "선택"}
     </Chip>
   );
@@ -28,10 +28,11 @@ const Questions = ({
     idx: 0,
     keyword: "",
   });
-  const selectedQuestions = data.specialQuestions.find(
-    ({ keyword }) => keyword === selectedKeyword.keyword
-  )?.questions;
   const keywordList = data.specialQuestions.map(({ keyword }) => keyword);
+  const selectedQuestions: string[] =
+    data.specialQuestions.find(
+      ({ keyword }) => keyword === selectedKeyword.keyword
+    )?.questions || [];
 
   useEffect(() => {
     if (backupData) {
@@ -119,16 +120,16 @@ const Questions = ({
   };
 
   return (
-    <FlexBox fullWidth justify='space-between'>
+    <FlexBox fullWidth justify="space-between">
       <FlexBox col isFlex1 gap={gap}>
         {/*  ========== 베이직 질문 ==========  */}
-        <ContentSection title='베이직 질문' titleWidth={163}>
+        <ContentSection title="베이직 질문" titleWidth={163}>
           <FlexBox col gap={12}>
             {data.basicQuestions.map((ques, idx) =>
               isEdit || ques ? (
-                <FlexBox key={idx} gap={20} align='center'>
+                <FlexBox key={idx} gap={20} align="center">
                   {isEdit && <StatusChip idx={idx} />}
-                  <B2 weight='sb' color={theme.color.gray[80]}>
+                  <B2 weight="sb" color={theme.color.gray[80]}>
                     질문 {idx + 1}
                   </B2>
                   <Input
@@ -144,9 +145,9 @@ const Questions = ({
 
         {/*  ========== 키워드 관리 ==========  */}
         {isEdit && (
-          <ContentSection title='스페셜 질문 키워드 관리' titleWidth={163}>
+          <ContentSection title="스페셜 질문 키워드 관리" titleWidth={163}>
             <InputDropdown
-              type='keyword'
+              type="keyword"
               list={keywordList}
               setList={handleKeywordList}
             />
@@ -154,14 +155,14 @@ const Questions = ({
         )}
 
         {/*  ========== 스페셜 질문 ==========  */}
-        <ContentSection title='스페셜 질문' titleWidth={163}>
+        <ContentSection title="스페셜 질문" titleWidth={163}>
           <FlexBox col gap={24} style={{ width: "500px" }}>
             {data.specialQuestions.length == 0 ? (
               <B2 color={theme.color.gray[60]}>
                 스페셜 질문의 키워드를 먼저 설정해주세요.
               </B2>
             ) : (
-              <FlexBox align='center' gap={8} isFlexWrap>
+              <FlexBox align="center" gap={8} isFlexWrap>
                 {keywordList.map((keyword, idx) => (
                   <Select
                     type={idx == selectedKeyword.idx ? "outline" : "default"}
@@ -174,27 +175,27 @@ const Questions = ({
               </FlexBox>
             )}
             <FlexBox col gap={12}>
-              {selectedQuestions?.length == 0
+              {selectedQuestions.length == 0
                 ? Array(4)
                     .fill(null)
                     .map((_, idx) => (
-                      <FlexBox key={idx} gap={20} align='center'>
+                      <FlexBox key={idx} gap={20} align="center">
                         {isEdit && <StatusChip idx={idx} />}
-                        <B2 weight='sb' color={theme.color.gray[80]}>
+                        <B2 weight="sb" color={theme.color.gray[80]}>
                           질문 {idx + 1}
                         </B2>
                         <Input
-                          value=''
+                          value=""
                           disabled
-                          placeHolder='질문을 입력해주세요.'
+                          placeHolder="질문을 입력해주세요."
                         />
                       </FlexBox>
                     ))
-                : selectedQuestions?.map((ques, idx) =>
+                : selectedQuestions.map((ques, idx) =>
                     isEdit || ques ? (
-                      <FlexBox key={idx} gap={20} align='center'>
+                      <FlexBox key={idx} gap={20} align="center">
                         {isEdit && <StatusChip idx={idx} />}
-                        <B2 weight='sb' color={theme.color.gray[80]}>
+                        <B2 weight="sb" color={theme.color.gray[80]}>
                           질문 {idx + 1}
                         </B2>
                         <Input

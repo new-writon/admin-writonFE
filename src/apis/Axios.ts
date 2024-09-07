@@ -64,8 +64,8 @@ Axios.interceptors.response.use(
         break;
       }
       case "A02": {
-        alert("로그인 세션이 만료되었습니다.");
-        window.location.href = "/login";
+        // alert("로그인 세션이 만료되었습니다.");
+        // window.location.href = "/login";
         break;
       }
       default:

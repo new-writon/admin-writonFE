@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FlexBox, Loading } from "../components/atoms";
 import { Frame, Participate } from "../components/organisms";
 import useChallengeStore from "../states/ChallengeStore";
@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 
 const ParticipationParticipatePage = () => {
+  const queryClient = useQueryClient();
   const { challengeId } = useChallengeStore();
   const [pendingEmailList, setPendingEmailList] = useState<string[]>([]);
   const [sendedEmailList, setSendedEmailList] = useState<string[]>([]);
@@ -24,6 +25,7 @@ const ParticipationParticipatePage = () => {
     onSuccess: (data) => {
       alert("초대가 완료되었습니다.");
       setSendedEmailList(data);
+      queryClient.setQueryData(["participation-email", challengeId], data);
     },
     onError: (err) => {
       console.error(err);

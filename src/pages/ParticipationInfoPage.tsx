@@ -40,7 +40,7 @@ const ParticipationInfoPage = () => {
       alert("선택된 유저들이 강퇴되었습니다.");
       setSelectedRows([]);
       setData(data);
-      queryClient.setQueryData(["participation-info"], data);
+      queryClient.setQueryData(["participation-info", challengeId], data);
     },
     onError: (err) => {
       console.error(err);
@@ -58,19 +58,25 @@ const ParticipationInfoPage = () => {
 
   // 엑셀파일 다운 기능
   const onClickDownloadExcel = () => {
-    const result = confirm("다운로드 받으시겠습니까?");
+    if (selectedRows.length === 0) {
+      alert("선택된 유저가 없습니다.");
+    } else {
+      const checked = confirm("다운로드 받으시겠습니까?");
 
-    if (result && data) {
-      const downloadData = [
-        filterList
-          .filter((_, idx) => idx !== 0)
-          .map((value) => fieldTranslations(value)),
-        ...data.map((item) =>
-          Object.values(item).filter((_, idx) => idx !== 0)
-        ),
-      ];
+      if (checked && data) {
+        const downloadData = [
+          filterList
+            .filter((_, idx) => idx !== 0 && idx !== 1)
+            .map((value) => fieldTranslations(value)),
+          ...data
+            .filter((item) => selectedRows.includes(item.id))
+            .map((item) =>
+              Object.values(item).filter((_, idx) => idx !== 0 && idx !== 1)
+            ),
+        ];
 
-      arrayToExcelFile(downloadData);
+        arrayToExcelFile(downloadData);
+      }
     }
   };
 
@@ -91,30 +97,34 @@ const ParticipationInfoPage = () => {
               placeholder="닉네임, 이메일로 검색해보세요."
             />
           </FlexBox>
-          <FlexBox align="center" gap={4}>
-            <Button size="sm" type="none" onClick={onClickWithdrawal}>
-              강퇴
-            </Button>
-            <Button
-              size="sm"
-              type="none"
-              downloadIcon
-              onClick={onClickDownloadExcel}
-            >
-              다운
-            </Button>
-          </FlexBox>
+          {data.length !== 0 && (
+            <FlexBox align="center" gap={4}>
+              <Button size="sm" type="none" onClick={onClickWithdrawal}>
+                강퇴
+              </Button>
+              <Button
+                size="sm"
+                type="none"
+                downloadIcon
+                onClick={onClickDownloadExcel}
+              >
+                다운
+              </Button>
+            </FlexBox>
+          )}
         </FlexBox>
       </FlexBox>
 
       <FlexBox col fullWidth gap={4}>
         {/* ========== Filter ==========  */}
-        <Filter
-          list={filterList}
-          selectedValues={selectedValues}
-          setSelectedValues={setSelectedValues}
-          hiddenCols={[0, 1]}
-        />
+        {data.length !== 0 && (
+          <Filter
+            list={filterList}
+            selectedValues={selectedValues}
+            setSelectedValues={setSelectedValues}
+            hiddenCols={[0, 1]}
+          />
+        )}
 
         {/* ========== Table ==========  */}
         <Table

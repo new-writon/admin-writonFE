@@ -4,6 +4,7 @@ import {
   QuestionsData,
   UserStatus,
 } from "../interfaces/challenge";
+import { ParticipationTableData } from "../interfaces/participation";
 import { theme } from "../styles/theme";
 
 const formatDateToString = (date: Date | null) => {
@@ -172,6 +173,37 @@ const formatMainCalendarData = (data: UserStatus[]): CalendarData[] => {
   return result;
 };
 
+const formatParticipationInfoData = (data: ParticipationTableData[]) => {
+  return data.map(
+    ({
+      bank,
+      accountNum,
+      email,
+      deposit,
+      writingCnt,
+      commentCnt,
+      smallTalkCnt,
+      oneLine,
+      ...rest
+    }) => ({
+      ...rest,
+      accountNum: bank ? `${bank} ${accountNum}` : `${accountNum}`,
+      email,
+      deposit,
+      writingCnt,
+      commentCnt,
+      smallTalkCnt,
+      oneLine,
+    })
+  );
+};
+
+const isValidEmail = (email: string) => {
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  return emailPattern.test(email);
+};
+
 export {
   formatDateToString,
   formatStringToDate,
@@ -182,4 +214,6 @@ export {
   formatDashboardData,
   formatDashboardDate,
   formatMainCalendarData,
+  formatParticipationInfoData,
+  isValidEmail
 };

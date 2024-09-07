@@ -6,6 +6,7 @@ import { B2, L3 } from "../atoms/Text";
 import { ContentSection, InputDropdown } from "../molecules";
 import { useEffect, useRef, useState } from "react";
 import { excelFileToArray, downloadTemplate } from "../../utils/excelUtils";
+import { isValidEmail } from "../../utils/formatUtils";
 
 interface Participate {
   gap: number;
@@ -27,24 +28,35 @@ const Participate = ({
   handleParticipate,
 }: Participate) => {
   const [selectedOption, setSelectedOption] = useState("excel");
-  const [inputDropdownList, setInputDropdownList] = useState<string[]>([]);
+  const [inputDropdownList, setInputDropdownList] =
+    useState<string[]>(pendingEmailList);
 
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [excelData, setExcelData] = useState<string[][]>([]);
-  const formatedExcelData = excelData
-    .filter((item, idx) => idx !== 0 && item.length !== 0)
-    .map((item) => item[1]);
+  const [excelData, setExcelData] = useState<string[]>([]);
 
   // 엑셀 파일 업로드
-  const onClickUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onClickUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.[0];
     if (!file) return;
 
-    setExcelFile(file);
-
     // 엑셀 파일 데이터화
-    excelFileToArray(file, setExcelData);
+    const sheetData = await excelFileToArray(file);
+    const formatedExcelData = sheetData
+      .filter((item, idx) => idx !== 0 && item.length !== 0)
+      .map((item) => item[1]);
+
+    const isValid = formatedExcelData.every((email) => isValidEmail(email));
+
+    if (isValid) {
+      setExcelData(formatedExcelData);
+      setExcelFile(file);
+    } else {
+      alert("입력된 데이터가 이메일 형식에 맞지 않습니다.");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
   };
 
   // 엑셀 파일 삭제
@@ -54,10 +66,11 @@ const Participate = ({
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    setExcelData([]);
   };
 
   useEffect(() => {
-    selectedOption === "excel" && setPendingEmailList(formatedExcelData);
+    selectedOption === "excel" && setPendingEmailList(excelData);
     selectedOption === "email" && setPendingEmailList(inputDropdownList);
   }, [selectedOption, excelData, inputDropdownList]);
 

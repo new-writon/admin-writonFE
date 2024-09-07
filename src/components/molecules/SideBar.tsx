@@ -61,7 +61,6 @@ const SideBar = () => {
         <ImgConatainer>
           <img
             src={organizationLogo || "/icons/ex-logo.png"}
-            onClick={() => navigate("/login")}
             alt="organizaiton_logo"
           />
         </ImgConatainer>

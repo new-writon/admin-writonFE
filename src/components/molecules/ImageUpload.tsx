@@ -18,10 +18,10 @@ const ImageUpload = ({
   disabled = false,
 }: ImageUpload) => {
   const defaultLogoUrl =
-    "https://hoon-test-bucket.s3.ap-northeast-2.amazonaws.com/default-logo.png";
+    "https://writon-data.s3.ap-northeast-2.amazonaws.com/logo/default-logo.png";
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(preview === defaultLogoUrl);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files !== null) {
