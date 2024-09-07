@@ -55,6 +55,13 @@ const InfoManage = () => {
     },
   });
 
+  const handleCancel = () => {
+    setName(organizationName || "");
+    setLogo(null);
+    setPreview(organizationLogo || "");
+    setThemeColor(color || "");
+  };
+
   return (
     <>
       {/* ========== Title ========== */}
@@ -64,6 +71,7 @@ const InfoManage = () => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           handleEdit={handleEdit}
+          handleCancel={handleCancel}
         />
       </FlexBox>
 

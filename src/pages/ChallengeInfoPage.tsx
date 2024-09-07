@@ -79,6 +79,10 @@ const ChallengeInfoPage = () => {
     setIsEdit(false);
   };
 
+  const handleCancel = () => {
+    basicInfoResponse && setBasicInfoData(basicInfoResponse);
+  };
+
   useEffect(() => {
     basicInfoResponse && setBasicInfoData(basicInfoResponse);
   }, [basicInfoResponse]);
@@ -94,6 +98,7 @@ const ChallengeInfoPage = () => {
               isEdit={isEdit}
               setIsEdit={setIsEdit}
               handleEdit={handleEdit}
+              handleCancel={handleCancel}
             />
           </FlexBox>
           <BasicInfo
