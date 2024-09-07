@@ -117,8 +117,8 @@ const ChallengeCreatePage = () => {
 
   return (
     <Frame
-      title='챌린지 개설'
-      subTitle='챌린지 개설 관련 설명 글이 들어갑니다. 챌린지를 개설 관련 설명 글이 들어갑니다. 챌린지를 개설 관련 설명 글이 들어갑니다.'
+      title="챌린지 개설"
+      subTitle="챌린지 개설 관련 설명 글이 들어갑니다. 챌린지를 개설 관련 설명 글이 들어갑니다. 챌린지를 개설 관련 설명 글이 들어갑니다."
       hasDropdown={false}
       noLine
     >
@@ -146,7 +146,7 @@ const ChallengeCreatePage = () => {
             gap={50}
             data={questionsData}
             setData={setQuestionsData}
-            backupData={defaultQuestionsData}
+            backupData={questionsData}
           />
         )}
         {selectedCategory == 2 && (
@@ -173,19 +173,19 @@ const ChallengeCreatePage = () => {
         )}
 
         {/* ========== Buttons ========== */}
-        <FlexBox fullWidth justify='center' align='center' gap={12}>
+        <FlexBox fullWidth justify="center" align="center" gap={12}>
           {selectedCategory !== 0 && (
-            <Button type='empty' size='lg' onClick={() => movePage(-1)}>
+            <Button type="empty" size="lg" onClick={() => movePage(-1)}>
               {buttonText.empty[selectedCategory]}
             </Button>
           )}
-          <Button type='dark' size='lg' onClick={buttonFn[selectedCategory]}>
+          <Button type="dark" size="lg" onClick={buttonFn[selectedCategory]}>
             {buttonText.dark[selectedCategory]}
           </Button>
           {selectedCategory === 2 && (
             <Button
-              type='none'
-              size='lg'
+              type="none"
+              size="lg"
               rightArrow
               onClick={() => movePage(1)}
             >
@@ -196,7 +196,7 @@ const ChallengeCreatePage = () => {
       </FlexBox>
       {isOpenModal && (
         <Modal setIsOpenModal={setIsOpenModal} isClickDisabled>
-          <FlexBox col gap={20} align='center'>
+          <FlexBox col gap={20} align="center">
             <CompleteOrg isChallenge />
           </FlexBox>
         </Modal>
