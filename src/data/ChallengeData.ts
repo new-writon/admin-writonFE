@@ -7,7 +7,7 @@ const defaultBasicInfoData: BasicInfoData = {
   name: "",
   startDate: formatDateToString(new Date()),
   endDate: formatDateToString(new Date()),
-  processDates: ["2024-08-29", "2024-08-30", "2024-08-31"],
+  processDates: [],
 };
 
 const defaultQuestionsData: QuestionsData = {
