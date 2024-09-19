@@ -89,7 +89,7 @@ const Header = styled.div<{ $visible: boolean }>`
   height: 40px;
   padding: 12px;
   cursor: pointer;
-  z-index: 2;
+  z-index: 3;
   background-color: white;
   border: 1px solid ${({ theme }) => theme.color.gray[40]};
   border-radius: 8px;
@@ -114,7 +114,7 @@ const List = styled.ul<{ $visible: boolean }>`
   border-top: none;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  z-index: 2;
+  z-index: 3;
   animation: ${({ $visible }) => ($visible ? slideDown : slideUp)} 0.3s ease-out;
 `;
 
@@ -140,5 +140,5 @@ const ShadowBox = styled.div<{ $listCnt: number }>`
   height: ${({ $listCnt }) => `calc(40px * ${$listCnt + 1} + 16px)`};
   border-radius: 8px;
   box-shadow: 0px 4px 16px 0px rgba(33, 33, 33, 0.24);
-  z-index: 1;
+  z-index: 2;
 `;
