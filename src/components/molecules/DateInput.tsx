@@ -4,10 +4,12 @@ import { FlexBox } from "../atoms";
 import { theme } from "../../styles/theme";
 import { formatDateToString } from "../../utils/formatUtils";
 import { IoCalendarOutline } from "../atoms/Icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CalendarModal from "./CalendarModal";
+import useDateInputStore from "../../states/DateInputStore";
 
 interface DateInput {
+  id?: number;
   type: "start" | "end";
   value: Date;
   setValue?:
@@ -17,6 +19,7 @@ interface DateInput {
 }
 
 const DateInput = ({
+  id = 0,
   type,
   value,
   setValue = () => {},
@@ -26,7 +29,23 @@ const DateInput = ({
     start: "시작",
     end: "종료",
   };
+  const { activeInputId, setActiveInputId } = useDateInputStore();
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
+  const onClickInput = () => {
+    if (disabled) return;
+
+    if (isOpenCalendar) {
+      setActiveInputId(0);
+      setIsOpenCalendar(false);
+    } else {
+      activeInputId !== id && setActiveInputId(id);
+      setIsOpenCalendar(true);
+    }
+  };
+
+  useEffect(() => {
+    setIsOpenCalendar(activeInputId === id);
+  }, [activeInputId]);
 
   return (
     <FlexBox col gap={4} style={{ position: "relative" }}>
@@ -34,7 +53,7 @@ const DateInput = ({
       <InputContainer
         $disabled={disabled}
         $isOpenCalendar={isOpenCalendar}
-        onClick={() => !disabled && setIsOpenCalendar(!isOpenCalendar)}
+        onClick={onClickInput}
       >
         <B2>{formatDateToString(value)}</B2>
         {!disabled && (
