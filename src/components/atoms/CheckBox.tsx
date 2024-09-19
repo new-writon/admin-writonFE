@@ -61,6 +61,8 @@ const Container = styled.label<ContainerProps>`
   gap: 10px;
   align-items: center;
   cursor: ${({ $disabled }) => ($disabled ? "default" : "pointer")};
+  width: fit-content;
+  height: fit-content;
 
   input {
     display: none;
