@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { format, getMonth } from "date-fns";
+import { format } from "date-fns";
 import styled from "styled-components";
 
 import { CalendarArrow } from "./CalendarArrow";
@@ -13,8 +13,7 @@ const MainCalendar = ({ calendarData, totalCnt, style }: MainCalendarProps) => {
   const [calendarToggle, setCalendarToggle] = useState(false); // 달력 펼치기/접기
   const [calendarToday, setCalendarToday] = useState<Date>(
     calendarData.length > 0 &&
-      getMonth(new Date(calendarData[calendarData.length - 1]?.date)) !==
-        getMonth(new Date())
+      new Date(calendarData[calendarData.length - 1]?.date) < new Date()
       ? new Date(calendarData[calendarData.length - 1]?.date)
       : new Date()
   );

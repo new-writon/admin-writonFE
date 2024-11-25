@@ -49,7 +49,6 @@ const RenderCell = React.memo(
     const rows = [];
     let days = [];
     let day = addDays(startDate, 1); // 월요일부터 보이게 하기 위해서 (원래 일요일부터 보임)
-
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         const formattedDate = isSameMonth(day, monthStart)
@@ -67,14 +66,14 @@ const RenderCell = React.memo(
           >
             <div
               className={`innerday ${
-                isSameMonth(day, lastday) && isSameDay(day, today)
+                new Date(lastday) > new Date(day) && isSameDay(day, today)
                   ? "valid-today"
                   : ""
               }`}
             >
-              <div className="vaild-today-active"></div>
-              <span className="text">{formattedDate}</span>
-              <div className="inner-element">
+              <div className='vaild-today-active'></div>
+              <span className='text'>{formattedDate}</span>
+              <div className='inner-element'>
                 {dayData && (
                   <StatisticsBadge
                     participationCnt={dayData.participationCnt}
@@ -89,7 +88,7 @@ const RenderCell = React.memo(
         day = addDays(day, 1);
       }
       rows.push(
-        <div key={day.toString()} className="row">
+        <div key={day.toString()} className='row'>
           {days}
         </div>
       );
