@@ -29,11 +29,12 @@ export const postAuthLogoutAPI = async () => {
   try {
     await Axios.delete("/auth/logout");
   } catch (error: any) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-    } else {
-      console.error("Error creating question:", error.message);
+    const errorCode = error.response?.data?.code;
+
+    if (errorCode !== "A04") {
+      console.error("Server Error:", error.response?.data || error.message);
     }
+
     throw error;
   }
 };
