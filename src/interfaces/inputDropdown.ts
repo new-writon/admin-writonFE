@@ -6,6 +6,7 @@ interface InputDropdownProps {
     | React.Dispatch<React.SetStateAction<string[]>>
     | ((value: string[]) => void);
   type: inputDropdownType;
+  disabled?: boolean;
 }
 
 type chipColorType = "blue" | "gray";

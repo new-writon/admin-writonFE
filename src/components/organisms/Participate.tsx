@@ -122,7 +122,7 @@ const Participate = ({
         setSelectedOption={isEdit ? setSelectedOption : undefined}
       >
         <FlexBox col gap={12}>
-          <FileInput $isEdit={isEdit}>
+          <FileInput $isEdit={isEdit} $disabled={selectedOption === "email"}>
             <FlexBox align="center" gap={12}>
               <BsPaperclip size={18} color={theme.color.gray[60]} />
               <B2 color={theme.color.gray[60]}>
@@ -138,7 +138,14 @@ const Participate = ({
                   <label htmlFor="upload-input">
                     {excelFile ? "변경" : "파일 첨부하기"}
                     {!excelFile && (
-                      <FiPlus size={16} color={theme.color.brand[50]} />
+                      <FiPlus
+                        size={16}
+                        color={
+                          selectedOption === "email"
+                            ? theme.color.gray[50]
+                            : theme.color.brand[50]
+                        }
+                      />
                     )}
                   </label>
                   <input
@@ -147,6 +154,7 @@ const Participate = ({
                     accept=".xls,.xlsx"
                     onChange={onClickUpload}
                     ref={fileInputRef}
+                    disabled={selectedOption === "email"}
                   />
                 </button>
               </FlexBox>
@@ -158,6 +166,7 @@ const Participate = ({
               size="sm"
               downloadIcon
               onClick={downloadTemplate}
+              disabled={selectedOption === "email"}
             >
               파일 양식 다운로드
             </Button>
@@ -180,6 +189,7 @@ const Participate = ({
               type="email"
               list={inputDropdownList}
               setList={setInputDropdownList}
+              disabled={selectedOption === "excel"}
             />
           )}
           {emailList?.length != 0 && (
@@ -231,7 +241,7 @@ const Participate = ({
 
 export default Participate;
 
-const FileInput = styled.div<{ $isEdit: boolean }>`
+const FileInput = styled.div<{ $isEdit: boolean; $disabled: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -246,6 +256,7 @@ const FileInput = styled.div<{ $isEdit: boolean }>`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: ${({ $disabled }) => ($disabled ? "default" : "pointer")};
   }
 
   #upload-btn {
@@ -256,12 +267,15 @@ const FileInput = styled.div<{ $isEdit: boolean }>`
       padding: 0;
       ${({ theme }) => theme.font.b2}
       border-radius: 6px;
-      background: ${({ theme }) => theme.color.brand[10]};
+      background: ${({ theme, $disabled }) =>
+        $disabled ? theme.color.gray[30] : theme.color.brand[10]};
       padding: 6px 14px;
-      color: ${({ theme }) => theme.color.brand[50]};
+      color: ${({ theme, $disabled }) =>
+        $disabled ? theme.color.gray[50] : theme.color.brand[50]};
       font-weight: 600;
       text-align: center;
-      cursor: pointer;
+      cursor: ${({ $disabled }) => ($disabled ? "default" : "pointer")};
+      transition: all ease-in-out 0.25s;
     }
 
     input {
