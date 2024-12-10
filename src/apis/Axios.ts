@@ -55,10 +55,11 @@ Axios.interceptors.response.use(
     return response;
   },
   async (error) => {
-    // const originalRequest = error.config;
+    const originalRequest = error.config;
     const customStatusCode = error.response.data.code;
 
     switch (customStatusCode) {
+      // =============== Auth Error ===============
       case "A01": {
         // alert("사용자를 찾을 수 없습니다");
         // window.location.href = "/login";
@@ -89,7 +90,7 @@ Axios.interceptors.response.use(
           const newAccessToken = response.data.data.accessToken;
           localStorage.setItem("accessToken", newAccessToken);
 
-          return Promise.resolve();
+          Axios(originalRequest);
         } catch (error: any) {
           if (error.response) {
             console.error("Server Error:", error.response.data);
@@ -102,6 +103,12 @@ Axios.interceptors.response.use(
       case "A05": {
         alert(error.response.data.message);
         window.location.href = "/login";
+        break;
+      }
+
+      // =============== Participation Error ===============
+      case "P01": {
+        alert(error.response.data.message);
         break;
       }
       default:
