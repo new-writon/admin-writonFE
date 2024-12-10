@@ -1,8 +1,8 @@
 import axios from "axios";
 import useChallengeStore from "../states/ChallengeStore";
 
-// const baseURL = "http://localhost:8080";
-const baseURL = "https://admin.writon.co.kr";
+const baseURL = "http://localhost:8080";
+// const baseURL = "https://admin.writon.co.kr";
 
 // challengeId param값으로 넣지 않을 API URL
 const excludedParamsUrl = [
@@ -55,17 +55,53 @@ Axios.interceptors.response.use(
     return response;
   },
   async (error) => {
+    // const originalRequest = error.config;
     const customStatusCode = error.response.data.code;
+
     switch (customStatusCode) {
       case "A01": {
-        // alert("로그인 세션이 만료되었습니다.");
+        // alert("사용자를 찾을 수 없습니다");
         // window.location.href = "/login";
         // console.error("토큰 만료", customStatusCode);
         break;
       }
       case "A02": {
-        // alert("로그인 세션이 만료되었습니다.");
-        // window.location.href = "/login";
+        alert(error.response.data.message);
+        window.location.href = "/login";
+        break;
+      }
+      case "A03": {
+        alert(error.response.data.message);
+        window.location.href = "/login";
+        break;
+      }
+      case "A04": {
+        try {
+          const refreshToken = localStorage.getItem("refreshToken");
+          const accessToken = localStorage.getItem("accessToken");
+
+          const response = await Axios.post("/auth/reissue", {
+            accessToken,
+            refreshToken,
+          });
+
+          // 새로운 Access Token 저장
+          const newAccessToken = response.data.data.accessToken;
+          localStorage.setItem("accessToken", newAccessToken);
+
+          return Promise.resolve();
+        } catch (error: any) {
+          if (error.response) {
+            console.error("Server Error:", error.response.data);
+          } else {
+            console.error("Error creating question:", error.message);
+          }
+        }
+        break;
+      }
+      case "A05": {
+        alert(error.response.data.message);
+        window.location.href = "/login";
         break;
       }
       default:
