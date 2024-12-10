@@ -55,7 +55,7 @@ const InputChip = ({
         </L3>
       )}
       {deleteItem && (
-        <button type="button" onClick={deleteItem}>
+        <button type="button" onClick={deleteItem} disabled={disabled}>
           <FiX size={18} color={iconColor[color]} />
         </button>
       )}

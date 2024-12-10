@@ -18,7 +18,12 @@ import {
 } from "../../utils/InputDropdownAttributes";
 import { recommendKeywords } from "../../data/ChallengeData";
 
-const InputDropdown = ({ type, list, setList }: InputDropdownProps) => {
+const InputDropdown = ({
+  type,
+  list,
+  setList,
+  disabled,
+}: InputDropdownProps) => {
   const [item, setItem] = useState("");
 
   const addItem = (e: FormEvent) => {
@@ -61,7 +66,7 @@ const InputDropdown = ({ type, list, setList }: InputDropdownProps) => {
   return (
     <Container $type={type}>
       <form
-        id='item-input'
+        id="item-input"
         style={{
           padding: list.length == 0 || type == "email" ? "8px 16px" : "8px",
         }}
@@ -81,15 +86,16 @@ const InputDropdown = ({ type, list, setList }: InputDropdownProps) => {
           value={item}
           onChange={(e) => setItem(e.currentTarget.value)}
           placeholder={placeHolder[type]}
+          disabled={disabled}
         />
         {type == "email" && (
-          <Button size='sm' type='none'>
+          <Button size="sm" type="none" disabled={disabled}>
             추가
           </Button>
         )}
       </form>
       {type != "position" && (
-        <div id='sub-item-container'>
+        <div id="sub-item-container">
           <L3 color={theme.color.gray[60]}>
             {subItemNotice(type, list.length)}
           </L3>
@@ -113,7 +119,9 @@ const InputDropdown = ({ type, list, setList }: InputDropdownProps) => {
                       }
                     : undefined
                 }
-                disabled={type === "keyword" && list.includes(item)}
+                disabled={
+                  (type === "keyword" && list.includes(item)) || disabled
+                }
               >
                 {item}
               </InputChip>
