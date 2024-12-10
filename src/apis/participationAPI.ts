@@ -17,11 +17,12 @@ export const getParticipationInfoAPI = async (): Promise<
 
     return formatParticipationInfoData(data);
   } catch (error: any) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-    } else {
-      console.error("Error creating question:", error.message);
+    const errorCode = error.response?.data?.code;
+
+    if (errorCode !== "A04") {
+      console.error("Server Error:", error.response?.data || error.message);
     }
+
     throw error;
   }
 };
@@ -35,11 +36,12 @@ export const getParticipationEmailAPI = async () => {
 
     return data;
   } catch (error: any) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-    } else {
-      console.error("Error creating question:", error.message);
+    const errorCode = error.response?.data?.code;
+
+    if (errorCode !== "A04") {
+      console.error("Server Error:", error.response?.data || error.message);
     }
+
     throw error;
   }
 };
@@ -58,11 +60,12 @@ export const postParticipationWithdrawalAPI = async (
 
     return formatParticipationInfoData(data);
   } catch (error: any) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-    } else {
-      console.error("Error creating question:", error.message);
+    const errorCode = error.response?.data?.code;
+
+    if (errorCode !== "A04") {
+      console.error("Server Error:", error.response?.data || error.message);
     }
+
     throw error;
   }
 };
@@ -76,11 +79,12 @@ export const postParticipationParticipateAPI = async (emailList: string[]) => {
 
     return data;
   } catch (error: any) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-    } else {
-      console.error("Error creating question:", error.message);
+    const errorCode = error.response?.data?.code;
+
+    if (errorCode !== "A04") {
+      console.error("Server Error:", error.response?.data || error.message);
     }
+
     throw error;
   }
 };
