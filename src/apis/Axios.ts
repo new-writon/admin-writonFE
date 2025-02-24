@@ -60,17 +60,6 @@ Axios.interceptors.response.use(
 
     switch (customStatusCode) {
       // =============== Auth Error ===============
-      case "A01": {
-        // alert("사용자를 찾을 수 없습니다");
-        // window.location.href = "/login";
-        // console.error("토큰 만료", customStatusCode);
-        break;
-      }
-      case "A02": {
-        alert(error.response.data.message);
-        window.location.href = "/login";
-        break;
-      }
       case "A03": {
         alert(error.response.data.message);
         window.location.href = "/login";

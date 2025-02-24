@@ -9,6 +9,7 @@ import {
 } from "../../data/SideBarMenu";
 import useOrganizationStore from "../../states/OrganizationStore";
 import useChallengeStore from "../../states/ChallengeStore";
+import { BiBuildings } from "../atoms/Icons";
 
 interface Menu {
   isTitle?: boolean;
@@ -59,10 +60,11 @@ const SideBar = () => {
         style={{ width: "240px" }}
       >
         <ImgConatainer>
-          <img
-            src={organizationLogo || "/icons/ex-logo.png"}
-            alt="organizaiton_logo"
-          />
+          {organizationLogo ? (
+            <img src={organizationLogo} alt="organizaiton_logo" />
+          ) : (
+            <BiBuildings size={24} color={theme.color.gray[80]} />
+          )}
         </ImgConatainer>
         <B2 weight="sb" color={theme.color.gray[100]} style={{ flex: 1 }}>
           {organizationName}
@@ -158,10 +160,16 @@ const ImgConatainer = styled.div`
   align-items: center;
   border-radius: 10px;
   overflow: hidden;
+  background-color: ${({ theme }) => theme.color.gray[30]};
 
   img {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
+
+  /* #building-icon {
+    width: 60%;
+    height: 60%;
+  } */
 `;
