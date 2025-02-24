@@ -20,6 +20,7 @@ import { BsFilter } from "@react-icons/all-files/bs/BsFilter";
 import { BsQuestionCircleFill } from "@react-icons/all-files/bs/BsQuestionCircleFill";
 import { MdContentCopy } from "@react-icons/all-files/md/MdContentCopy";
 import { IoReload } from "@react-icons/all-files/io5/IoReload";
+import { BiBuildings } from "@react-icons/all-files/bi/BiBuildings";
 
 export {
   FiPlus,
@@ -41,4 +42,5 @@ export {
   IoIosArrowBack,
   IoIosArrowForward,
   IoReload,
+  BiBuildings,
 };
