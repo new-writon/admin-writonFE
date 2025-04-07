@@ -41,26 +41,42 @@ const CalendarModal = ({
   };
 
   return (
-    <Container $top={top} $left={left}>
-      <Calendar
-        locale="ko"
-        formatDay={(_locale, date) => moment(date).format("D")}
-        value={Array.isArray(date) ? undefined : date} // 선택된 날짜 혹은 날짜 범위
-        minDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
-        maxDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
-        onClickDay={handleClickDay} // 날짜 클릭 시 호출되는 함수
-        goToRangeStartOnSelect={true}
-        selectRange={isRange} // 범위 선택 여부
-      />
-    </Container>
+    <>
+      <ModalOverlay onClick={() => setIsOpenCalendar(false)} />
+      <Container $top={top} $left={left}>
+        <Calendar
+          locale="ko"
+          formatDay={(_locale, date) => moment(date).format("D")}
+          value={Array.isArray(date) ? undefined : date} // 선택된 날짜 혹은 날짜 범위
+          minDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
+          maxDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
+          onClickDay={handleClickDay} // 날짜 클릭 시 호출되는 함수
+          goToRangeStartOnSelect={true}
+          selectRange={isRange} // 범위 선택 여부
+        />
+      </Container>
+    </>
   );
 };
 
 export default CalendarModal;
 
+const ModalOverlay = styled.div`
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0);
+`;
+
 const Container = styled.div<{ $top: number; $left: number }>`
   position: absolute;
-  z-index: 9;
+  z-index: 11;
   top: ${({ $top }) => `${$top}px`};
   left: ${({ $left }) => `${$left}px`};
 
