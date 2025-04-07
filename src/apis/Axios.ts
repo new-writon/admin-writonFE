@@ -12,6 +12,7 @@ const excludedParamsUrl = [
   "/auth/login",
   "/auth/reissue",
   "/auth/logout",
+  "/auth/check",
   "/organization",
   "/organization/info",
   "/organization/position",
