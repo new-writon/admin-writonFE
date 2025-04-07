@@ -1,5 +1,8 @@
 import axios from "axios";
 import useChallengeStore from "../states/ChallengeStore";
+import useOrganizationStore from "../states/OrganizationStore";
+import { errorMsg } from "../utils/errorUtils";
+import useAuthStore from "../states/AuthStore";
 
 // const baseURL = "http://localhost:8080";
 const baseURL = "https://admin.writon.co.kr";
@@ -9,13 +12,14 @@ const excludedParamsUrl = [
   "/auth/login",
   "/auth/reissue",
   "/auth/logout",
+  "/auth/check",
   "/organization",
   "/organization/info",
   "/organization/position",
   "/challenge",
 ];
 
-const excludedTokenUrl = ["/auth/login"];
+let isTokenHandled = false;
 
 // axios 기본설정
 export const Axios = axios.create({
@@ -26,12 +30,6 @@ export const Axios = axios.create({
 
 Axios.interceptors.request.use(
   (config) => {
-    // Token Header 설정
-    const token = localStorage.getItem("accessToken");
-    if (token && !excludedTokenUrl.includes(config.url || "")) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
     // ChallengeId Param 설정
     const { challengeId } = useChallengeStore.getState();
 
@@ -57,52 +55,86 @@ Axios.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const customStatusCode = error.response.data.code;
+    const requestURL = originalRequest.url;
 
+    // prettier-ignore
     switch (customStatusCode) {
-      // =============== Auth Error ===============
-      case "A03": {
+      case "A03": {     // UNAUTHORIZED_TOKEN
         alert(error.response.data.message);
         window.location.href = "/login";
         break;
       }
-      case "A04": {
+
+      // =============== Auth Error ===============
+      case "A04": {    // ACCESS_TOKEN_EXPIRATION
+        const {
+          isReissuing,
+          setIsReissuing,
+          reissuePromise,
+          setReissuePromise,
+        } = useAuthStore.getState();
+
         try {
-          const refreshToken = localStorage.getItem("refreshToken");
-          const accessToken = localStorage.getItem("accessToken");
+          if (!isReissuing) {
+            // 재발급 시작
+            setIsReissuing(true);
+            const promise = Axios.post("/auth/reissue");
+            setReissuePromise(promise);
 
-          const response = await Axios.post("/auth/reissue", {
-            accessToken,
-            refreshToken,
-          });
+            await promise;
 
-          // 새로운 Access Token 저장
-          const newAccessToken = response.data.data.accessToken;
-          localStorage.setItem("accessToken", newAccessToken);
-
-          Axios(originalRequest);
-        } catch (error: any) {
-          if (error.response) {
-            console.error("Server Error:", error.response.data);
+            // 재발급 성공 시, 상태 초기화
+            setIsReissuing(false);
+            setReissuePromise(null);
           } else {
-            console.error("Error creating question:", error.message);
+            // 이미 재발급 중이면 기다림
+            await reissuePromise;
           }
+
+          // 기존 API 재요청
+          return Axios(originalRequest);
+
+        } catch (error: any) {
+          setIsReissuing(false);
+          setReissuePromise(null);
+          alert("reissue error");
+
+          window.location.href = "/login";
         }
         break;
       }
-      case "A05": {
-        alert(error.response.data.message);
-        window.location.href = "/login";
+
+      case "A05":     // ACCESS_TOKEN_NOT_FOUND
+      case "A06":     // REFRESH_TOKEN_EXPIRATION
+      case "A07": {   // REFRESH_TOKEN_INCONSISTENCY
+        if (!isTokenHandled) {     // 중복 에러 처리 방지
+          isTokenHandled = true;
+
+          const { reset: challengeReset } = useChallengeStore.getState();
+          const { reset: organizationReset } = useOrganizationStore.getState();
+          
+          if (requestURL !== "/auth/check") {
+            alert(errorMsg[customStatusCode]);
+            challengeReset();
+            organizationReset();
+          }
+          
+          window.location.href = "/login";
+        }
+
         break;
       }
 
       // =============== Participation Error ===============
-      case "P01": {
+      case "P01": {   // EMAIL_DUPLICATION
         alert(error.response.data.message);
         break;
       }
-      default:
+
+      default: 
         console.error("알 수 없는 상태 코드: ", customStatusCode);
     }
+
     return Promise.reject(error);
   }
 );

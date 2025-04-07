@@ -1,16 +1,21 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Axios } from "../apis/Axios";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem("accessToken");
 
-  useEffect(() => {
-    if (accessToken) {
+  const checkAuth = async () => {
+    try {
+      await Axios.get("/auth/check");
       navigate("/challenge/dashboard");
-    } else {
+    } catch {
       navigate("/login");
     }
+  };
+
+  useEffect(() => {
+    checkAuth();
   }, []);
 
   return <></>;
