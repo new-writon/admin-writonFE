@@ -9,7 +9,8 @@ import {
 } from "../../data/SideBarMenu";
 import useOrganizationStore from "../../states/OrganizationStore";
 import useChallengeStore from "../../states/ChallengeStore";
-import { BiBuildings } from "../atoms/Icons";
+import { BiBuildings, IoIosArrowBack, IoIosArrowForward } from "../atoms/Icons";
+import { useState } from "react";
 
 interface Menu {
   isTitle?: boolean;
@@ -47,6 +48,13 @@ const SideBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { organizationName, organizationLogo } = useOrganizationStore();
+  const [isSidebarOpen, setSidebarOpen] = useState(
+    window.innerWidth >= theme.size.tablet
+  );
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev);
+  };
 
   return (
     <Container>
@@ -116,6 +124,13 @@ const SideBar = () => {
         </Button>
       </ButtonContainer>
     </Container>
+      <MenuToggleButton onClick={toggleSidebar} $isOpen={isSidebarOpen}>
+        {isSidebarOpen ? (
+          <IoIosArrowBack size={24} color={theme.color.gray[80]} />
+        ) : (
+          <IoIosArrowForward size={24} color={theme.color.gray[80]} />
+        )}
+      </MenuToggleButton>
   );
 };
 
@@ -130,7 +145,29 @@ const Container = styled.section`
   height: 100%;
   padding: 16px 10px;
   background-color: ${({ theme }) => theme.color.gray[10]};
+const MenuToggleButton = styled.button<{ $isOpen: boolean }>`
+  position: fixed;
+  display: none;
+
+  top: 80px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid ${({ theme }) => theme.color.gray[40]};
+  border-radius: 4px;
+  box-shadow: 0px 0px 8px 0px rgba(33, 33, 33, 0.15);
+  transition: transform 0.3s ease-in-out;
+  transform: ${({ $isOpen }) =>
+    $isOpen ? "translateX(260px)" : "translateX(0)"};
   z-index: 1;
+
+  @media ${({ theme }) => theme.device.tablet} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const Hyphen = styled.div`
@@ -167,9 +204,4 @@ const ImgConatainer = styled.div`
     height: 100%;
     object-fit: contain;
   }
-
-  /* #building-icon {
-    width: 60%;
-    height: 60%;
-  } */
 `;
