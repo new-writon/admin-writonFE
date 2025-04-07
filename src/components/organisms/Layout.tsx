@@ -35,7 +35,6 @@ const Layout = () => {
           </ScrollContext.Provider>
         </ScrollContainer>
       </Container>
-    </>
     </AppWrapper>
   );
 };
