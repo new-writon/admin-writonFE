@@ -163,8 +163,7 @@ const Container = styled.section<{ $isOpen: boolean }>`
   height: 100%;
   padding: 16px 10px;
   background-color: ${({ theme }) => theme.color.gray[10]};
-  box-shadow: 0px 14px 20px 0px rgba(33, 33, 33, 0.1);
-  z-index: 2;
+  z-index: 1;
 
   transform: translateX(0);
   transition: transform 0.3s ease-in-out;
@@ -174,6 +173,7 @@ const Container = styled.section<{ $isOpen: boolean }>`
       $isOpen ? "translateX(0)" : "translateX(-100%)"};
     position: fixed;
     height: calc(100% - 60px);
+    box-shadow: 0px 14px 20px 0px rgba(33, 33, 33, 0.1);
   }
 `;
 

@@ -56,7 +56,7 @@ const Background = styled.main`
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: calc(100vh - 60px);
+  min-height: 100%;
   padding: 100px 0;
   background-color: ${({ theme }) => theme.color.gray[10]};
 `;
