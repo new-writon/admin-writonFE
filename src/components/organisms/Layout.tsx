@@ -3,6 +3,7 @@ import { TopNav, SideBar } from "../molecules";
 import styled from "styled-components";
 import { useEffect, useRef } from "react";
 import { ScrollContext } from "../../states/FrameContext";
+import TitleManager from "../../utils/TitleManager";
 
 const Layout = () => {
   const loacation = useLocation();
@@ -35,6 +36,7 @@ const Layout = () => {
           </ScrollContext.Provider>
         </ScrollContainer>
       </Container>
+      <TitleManager />
     </AppWrapper>
   );
 };
