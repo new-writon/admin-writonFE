@@ -171,19 +171,20 @@ const color = {
 // =============== Device Size ===============
 
 const size = {
-  mobile: "767px",
-  tablet: "1023px",
-  desktop: "1024px",
+  mobile: 620,
+  tablet: 1240,
+  desktop: 1241,
 };
 
 const device = {
-  mobile: `screen and (max-width: ${size.mobile})`,
-  tablet: `screen and (max-width: ${size.tablet})`,
-  desktop: `screen and (min-width: ${size.desktop})`,
+  mobile: `screen and (max-width: ${size.mobile}px)`,
+  tablet: `screen and (max-width: ${size.tablet}px)`,
+  desktop: `screen and (min-width: ${size.desktop}px)`,
 };
 
 export const theme = {
   font,
   color,
   device,
+  size,
 };

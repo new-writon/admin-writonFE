@@ -25,7 +25,7 @@ const Layout = () => {
   }, [pathname]);
 
   return (
-    <>
+    <AppWrapper>
       <TopNav />
       <Container>
         {!excludedPaths.includes(pathname) && <SideBar />}
@@ -35,7 +35,7 @@ const Layout = () => {
           </ScrollContext.Provider>
         </ScrollContainer>
       </Container>
-    </>
+    </AppWrapper>
   );
 };
 
@@ -44,11 +44,29 @@ export default Layout;
 const Container = styled.section`
   display: flex;
   width: 100%;
-  height: calc(100vh - 60px);
+  height: calc(100% - 60px);
 `;
 
 const ScrollContainer = styled.section`
   height: 100%;
   flex: 1;
   overflow-y: auto;
+`;
+
+const AppWrapper = styled.div`
+  height: 100%;
+
+  @media ${({ theme }) => theme.device.tablet} {
+    transform: scale(0.8);
+    transform-origin: top left;
+    width: calc(100% / 0.8);
+    height: calc(100% / 0.8);
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    transform: scale(0.4);
+    transform-origin: top left;
+    width: calc(100% / 0.4);
+    height: calc(100% / 0.4);
+  }
 `;
