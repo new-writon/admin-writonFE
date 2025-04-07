@@ -1,5 +1,6 @@
 import axios from "axios";
 import useChallengeStore from "../states/ChallengeStore";
+import useAuthStore from "../states/AuthStore";
 
 // const baseURL = "http://localhost:8080";
 const baseURL = "https://admin.writon.co.kr";
@@ -57,35 +58,51 @@ Axios.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const customStatusCode = error.response.data.code;
+    const requestURL = originalRequest.url;
 
+    // prettier-ignore
     switch (customStatusCode) {
-      // =============== Auth Error ===============
-      case "A03": {
+      case "A03": {     // UNAUTHORIZED_TOKEN
         alert(error.response.data.message);
         window.location.href = "/login";
         break;
       }
-      case "A04": {
+
+      // =============== Auth Error ===============
+      case "A04": {    // ACCESS_TOKEN_EXPIRATION
+        const {
+          isReissuing,
+          setIsReissuing,
+          reissuePromise,
+          setReissuePromise,
+        } = useAuthStore.getState();
+
         try {
-          const refreshToken = localStorage.getItem("refreshToken");
-          const accessToken = localStorage.getItem("accessToken");
+          if (!isReissuing) {
+            // 재발급 시작
+            setIsReissuing(true);
+            const promise = Axios.post("/auth/reissue");
+            setReissuePromise(promise);
 
-          const response = await Axios.post("/auth/reissue", {
-            accessToken,
-            refreshToken,
-          });
+            await promise;
 
-          // 새로운 Access Token 저장
-          const newAccessToken = response.data.data.accessToken;
-          localStorage.setItem("accessToken", newAccessToken);
-
-          Axios(originalRequest);
-        } catch (error: any) {
-          if (error.response) {
-            console.error("Server Error:", error.response.data);
+            // 재발급 성공 시, 상태 초기화
+            setIsReissuing(false);
+            setReissuePromise(null);
           } else {
-            console.error("Error creating question:", error.message);
+            // 이미 재발급 중이면 기다림
+            await reissuePromise;
           }
+
+          // 기존 API 재요청
+          return Axios(originalRequest);
+
+        } catch (error: any) {
+          setIsReissuing(false);
+          setReissuePromise(null);
+          alert("reissue error");
+
+          window.location.href = "/login";
         }
         break;
       }
