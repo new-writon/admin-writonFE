@@ -1,5 +1,7 @@
 import axios from "axios";
 import useChallengeStore from "../states/ChallengeStore";
+import useOrganizationStore from "../states/OrganizationStore";
+import { errorMsg } from "../utils/errorUtils";
 import useAuthStore from "../states/AuthStore";
 
 // const baseURL = "http://localhost:8080";
@@ -16,7 +18,7 @@ const excludedParamsUrl = [
   "/challenge",
 ];
 
-const excludedTokenUrl = ["/auth/login"];
+let isTokenHandled = false;
 
 // axios 기본설정
 export const Axios = axios.create({
@@ -106,20 +108,38 @@ Axios.interceptors.response.use(
         }
         break;
       }
-      case "A05": {
-        alert(error.response.data.message);
-        window.location.href = "/login";
+
+      case "A05":     // ACCESS_TOKEN_NOT_FOUND
+      case "A06":     // REFRESH_TOKEN_EXPIRATION
+      case "A07": {   // REFRESH_TOKEN_INCONSISTENCY
+        if (!isTokenHandled) {     // 중복 에러 처리 방지
+          isTokenHandled = true;
+
+          const { reset: challengeReset } = useChallengeStore.getState();
+          const { reset: organizationReset } = useOrganizationStore.getState();
+          
+          if (requestURL !== "/auth/check") {
+            alert(errorMsg[customStatusCode]);
+            challengeReset();
+            organizationReset();
+          }
+          
+          window.location.href = "/login";
+        }
+
         break;
       }
 
       // =============== Participation Error ===============
-      case "P01": {
+      case "P01": {   // EMAIL_DUPLICATION
         alert(error.response.data.message);
         break;
       }
-      default:
+
+      default: 
         console.error("알 수 없는 상태 코드: ", customStatusCode);
     }
+
     return Promise.reject(error);
   }
 );
