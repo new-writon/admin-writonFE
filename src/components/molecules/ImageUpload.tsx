@@ -18,7 +18,7 @@ const ImageUpload = ({
   disabled = false,
 }: ImageUpload) => {
   const defaultLogoUrl =
-    "https://writon-data.s3.ap-northeast-2.amazonaws.com/logo/default-logo.png";
+    "https://writon-data2.s3.ap-northeast-2.amazonaws.com/logo/d4fdaf92-eb71-4f3a-979e-75211814d364.png";
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isChecked, setIsChecked] = useState(preview === defaultLogoUrl);
