@@ -4,8 +4,12 @@ import { H3 } from "../atoms/Text";
 import { ContentSection, Input, DateInput, SelectCalendar } from "../molecules";
 import { BasicInfoProps } from "../../interfaces/challenge";
 import { formatDateToString } from "../../utils/formatUtils";
+import { useEffect } from "react";
+import useDateInputStore from "../../states/DateInputStore";
 
 const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfoProps) => {
+  const { setActiveInputId } = useDateInputStore();
+
   const handleSetValue = (field: string, value: string | Date) => {
     setData?.((prev) => ({
       ...prev,
@@ -15,6 +19,10 @@ const BasicInfo = ({ isEdit, gap = 24, data, setData }: BasicInfoProps) => {
           : value,
     }));
   };
+
+  useEffect(() => {
+    setActiveInputId(0);
+  }, [isEdit]);
 
   return (
     <FlexBox fullWidth col gap={gap}>

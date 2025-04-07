@@ -98,4 +98,5 @@ const InputContainer = styled.div<{
   background: ${({ theme, $disabled }) =>
     $disabled ? theme.color.gray[20] : theme.color.base.white};
   cursor: ${({ $disabled }) => ($disabled ? "text" : "pointer")};
+  z-index: ${({ $isOpenCalendar }) => ($isOpenCalendar ? 11 : "auto")};
 `;
