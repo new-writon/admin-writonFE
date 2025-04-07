@@ -45,7 +45,7 @@ export default Layout;
 const Container = styled.section`
   display: flex;
   width: 100%;
-  height: calc(100vh - 60px);
+  height: calc(100% - 60px);
 `;
 
 const ScrollContainer = styled.section`
