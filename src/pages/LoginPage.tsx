@@ -30,8 +30,6 @@ const LoginPage = () => {
   const { mutate: handleLogin } = useMutation({
     mutationFn: () => postAuthLoginAPI(id, password),
     onSuccess: ({
-      accessToken,
-      refreshToken,
       hasOrganization,
       organizationId,
       organizationName,
@@ -39,9 +37,6 @@ const LoginPage = () => {
       themeColor,
       challengeList,
     }) => {
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-
       setOrganizationId(organizationId);
       setOrganizationName(organizationName);
       setOrganizationLogo(organizationLogo);

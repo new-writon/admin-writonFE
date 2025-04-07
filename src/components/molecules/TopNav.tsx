@@ -17,9 +17,6 @@ const TopNav = () => {
   const { mutate: handleLogout } = useMutation({
     mutationFn: () => postAuthLogoutAPI(),
     onSuccess: () => {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-
       challengeReset();
       organizationReset();
     },

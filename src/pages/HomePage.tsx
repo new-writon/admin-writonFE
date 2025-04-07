@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
     if (accessToken) {

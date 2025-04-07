@@ -29,12 +29,6 @@ export const Axios = axios.create({
 
 Axios.interceptors.request.use(
   (config) => {
-    // Token Header 설정
-    const token = localStorage.getItem("accessToken");
-    if (token && !excludedTokenUrl.includes(config.url || "")) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
     // ChallengeId Param 설정
     const { challengeId } = useChallengeStore.getState();
 
