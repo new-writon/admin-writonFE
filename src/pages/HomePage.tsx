@@ -1,18 +1,20 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Axios } from "../apis/Axios";
+import { useMutation } from "@tanstack/react-query";
+import { getAuthCheckAPI } from "../apis/authAPI";
 
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const checkAuth = async () => {
-    try {
-      await Axios.get("/auth/check");
+  const { mutateAsync: checkAuth, isPending } = useMutation({
+    mutationFn: () => getAuthCheckAPI(),
+    onSuccess: () => {
       navigate("/challenge/dashboard");
-    } catch {
+    },
+    onError: () => {
       navigate("/login");
-    }
-  };
+    },
+  });
 
   useEffect(() => {
     checkAuth();
