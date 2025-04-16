@@ -34,6 +34,7 @@ const Categories = ({
                   ? theme.color.gray[100]
                   : theme.color.gray[50]
               }
+              as="h4"
             >
               {item}
             </H4>

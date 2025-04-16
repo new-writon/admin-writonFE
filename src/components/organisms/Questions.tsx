@@ -129,10 +129,16 @@ const Questions = ({
               isEdit || ques ? (
                 <FlexBox key={idx} gap={20} align="center">
                   {isEdit && <StatusChip idx={idx} />}
-                  <B2 weight="sb" color={theme.color.gray[80]}>
+                  <B2
+                    weight="sb"
+                    color={theme.color.gray[80]}
+                    as="label"
+                    htmlFor={`basic_question_${idx + 1}`}
+                  >
                     질문 {idx + 1}
                   </B2>
                   <Input
+                    id={`basic_question_${idx + 1}`}
                     disabled={!isEdit}
                     value={ques}
                     setValue={(value: string) => setBasicInputValue(value, idx)}
@@ -181,10 +187,16 @@ const Questions = ({
                     .map((_, idx) => (
                       <FlexBox key={idx} gap={20} align="center">
                         {isEdit && <StatusChip idx={idx} />}
-                        <B2 weight="sb" color={theme.color.gray[80]}>
+                        <B2
+                          weight="sb"
+                          color={theme.color.gray[80]}
+                          as="label"
+                          htmlFor={`special_question_${idx + 1}`}
+                        >
                           질문 {idx + 1}
                         </B2>
                         <Input
+                          id={`special_question_${idx + 1}`}
                           value=""
                           disabled
                           placeHolder="질문을 입력해주세요."
@@ -195,10 +207,16 @@ const Questions = ({
                     isEdit || ques ? (
                       <FlexBox key={idx} gap={20} align="center">
                         {isEdit && <StatusChip idx={idx} />}
-                        <B2 weight="sb" color={theme.color.gray[80]}>
+                        <B2
+                          weight="sb"
+                          color={theme.color.gray[80]}
+                          as="label"
+                          htmlFor={`special_question_${idx + 1}`}
+                        >
                           질문 {idx + 1}
                         </B2>
                         <Input
+                          id={`special_question_${idx + 1}`}
                           disabled={!isEdit}
                           value={ques}
                           setValue={(value: string) =>

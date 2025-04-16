@@ -46,11 +46,17 @@ const InputChip = ({
       disabled={disabled}
     >
       {size == "lg" ? (
-        <L2 color={disabled ? theme.color.gray[60] : fontColor[color]}>
+        <L2
+          color={disabled ? theme.color.gray[60] : fontColor[color]}
+          as="span"
+        >
           {children}
         </L2>
       ) : (
-        <L3 color={disabled ? theme.color.gray[60] : fontColor[color]}>
+        <L3
+          color={disabled ? theme.color.gray[60] : fontColor[color]}
+          as="span"
+        >
           {children}
         </L3>
       )}

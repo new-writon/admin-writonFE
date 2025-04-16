@@ -52,6 +52,7 @@ const SortButton = ({ children, selected, onClick }: SortButton) => {
       <B2
         weight="sb"
         color={selected ? theme.color.brand[50] : theme.color.gray[50]}
+        as="span"
       >
         {children}
       </B2>
@@ -74,6 +75,7 @@ const Cell = ({ text, hasCopyBtn, isWithdrawn }: Cell) => {
       <L3
         weight="r"
         color={isWithdrawn ? theme.color.gray[60] : tableCellColor(text)}
+        as="span"
       >
         {text}
       </L3>
@@ -243,7 +245,7 @@ const Table = ({
                   )
                   .map((header, idx) => (
                     <td key={idx}>
-                      <L3 color={theme.color.gray[80]} weight="sb">
+                      <L3 color={theme.color.gray[80]} weight="sb" as="span">
                         {fieldTranslations(header)}
                       </L3>
                     </td>
@@ -355,6 +357,7 @@ const Container = styled.div`
 
     td {
       padding: 8px 12px;
+      text-align: center;
     }
 
     p {

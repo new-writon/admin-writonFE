@@ -21,6 +21,7 @@ const Switch = ({ text, disabled, isOn, setIsOn }: Swith) => {
         <L3
           weight="sb"
           color={disabled ? theme.color.gray[40] : theme.color.brand[50]}
+          as="span"
         >
           {text}
         </L3>
