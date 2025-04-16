@@ -45,7 +45,7 @@ const Dropdown = ({ list, selectedItemId, setSelectedItemId }: Dropdown) => {
   return (
     <Container>
       <Header onClick={toggle} $visible={visible}>
-        <L2 weight="sb" color={theme.color.brand[50]}>
+        <L2 weight="sb" color={theme.color.brand[50]} as="span">
           {list.filter(({ id }) => selectedItemId == id)[0]?.name}
         </L2>
         <IoIosArrowUp color={theme.color.gray[70]} size={16} />
@@ -59,7 +59,9 @@ const Dropdown = ({ list, selectedItemId, setSelectedItemId }: Dropdown) => {
                 onClick={() => onClickItem(id)}
                 $isCurItem={selectedItemId == id}
               >
-                <B2 color={theme.color.gray[80]}>{name}</B2>
+                <B2 color={theme.color.gray[80]} as="span">
+                  {name}
+                </B2>
               </Item>
             ))}
           </List>

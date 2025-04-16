@@ -91,7 +91,7 @@ const ChallengeInfoPage = () => {
     <Frame title="챌린지 정보">
       <FlexBox col fullWidth gap={40}>
         {/*  ========== 기본 정보 ==========  */}
-        <FlexBox col fullWidth gap={24}>
+        <FlexBox col fullWidth gap={24} as="section">
           <FlexBox fullWidth justify="space-between">
             <H3>기본 정보</H3>
             <EditBtn
@@ -110,7 +110,7 @@ const ChallengeInfoPage = () => {
         <Line />
 
         {/*  ========== 챌린지 질문 ==========  */}
-        <FlexBox col fullWidth gap={24}>
+        <FlexBox col fullWidth gap={24} as="section">
           <FlexBox fullWidth justify="space-between">
             <H3>챌린지 질문</H3>
             <Button
@@ -133,7 +133,7 @@ const ChallengeInfoPage = () => {
         <Line />
 
         {/*  ========== 참여자 정보 ==========  */}
-        <FlexBox col fullWidth gap={24}>
+        <FlexBox col fullWidth gap={24} as="section">
           <FlexBox fullWidth justify="space-between">
             <H3>참여자 정보</H3>
             <Button

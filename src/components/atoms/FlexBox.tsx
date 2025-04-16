@@ -1,5 +1,8 @@
+import styled from "styled-components";
+
 interface FlexBox {
   children: React.ReactNode;
+  as?: string;
   col?: boolean;
   gap?: number;
   justify?: string;
@@ -14,6 +17,7 @@ interface FlexBox {
 
 const FlexBox = ({
   children,
+  as = "div",
   col,
   gap,
   justify,
@@ -26,9 +30,8 @@ const FlexBox = ({
   onClick,
 }: FlexBox) => {
   return (
-    <div
+    <Container
       style={{
-        display: "flex",
         flexDirection: col ? "column" : "row",
         gap: `${gap}px` || "0px",
         justifyContent: justify || "flex-start",
@@ -40,10 +43,15 @@ const FlexBox = ({
         ...style,
       }}
       onClick={onClick}
+      as={as}
     >
       {children}
-    </div>
+    </Container>
   );
 };
 
 export default FlexBox;
+
+const Container = styled.div`
+  display: flex;
+`;

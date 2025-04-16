@@ -38,7 +38,7 @@ const InputChip = ({
 }: InputChip) => {
   return (
     <Container
-      as={onClick ? "button" : "div"}
+      as={onClick ? "button" : "li"}
       onClick={onClick}
       $hasBtn={deleteItem ? true : false}
       $bgColor={bgColor[color]}
@@ -46,11 +46,17 @@ const InputChip = ({
       disabled={disabled}
     >
       {size == "lg" ? (
-        <L2 color={disabled ? theme.color.gray[60] : fontColor[color]}>
+        <L2
+          color={disabled ? theme.color.gray[60] : fontColor[color]}
+          as="span"
+        >
           {children}
         </L2>
       ) : (
-        <L3 color={disabled ? theme.color.gray[60] : fontColor[color]}>
+        <L3
+          color={disabled ? theme.color.gray[60] : fontColor[color]}
+          as="span"
+        >
           {children}
         </L3>
       )}
@@ -65,7 +71,7 @@ const InputChip = ({
 
 export default InputChip;
 
-const Container = styled.div<{
+const Container = styled.li<{
   $hasBtn: boolean;
   $bgColor: string;
   $disabled: boolean;

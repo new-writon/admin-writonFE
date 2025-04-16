@@ -30,11 +30,11 @@ const Chip = ({ children, color, size }: Chip) => {
       style={{ backgroundColor: bgColor[color], borderRadius: "4px" }}
     >
       {size == "lg" ? (
-        <L2 weight="sb" color={fontColor[color]}>
+        <L2 weight="sb" color={fontColor[color]} as="span">
           {children}
         </L2>
       ) : (
-        <L3 weight="sb" color={fontColor[color]}>
+        <L3 weight="sb" color={fontColor[color]} as="span">
           {children}
         </L3>
       )}

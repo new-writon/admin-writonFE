@@ -8,7 +8,7 @@ import TitleManager from "../../utils/TitleManager";
 const Layout = () => {
   const loacation = useLocation();
   const pathname = loacation.pathname;
-  const excludedPaths = ["/login", "/onBoarding"];
+  const excludedPaths = ["/login", "/onBoarding", "/"];
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -43,13 +43,13 @@ const Layout = () => {
 
 export default Layout;
 
-const Container = styled.section`
+const Container = styled.div`
   display: flex;
   width: 100%;
   height: calc(100% - 60px);
 `;
 
-const ScrollContainer = styled.section`
+const ScrollContainer = styled.main`
   height: 100%;
   flex: 1;
   overflow-y: auto;

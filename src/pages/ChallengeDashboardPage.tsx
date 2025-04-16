@@ -37,7 +37,7 @@ const ChallengeDashboardPage = () => {
 
   return (
     <Frame title="챌린지 참여 현황" noLine>
-      <FlexBox fullWidth col gap={40}>
+      <FlexBox fullWidth col gap={40} as="section">
         {/* ========== Categories ========== */}
         <Categories
           list={categoryList}
@@ -53,6 +53,7 @@ const ChallengeDashboardPage = () => {
           style={{
             display: selectedCategory === 0 ? "flex" : "none",
           }}
+          as="section"
         >
           {/* ========== SearchBar ========== */}
           <FlexBox fullWidth gap={20} align="center">

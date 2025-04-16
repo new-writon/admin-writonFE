@@ -36,7 +36,7 @@ const TopNav = () => {
   return (
     <Container>
       <FlexBox align="center" gap={10}>
-        <img src="/icons/logo-typo.svg" />
+        <img src="/icons/logo-typo.svg" alt="logo-typo" />
         <Line height={20} />
         <TopNavTxt>Admin</TopNavTxt>
       </FlexBox>
@@ -51,7 +51,7 @@ const TopNav = () => {
 
 export default TopNav;
 
-const Container = styled.nav`
+const Container = styled.header`
   display: flex;
   justify-content: space-between;
   width: 100%;

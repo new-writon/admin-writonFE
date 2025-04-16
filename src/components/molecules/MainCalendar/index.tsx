@@ -65,7 +65,7 @@ const MainCalendar = ({ calendarData, totalCnt, style }: MainCalendarProps) => {
 
 export default MainCalendar;
 
-const Container = styled.div`
+const Container = styled.section`
   max-width: 900px;
   min-width: 700px;
   width: 100%;

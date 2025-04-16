@@ -141,7 +141,11 @@ const SideBar = () => {
           </Button>
         </ButtonContainer>
       </Container>
-      <MenuToggleButton onClick={toggleSidebar} $isOpen={isSidebarOpen}>
+      <MenuToggleButton
+        id="menu_toggle_button"
+        onClick={toggleSidebar}
+        $isOpen={isSidebarOpen}
+      >
         {isSidebarOpen ? (
           <IoIosArrowBack size={24} color={theme.color.gray[80]} />
         ) : (
@@ -154,7 +158,7 @@ const SideBar = () => {
 
 export default SideBar;
 
-const Container = styled.section<{ $isOpen: boolean }>`
+const Container = styled.aside<{ $isOpen: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;

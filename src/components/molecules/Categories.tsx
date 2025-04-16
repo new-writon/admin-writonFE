@@ -18,7 +18,7 @@ const Categories = ({
   isClickDisabled,
 }: Categories) => {
   return (
-    <FlexBox col fullWidth>
+    <FlexBox col fullWidth as="section">
       <FlexBox fullWidth gap={32}>
         {list.map((item, idx) => (
           <Category
@@ -34,6 +34,7 @@ const Categories = ({
                   ? theme.color.gray[100]
                   : theme.color.gray[50]
               }
+              as="h4"
             >
               {item}
             </H4>

@@ -38,7 +38,13 @@ const ParticipationParticipatePage = () => {
 
   return (
     <Frame title="참여자 초대">
-      <FlexBox col fullWidth gap={60} style={{ marginTop: "40px" }}>
+      <FlexBox
+        col
+        fullWidth
+        gap={60}
+        style={{ marginTop: "40px" }}
+        as="section"
+      >
         <Participate
           gap={50}
           isEdit
@@ -47,7 +53,7 @@ const ParticipationParticipatePage = () => {
           setPendingEmailList={setPendingEmailList}
           handleParticipate={handleParticipate}
         />
-        {isPending && <Loading />}
+        {isPending && <Loading text="이메일 전송중입니다..." />}
       </FlexBox>
     </Frame>
   );

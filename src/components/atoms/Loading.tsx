@@ -4,23 +4,29 @@ import { FlexBox } from ".";
 import { H4 } from "./Text";
 import { theme } from "../../styles/theme";
 
-const Loading = () => (
-  <LoadingWrapper>
+interface Loading {
+  text: string;
+  hasBackdrop?: boolean;
+}
+
+const Loading = ({ text, hasBackdrop = true }: Loading) => (
+  <LoadingWrapper $hasBackdrop={hasBackdrop}>
     <ScrollLock />
     <FlexBox col align="center" gap={12}>
       <SpinnerBlue />
-      <H4 color={theme.color.gray[80]}>이메일 전송중입니다...</H4>
+      <H4 color={theme.color.gray[80]}>{text}</H4>
     </FlexBox>
   </LoadingWrapper>
 );
 
 export default Loading;
 
-const LoadingWrapper = styled.div`
+const LoadingWrapper = styled.div<{ $hasBackdrop: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: ${({ $hasBackdrop }) =>
+    $hasBackdrop ? "rgba(0, 0, 0, 0.1)" : "transparent"};
   z-index: 10;
 
   display: flex;

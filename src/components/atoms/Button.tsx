@@ -24,7 +24,7 @@ interface Button {
   onClick?: () => void;
   onSubmit?: () => void;
   fullWidth?: boolean;
-  disabled?: boolean; // 비황성화
+  disabled?: boolean; // 비활성화
   style?: React.CSSProperties;
   // ===== 아이콘 =====
   rightPlus?: boolean; // 오른쪽 플러스 아이콘
@@ -77,6 +77,7 @@ const Button = ({
       $padding={type == "none" ? "4px" : padding[size]}
       $borderRadius={borderRadius[size]}
     >
+      {/* ========== 왼쪽 측 아이콘 ========== */}
       {editIcon && (
         <MdEdit
           size={iconSize[size]}
@@ -101,10 +102,13 @@ const Button = ({
           color={disabled ? fontColor.disabled : fontColor.abled[type]}
         />
       )}
+
+      {/* ========== 텍스트 ========== */}
       {size == "sm" ? (
         <B2
           weight="sb"
           color={disabled ? fontColor.disabled : fontColor.abled[type]}
+          as="span"
         >
           {children}
         </B2>
@@ -112,10 +116,13 @@ const Button = ({
         <B1
           weight="sb"
           color={disabled ? fontColor.disabled : fontColor.abled[type]}
+          as="span"
         >
           {children}
         </B1>
       )}
+
+      {/* ========== 오른쪽 측 아이콘 ========== */}
       {rightPlus && (
         <FiPlus
           size={iconSize[size]}

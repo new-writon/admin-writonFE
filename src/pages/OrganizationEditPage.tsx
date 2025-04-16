@@ -65,7 +65,7 @@ const InfoManage = () => {
   return (
     <>
       {/* ========== Title ========== */}
-      <FlexBox fullWidth justify="space-between">
+      <FlexBox fullWidth justify="space-between" as="section">
         <H3>기본 정보</H3>
         <EditBtn
           isEdit={isEdit}
@@ -76,7 +76,7 @@ const InfoManage = () => {
       </FlexBox>
 
       {/* ========== Contents ========== */}
-      <FlexBox col fullWidth gap={52} style={{ width: "600px" }}>
+      <FlexBox col fullWidth gap={52} style={{ width: "600px" }} as="section">
         <ContentSection title="조직 이름" titleWidth={180}>
           <Input value={name || ""} setValue={setName} disabled={!isEdit} />
         </ContentSection>
@@ -141,7 +141,7 @@ const OnBoardingManage = () => {
 
   return (
     <>
-      <FlexBox fullWidth justify="flex-end">
+      <FlexBox fullWidth justify="flex-end" as="section">
         <EditBtn
           isEdit={isEdit}
           setIsEdit={setIsEdit}
@@ -152,7 +152,7 @@ const OnBoardingManage = () => {
         </EditBtn>
       </FlexBox>
 
-      <FlexBox col gap={48} align="center" fullWidth>
+      <FlexBox col gap={48} align="center" fullWidth as="section">
         {!isEdit && (
           <B2 color={theme.color.gray[60]}>
             온보딩 항목은 유저에게 다음과 같이 보여집니다.

@@ -17,6 +17,7 @@ interface Input {
   fullWidth?: boolean;
   disabled?: boolean;
   type?: string;
+  id?: string; // label 매칭을 위한 id 입력
 }
 
 const Input = ({
@@ -29,6 +30,7 @@ const Input = ({
   fullWidth,
   disabled = false,
   type,
+  id,
 }: Input) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -45,6 +47,7 @@ const Input = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           type={type || "text"}
+          id={id}
         />
         {hasDeleteBtn && (
           <button onClick={() => setValue?.("")} disabled={disabled}>

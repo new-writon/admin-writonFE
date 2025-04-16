@@ -59,3 +59,17 @@ export const postAuthReissueAPI = async () => {
     throw error;
   }
 };
+
+// 토큰 확인 API
+export const getAuthCheckAPI = async () => {
+  try {
+    await Axios.get("/auth/check");
+  } catch (error: any) {
+    if (error.response) {
+      console.error("Server Error:", error.response.data);
+    } else {
+      console.error("Error creating question:", error.message);
+    }
+    throw error;
+  }
+};

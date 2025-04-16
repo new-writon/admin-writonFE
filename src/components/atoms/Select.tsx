@@ -35,7 +35,7 @@ const Select = ({ children, type, onClick }: Select) => {
       $type={type}
       disabled={onClick ? false : true}
     >
-      <B2 color={fontColor[type]}>{children}</B2>
+      <B2 color={fontColor[type]} as="span">{children}</B2>
     </Container>
   );
 };
