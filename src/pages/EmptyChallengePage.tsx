@@ -15,7 +15,7 @@ const EmptyChallengePage = () => {
         gap={28}
         style={{ marginTop: "180px" }}
       >
-        <img src="/images/page.svg" />
+        <img src="/images/page.svg" alt="page" />
         <B1 color={theme.color.gray[70]}>아직 만들어진 챌린지가 없어요.</B1>
         <Button
           type="dark"

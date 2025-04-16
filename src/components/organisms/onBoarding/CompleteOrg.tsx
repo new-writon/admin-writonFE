@@ -23,7 +23,7 @@ const CompleteOrg = ({ isChallenge }: CompleteOrg) => {
       </FlexBox>
 
       {/* ========== Image ========== */}
-      <img src="/images/fanfare.svg" />
+      <img src="/images/fanfare.svg" alt="fanfare" />
 
       {/* ========== Buttons ========== */}
       <FlexBox col fullWidth gap={16} align="center" style={{ width: "360px" }}>
