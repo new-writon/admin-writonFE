@@ -24,9 +24,9 @@ const Frame = ({
 
   return (
     <Container>
-      <FlexBox col gap={20} style={{ width: "900px" }}>
+      <FlexBox col gap={20} style={{ width: "900px" }} as="article">
         {/*  ========== Header ==========  */}
-        <FlexBox fullWidth justify="space-between">
+        <FlexBox fullWidth justify="space-between" as="section">
           <FlexBox col gap={4}>
             <H2>{title}</H2>
             <B2 color={theme.color.gray[60]}>{subTitle}</B2>
@@ -50,7 +50,7 @@ const Frame = ({
 
 export default Frame;
 
-const Container = styled.section`
+const Container = styled.div`
   height: 100%;
   height: fit-content;
   display: flex;

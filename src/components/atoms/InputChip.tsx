@@ -38,7 +38,7 @@ const InputChip = ({
 }: InputChip) => {
   return (
     <Container
-      as={onClick ? "button" : "div"}
+      as={onClick ? "button" : "li"}
       onClick={onClick}
       $hasBtn={deleteItem ? true : false}
       $bgColor={bgColor[color]}
@@ -71,7 +71,7 @@ const InputChip = ({
 
 export default InputChip;
 
-const Container = styled.div<{
+const Container = styled.li<{
   $hasBtn: boolean;
   $bgColor: string;
   $disabled: boolean;

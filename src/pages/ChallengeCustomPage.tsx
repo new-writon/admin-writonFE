@@ -11,6 +11,7 @@ const ChallengeCustomPage = () => {
         align="center"
         gap={20}
         style={{ paddingTop: "80px" }}
+        as="section"
       >
         <img src="/images/page.svg" />
         <B1>서비스 준비중...</B1>

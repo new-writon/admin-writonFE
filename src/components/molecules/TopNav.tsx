@@ -51,7 +51,7 @@ const TopNav = () => {
 
 export default TopNav;
 
-const Container = styled.nav`
+const Container = styled.header`
   display: flex;
   justify-content: space-between;
   width: 100%;

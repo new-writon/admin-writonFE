@@ -19,7 +19,7 @@ const Form = ({
   totalSteps,
   step,
   noBackground,
-  onSubmit
+  onSubmit,
 }: Form) => {
   const container = (
     <Container $isLoginForm={isLoginForm}>
@@ -51,7 +51,7 @@ const Form = ({
 
 export default Form;
 
-const Background = styled.main`
+const Background = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,7 +61,7 @@ const Background = styled.main`
   background-color: ${({ theme }) => theme.color.gray[10]};
 `;
 
-const Container = styled.section<{ $isLoginForm: boolean }>`
+const Container = styled.article<{ $isLoginForm: boolean }>`
   width: 95%;
   max-width: ${({ $isLoginForm }) => ($isLoginForm ? "690px" : "750px")};
   min-height: 600px;

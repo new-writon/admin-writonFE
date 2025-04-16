@@ -18,7 +18,7 @@ const Categories = ({
   isClickDisabled,
 }: Categories) => {
   return (
-    <FlexBox col fullWidth>
+    <FlexBox col fullWidth as="section">
       <FlexBox fullWidth gap={32}>
         {list.map((item, idx) => (
           <Category

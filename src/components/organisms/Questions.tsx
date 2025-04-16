@@ -120,7 +120,7 @@ const Questions = ({
   };
 
   return (
-    <FlexBox fullWidth justify="space-between">
+    <FlexBox fullWidth justify="space-between" as="section">
       <FlexBox col isFlex1 gap={gap}>
         {/*  ========== 베이직 질문 ==========  */}
         <ContentSection title="베이직 질문" titleWidth={163}>

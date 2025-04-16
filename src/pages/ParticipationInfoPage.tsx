@@ -87,7 +87,7 @@ const ParticipationInfoPage = () => {
 
   return (
     <Frame title="참여자 정보">
-      <FlexBox fullWidth col gap={20} style={{ overflow: "auto" }}>
+      <FlexBox fullWidth col gap={20} style={{ overflow: "auto" }} as="section">
         {/* ========== SearchBar ==========  */}
         <FlexBox fullWidth align="center" justify="space-between">
           <FlexBox gap={20} align="center">
@@ -115,7 +115,7 @@ const ParticipationInfoPage = () => {
         </FlexBox>
       </FlexBox>
 
-      <FlexBox col fullWidth gap={4}>
+      <FlexBox col fullWidth gap={4} as="section">
         {/* ========== Filter ==========  */}
         {data.length !== 0 && (
           <Filter
