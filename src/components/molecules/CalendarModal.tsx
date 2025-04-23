@@ -2,6 +2,7 @@ import moment from "moment";
 import Calendar from "react-calendar";
 import styled from "styled-components";
 import "react-calendar/dist/Calendar.css";
+import { useEffect, useRef } from "react";
 
 interface CalendarModal {
   setIsOpenCalendar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,6 +12,7 @@ interface CalendarModal {
   top?: number; // 캘린더 모달 위치
   left?: number; // 캘린더 모달 위치
   handleFilter?: (startDate: Date, endDate: Date) => void; // 추가적인 클릭 기능
+  containerRef: React.RefObject<HTMLDivElement>; // 모달 제외 영역 클릭 시 제외하기 위한 용도
 }
 
 const CalendarModal = ({
@@ -21,6 +23,7 @@ const CalendarModal = ({
   top = 0,
   left = 0,
   handleFilter,
+  containerRef,
 }: CalendarModal) => {
   // 클릭한 날짜를 처리하는 함수
   const handleClickDay = (value: Date) => {
@@ -39,6 +42,25 @@ const CalendarModal = ({
       setIsOpenCalendar(false);
     }
   };
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      modalRef.current &&
+      containerRef.current &&
+      !modalRef.current.contains(event.target as Node) &&
+      !containerRef.current.contains(event.target as Node)
+    ) {
+      setIsOpenCalendar((prev) => !prev);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setIsOpenCalendar]);
 
   return (
     <>
