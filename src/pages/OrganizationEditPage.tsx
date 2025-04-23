@@ -49,6 +49,7 @@ const InfoManage = () => {
       setOrganizationName(organizationName);
       setOrganizationLogo(organizationLogo);
       setColor(themeColor);
+      setIsEdit(false);
     },
     onError: (err) => {
       console.error(err);
@@ -129,6 +130,7 @@ const OnBoardingManage = () => {
       setPositionList(data);
       queryClient.setQueryData(["organization-position", challengeId], data);
       alert("수정 완료");
+      setIsEdit(false);
     },
     onError: (err) => {
       console.error(err);
