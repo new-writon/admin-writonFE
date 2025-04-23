@@ -2,6 +2,7 @@ import {
   CalendarData,
   DashboardTableData,
   QuestionsData,
+  QuestionsDataPayload,
   UserStatus,
 } from "../interfaces/challenge";
 import { ParticipationTableData } from "../interfaces/participation";
@@ -73,7 +74,7 @@ const tableCellColor = (value: string) => {
 // Question List 에서 빈 string 전부 제거
 const formatQuestionsRemoveEmpty = (
   questionsData: QuestionsData
-): QuestionsData => {
+): QuestionsDataPayload => {
   const removeEmptyStrings = (array: string[]): string[] => {
     return array.filter((item) => item.trim() !== "");
   };
@@ -82,6 +83,7 @@ const formatQuestionsRemoveEmpty = (
     basicQuestions: removeEmptyStrings(questionsData.basicQuestions),
     specialQuestions: questionsData.specialQuestions.map((special) => ({
       ...special,
+      keywordId: special.keywordId < 0 ? null : special.keywordId,
       questions: removeEmptyStrings(special.questions),
     })),
   };
@@ -215,5 +217,5 @@ export {
   formatDashboardDate,
   formatMainCalendarData,
   formatParticipationInfoData,
-  isValidEmail
+  isValidEmail,
 };
