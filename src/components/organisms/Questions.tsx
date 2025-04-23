@@ -51,6 +51,50 @@ const Questions = ({
 
   // 키워드 변경 이벤트
   const handleKeywordList = (value: string[]) => {
+    // 변경된 키워드 리스트에 selectedKeyword가 없는 경우
+    if (!value.includes(selectedKeyword.keyword || "")) {
+      const selectedKeywordIdx = keywordList.findIndex(
+        (item) => item.id === selectedKeyword.id
+      );
+
+      // 1. 키워드가 처음 생성되면 첫번째 키워드 선택
+      if (keywordList.length === 0) {
+        setSelectedKeyword({
+          id: newKeywordId,
+          keyword: value[0],
+        });
+
+        // 2. 키워드 한개도 없어지면 초기화
+      } else if (value.length === 0) {
+        setSelectedKeyword({
+          id: 0,
+          keyword: "",
+        });
+
+        // 3. selectedKeyword가 마지막인 경우 그 앞의 keyword로 변경
+      } else if (selectedKeywordIdx === value.length) {
+        setSelectedKeyword({
+          id: keywordList[selectedKeywordIdx - 1].id,
+          keyword: keywordList[selectedKeywordIdx - 1].keyword,
+        });
+
+        // 4. selectedKeyword가 삭제되는 경우 그 뒤의 keyword로 변경
+      } else {
+        setSelectedKeyword({
+          id: keywordList[selectedKeywordIdx + 1].id,
+          keyword: keywordList[selectedKeywordIdx + 1].keyword,
+        });
+      }
+      // 5. 새로운 키워드를 생성할 경우 selectedKeyword 맨 뒤로 이동
+    } else if (
+      keywordList[keywordList.length - 1].keyword === value[value.length - 2]
+    ) {
+      setSelectedKeyword({
+        id: newKeywordId,
+        keyword: value[value.length - 1],
+      });
+    }
+
     const updatedSpecialQuestions = value.map((keyword) => {
       // 기존 데이터에서 해당 키워드를 찾음
       const existingData = data.specialQuestions.find(
@@ -71,26 +115,6 @@ const Questions = ({
       ...prev,
       specialQuestions: updatedSpecialQuestions,
     }));
-
-    // 키워드 리스트가 변경될 때 selectedKeyword를 업데이트
-    if (!value.includes(selectedKeyword.keyword || "")) {
-      // 1. keywordList 0개에서 생길 때 자동으로 1번 keyword 선택
-      if (value.length == 1) {
-        setSelectedKeyword({ idx: 0, keyword: value[0] });
-        // 2. selectedKeyword가 마지막인 경우 그 앞의 keyword로 변경
-      } else if (selectedKeyword.idx == value.length) {
-        setSelectedKeyword((prev) => ({
-          idx: prev.idx - 1,
-          keyword: value[prev.idx - 1],
-        }));
-        // 3. selectedKeyword가 삭제되는 경우 그 뒤의 keyword로 변경
-      } else {
-        setSelectedKeyword((prev) => ({
-          ...prev,
-          keyword: value[prev.idx],
-        }));
-      }
-    }
   };
 
   // 베이직 질문 수정
