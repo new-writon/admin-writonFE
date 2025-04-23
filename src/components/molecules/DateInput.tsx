@@ -4,7 +4,7 @@ import { FlexBox } from "../atoms";
 import { theme } from "../../styles/theme";
 import { formatDateToString } from "../../utils/formatUtils";
 import { IoCalendarOutline } from "../atoms/Icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CalendarModal from "./CalendarModal";
 import useDateInputStore from "../../states/DateInputStore";
 
@@ -31,6 +31,8 @@ const DateInput = ({
   };
   const { activeInputId, setActiveInputId } = useDateInputStore();
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const onClickInput = () => {
     if (disabled) return;
 
@@ -54,6 +56,7 @@ const DateInput = ({
         $disabled={disabled}
         $isOpenCalendar={isOpenCalendar}
         onClick={onClickInput}
+        ref={containerRef}
       >
         <B2>{formatDateToString(value)}</B2>
         {!disabled && (
@@ -70,6 +73,7 @@ const DateInput = ({
           date={value}
           setDate={(date) => date instanceof Date && setValue(date)}
           top={76}
+          containerRef={containerRef}
         />
       )}
     </FlexBox>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { theme } from "../../styles/theme";
 
 import { Button, CheckBox, FlexBox, Line } from "../atoms";
@@ -112,6 +112,8 @@ const Table = ({
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
   const [dates, setDates] = useState<Date[]>([]);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   // Table 선택 기능
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -195,7 +197,7 @@ const Table = ({
 
           {/* ========== Button ========== */}
           {isButton && (
-            <CalendarContainer>
+            <CalendarContainer ref={containerRef}>
               <Button
                 type="empty"
                 size="sm"
@@ -215,6 +217,7 @@ const Table = ({
                   left={-20}
                   isRange
                   handleFilter={handleFilter}
+                  containerRef={containerRef}
                 />
               )}
             </CalendarContainer>
