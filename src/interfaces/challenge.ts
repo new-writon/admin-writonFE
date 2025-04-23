@@ -13,6 +13,7 @@ export interface BasicInfoProps {
 }
 
 export interface SpecialQuestion {
+  keywordId: number;
   keyword: string;
   questions: string[];
 }
@@ -20,6 +21,17 @@ export interface SpecialQuestion {
 export interface QuestionsData {
   basicQuestions: string[];
   specialQuestions: SpecialQuestion[];
+}
+
+export interface SpecialQuestionPayload {
+  keywordId: number | null;
+  keyword: string;
+  questions: string[];
+}
+
+export interface QuestionsDataPayload {
+  basicQuestions: string[];
+  specialQuestions: SpecialQuestionPayload[];
 }
 
 export interface QuestionsProps {
@@ -61,6 +73,6 @@ export interface MainCalendarProps {
 // ========== API Interface ==========
 export interface PostChallengeCreateAPIParams
   extends BasicInfoData,
-    QuestionsData {
+    QuestionsDataPayload {
   emailList: string[];
 }

@@ -15,6 +15,9 @@ const StatusChip = ({ idx }: { idx: number }) => {
   );
 };
 
+// 키워드 생성시 적용하는 임의의 음수 id
+let newKeywordId = -1;
+
 const Questions = ({
   gap,
   isEdit = false,
@@ -25,59 +28,93 @@ const Questions = ({
   backupData,
 }: QuestionsProps) => {
   const [selectedKeyword, setSelectedKeyword] = useState({
-    idx: 0,
+    id: 0,
     keyword: "",
   });
-  const keywordList = data.specialQuestions.map(({ keyword }) => keyword);
+  const keywordList = data.specialQuestions.map(({ keywordId, keyword }) => ({
+    id: keywordId,
+    keyword,
+  }));
   const selectedQuestions: string[] =
     data.specialQuestions.find(
-      ({ keyword }) => keyword === selectedKeyword.keyword
+      ({ keywordId }) => keywordId === selectedKeyword.id
     )?.questions || [];
 
   useEffect(() => {
-    if (backupData) {
+    if (data) {
       setSelectedKeyword({
-        idx: 0,
-        keyword: backupData.specialQuestions[0]?.keyword,
+        id: data.specialQuestions[0]?.keywordId,
+        keyword: data.specialQuestions[0]?.keyword,
       });
     }
   }, [backupData]);
 
   // 키워드 변경 이벤트
   const handleKeywordList = (value: string[]) => {
+    // 변경된 키워드 리스트에 selectedKeyword가 없는 경우
+    if (!value.includes(selectedKeyword.keyword || "")) {
+      const selectedKeywordIdx = keywordList.findIndex(
+        (item) => item.id === selectedKeyword.id
+      );
+
+      // 1. 키워드가 처음 생성되면 첫번째 키워드 선택
+      if (keywordList.length === 0) {
+        setSelectedKeyword({
+          id: newKeywordId,
+          keyword: value[0],
+        });
+
+        // 2. 키워드 한개도 없어지면 초기화
+      } else if (value.length === 0) {
+        setSelectedKeyword({
+          id: 0,
+          keyword: "",
+        });
+
+        // 3. selectedKeyword가 마지막인 경우 그 앞의 keyword로 변경
+      } else if (selectedKeywordIdx === value.length) {
+        setSelectedKeyword({
+          id: keywordList[selectedKeywordIdx - 1].id,
+          keyword: keywordList[selectedKeywordIdx - 1].keyword,
+        });
+
+        // 4. selectedKeyword가 삭제되는 경우 그 뒤의 keyword로 변경
+      } else {
+        setSelectedKeyword({
+          id: keywordList[selectedKeywordIdx + 1].id,
+          keyword: keywordList[selectedKeywordIdx + 1].keyword,
+        });
+      }
+      // 5. 새로운 키워드를 생성할 경우 selectedKeyword 맨 뒤로 이동
+    } else if (
+      keywordList[keywordList.length - 1].keyword === value[value.length - 2]
+    ) {
+      setSelectedKeyword({
+        id: newKeywordId,
+        keyword: value[value.length - 1],
+      });
+    }
+
     const updatedSpecialQuestions = value.map((keyword) => {
       // 기존 데이터에서 해당 키워드를 찾음
       const existingData = data.specialQuestions.find(
         (sq) => sq.keyword === keyword
       );
+
       // 기존 데이터가 있으면 그대로 사용, 없으면 새로운 객체 생성
-      return existingData || { keyword, questions: ["", "", "", ""] };
+      return (
+        existingData || {
+          keywordId: newKeywordId--,
+          keyword,
+          questions: ["", "", "", ""],
+        }
+      );
     });
 
     setData?.((prev) => ({
       ...prev,
       specialQuestions: updatedSpecialQuestions,
     }));
-
-    // 키워드 리스트가 변경될 때 selectedKeyword를 업데이트
-    if (!value.includes(selectedKeyword.keyword || "")) {
-      // 1. keywordList 0개에서 생길 때 자동으로 1번 keyword 선택
-      if (value.length == 1) {
-        setSelectedKeyword({ idx: 0, keyword: value[0] });
-        // 2. selectedKeyword가 마지막인 경우 그 앞의 keyword로 변경
-      } else if (selectedKeyword.idx == value.length) {
-        setSelectedKeyword((prev) => ({
-          idx: prev.idx - 1,
-          keyword: value[prev.idx - 1],
-        }));
-        // 3. selectedKeyword가 삭제되는 경우 그 뒤의 keyword로 변경
-      } else {
-        setSelectedKeyword((prev) => ({
-          ...prev,
-          keyword: value[prev.idx],
-        }));
-      }
-    }
   };
 
   // 베이직 질문 수정
@@ -94,8 +131,8 @@ const Questions = ({
   const setSpecialInputValue = (value: string, curIdx: number) => {
     setData?.((prev) => ({
       ...prev,
-      specialQuestions: prev.specialQuestions.map((item, keywordIdx) => {
-        if (keywordIdx !== selectedKeyword.idx) {
+      specialQuestions: prev.specialQuestions.map((item) => {
+        if (item.keywordId !== selectedKeyword.id) {
           return item;
         }
         return {
@@ -113,7 +150,7 @@ const Questions = ({
     if (backupData) {
       setData?.(backupData);
       setSelectedKeyword({
-        idx: 0,
+        id: backupData.specialQuestions[0]?.keywordId,
         keyword: backupData.specialQuestions[0]?.keyword,
       });
     }
@@ -154,7 +191,7 @@ const Questions = ({
           <ContentSection title="스페셜 질문 키워드 관리" titleWidth={163}>
             <InputDropdown
               type="keyword"
-              list={keywordList}
+              list={keywordList.map((item) => item.keyword)}
               setList={handleKeywordList}
             />
           </ContentSection>
@@ -169,13 +206,15 @@ const Questions = ({
               </B2>
             ) : (
               <FlexBox align="center" gap={8} isFlexWrap>
-                {keywordList.map((keyword, idx) => (
+                {keywordList.map((keyword) => (
                   <Select
-                    type={idx == selectedKeyword.idx ? "outline" : "default"}
-                    key={idx}
-                    onClick={() => setSelectedKeyword({ idx, keyword })}
+                    type={
+                      keyword.id == selectedKeyword.id ? "outline" : "default"
+                    }
+                    key={keyword.id}
+                    onClick={() => setSelectedKeyword(keyword)}
                   >
-                    {keyword}
+                    {keyword.keyword}
                   </Select>
                 ))}
               </FlexBox>

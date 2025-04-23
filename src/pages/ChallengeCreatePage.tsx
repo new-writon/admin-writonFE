@@ -68,8 +68,10 @@ const ChallengeCreatePage = () => {
   };
   const completeStep2 = () => {
     if (
-      questionsData.basicQuestions[0] &&
-      questionsData.specialQuestions.some((item) => item.questions[0] != "")
+      questionsData.basicQuestions[0].trim() &&
+      questionsData.specialQuestions.every(
+        (item) => item.questions[0].trim() != ""
+      )
     ) {
       movePage(1);
     } else {
@@ -146,7 +148,6 @@ const ChallengeCreatePage = () => {
             gap={50}
             data={questionsData}
             setData={setQuestionsData}
-            backupData={questionsData}
           />
         )}
         {selectedCategory == 2 && (

@@ -2,6 +2,7 @@ import {
   BasicInfoData,
   PostChallengeCreateAPIParams,
   QuestionsData,
+  QuestionsDataPayload,
   UserStatus,
 } from "../interfaces/challenge";
 import { Axios } from "./Axios";
@@ -107,7 +108,7 @@ export const putChallengeInfoAPI = async (
 
 // 챌린지 질문 수정 API
 export const putChallengeQuestionsAPI = async (
-  requestDto: QuestionsData
+  requestDto: QuestionsDataPayload
 ): Promise<QuestionsData> => {
   try {
     const {
