@@ -146,7 +146,6 @@ const ChallengeCreatePage = () => {
             gap={50}
             data={questionsData}
             setData={setQuestionsData}
-            backupData={questionsData}
           />
         )}
         {selectedCategory == 2 && (

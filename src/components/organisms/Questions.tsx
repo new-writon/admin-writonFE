@@ -35,10 +35,10 @@ const Questions = ({
     )?.questions || [];
 
   useEffect(() => {
-    if (backupData) {
+    if (data) {
       setSelectedKeyword({
-        idx: 0,
-        keyword: backupData.specialQuestions[0]?.keyword,
+        id: data.specialQuestions[0]?.keywordId,
+        keyword: data.specialQuestions[0]?.keyword,
       });
     }
   }, [backupData]);
