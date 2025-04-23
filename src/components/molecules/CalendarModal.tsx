@@ -42,8 +42,8 @@ const CalendarModal = ({
 
   return (
     <>
-      <ModalOverlay onClick={() => setIsOpenCalendar(false)} />
-      <Container $top={top} $left={left}>
+      {/* <ModalOverlay onClick={() => {}} /> */}
+      <Container $top={top} $left={left} ref={modalRef}>
         <Calendar
           locale="ko"
           formatDay={(_locale, date) => moment(date).format("D")}
@@ -60,19 +60,6 @@ const CalendarModal = ({
 };
 
 export default CalendarModal;
-
-const ModalOverlay = styled.div`
-  width: 100%;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0);
-`;
 
 const Container = styled.div<{ $top: number; $left: number }>`
   position: absolute;
