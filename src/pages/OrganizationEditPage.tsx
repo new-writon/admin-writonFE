@@ -37,7 +37,7 @@ const InfoManage = () => {
   const [preview, setPreview] = useState<string>(organizationLogo || "");
   const [themeColor, setThemeColor] = useState(color || "");
 
-  const { mutateAsync: handleEdit } = useMutation({
+  const { mutateAsync: handleEditOrganizationInfo } = useMutation({
     mutationFn: () =>
       patchOrganizationInfoAPI(logo, {
         name,
@@ -55,6 +55,14 @@ const InfoManage = () => {
       console.error(err);
     },
   });
+
+  const handleEdit = () => {
+    if (name) {
+      handleEditOrganizationInfo();
+    } else {
+      alert("조직 이름을 입력하세요.");
+    }
+  };
 
   const handleCancel = () => {
     setName(organizationName || "");
@@ -124,7 +132,7 @@ const OnBoardingManage = () => {
     }
   }, [data]);
 
-  const { mutateAsync: handleEdit } = useMutation({
+  const { mutateAsync: handleEditOrganizationPosition } = useMutation({
     mutationFn: () => patchOrganizationPositionAPI(positionList),
     onSuccess: (data) => {
       setPositionList(data);
@@ -136,6 +144,14 @@ const OnBoardingManage = () => {
       console.error(err);
     },
   });
+  
+  const handleEdit = () => {
+    if (positionList.length !== 0) {
+      handleEditOrganizationPosition();
+    } else {
+      alert("포지션은 반드시 하나 이상 설정해야합니다.");
+    }
+  };
 
   const handleCancel = () => {
     setPositionList(backupData);

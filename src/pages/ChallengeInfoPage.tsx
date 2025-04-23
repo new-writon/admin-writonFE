@@ -67,6 +67,8 @@ const ChallengeInfoPage = () => {
       );
 
       queryClient.setQueryData(["challenge-info", challengeId], data);
+      alert("수정 완료");
+      setIsEdit(false);
     },
     onError: (err) => {
       console.error(err);
@@ -74,9 +76,16 @@ const ChallengeInfoPage = () => {
   });
 
   const handleEdit = () => {
-    handleEditChallengeInfo();
-    alert("수정 완료");
-    setIsEdit(false);
+    if (
+      basicInfoData.name &&
+      basicInfoData.startDate &&
+      basicInfoData.endDate &&
+      basicInfoData.processDates.length != 0
+    ) {
+      handleEditChallengeInfo();
+    } else {
+      alert("입력값을 모두 입력하세요.");
+    }
   };
 
   const handleCancel = () => {
