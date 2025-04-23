@@ -32,6 +32,8 @@ const ChallengeQuestionPage = () => {
     onSuccess: (data) => {
       setQuestionsData(formatQuestionsCreateEmpty(data));
       queryClient.setQueryData(["challenge-questions", challengeId], data);
+      alert("수정 완료");
+      setIsEdit(false);
     },
     onError: (err) => {
       console.error(err);
@@ -49,8 +51,6 @@ const ChallengeQuestionPage = () => {
       questionsData.specialQuestions.some((item) => item.questions[0] != "")
     ) {
       handleEditChallengeQuestions();
-      alert("수정 완료");
-      setIsEdit(false);
     } else {
       alert("필수 입력값을 모두 입력하세요.");
     }
