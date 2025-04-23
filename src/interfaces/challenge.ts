@@ -13,6 +13,7 @@ export interface BasicInfoProps {
 }
 
 export interface SpecialQuestion {
+  keywordId: number;
   keyword: string;
   questions: string[];
 }

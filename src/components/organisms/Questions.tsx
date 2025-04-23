@@ -15,6 +15,9 @@ const StatusChip = ({ idx }: { idx: number }) => {
   );
 };
 
+// 키워드 생성시 적용하는 임의의 음수 id
+let newKeywordId = -1;
+
 const Questions = ({
   gap,
   isEdit = false,
@@ -25,13 +28,16 @@ const Questions = ({
   backupData,
 }: QuestionsProps) => {
   const [selectedKeyword, setSelectedKeyword] = useState({
-    idx: 0,
+    id: 0,
     keyword: "",
   });
-  const keywordList = data.specialQuestions.map(({ keyword }) => keyword);
+  const keywordList = data.specialQuestions.map(({ keywordId, keyword }) => ({
+    id: keywordId,
+    keyword,
+  }));
   const selectedQuestions: string[] =
     data.specialQuestions.find(
-      ({ keyword }) => keyword === selectedKeyword.keyword
+      ({ keywordId }) => keywordId === selectedKeyword.id
     )?.questions || [];
 
   useEffect(() => {
@@ -50,8 +56,15 @@ const Questions = ({
       const existingData = data.specialQuestions.find(
         (sq) => sq.keyword === keyword
       );
+
       // 기존 데이터가 있으면 그대로 사용, 없으면 새로운 객체 생성
-      return existingData || { keyword, questions: ["", "", "", ""] };
+      return (
+        existingData || {
+          keywordId: newKeywordId--,
+          keyword,
+          questions: ["", "", "", ""],
+        }
+      );
     });
 
     setData?.((prev) => ({
@@ -94,8 +107,8 @@ const Questions = ({
   const setSpecialInputValue = (value: string, curIdx: number) => {
     setData?.((prev) => ({
       ...prev,
-      specialQuestions: prev.specialQuestions.map((item, keywordIdx) => {
-        if (keywordIdx !== selectedKeyword.idx) {
+      specialQuestions: prev.specialQuestions.map((item) => {
+        if (item.keywordId !== selectedKeyword.id) {
           return item;
         }
         return {
@@ -113,7 +126,7 @@ const Questions = ({
     if (backupData) {
       setData?.(backupData);
       setSelectedKeyword({
-        idx: 0,
+        id: backupData.specialQuestions[0]?.keywordId,
         keyword: backupData.specialQuestions[0]?.keyword,
       });
     }
@@ -154,7 +167,7 @@ const Questions = ({
           <ContentSection title="스페셜 질문 키워드 관리" titleWidth={163}>
             <InputDropdown
               type="keyword"
-              list={keywordList}
+              list={keywordList.map((item) => item.keyword)}
               setList={handleKeywordList}
             />
           </ContentSection>
@@ -169,13 +182,15 @@ const Questions = ({
               </B2>
             ) : (
               <FlexBox align="center" gap={8} isFlexWrap>
-                {keywordList.map((keyword, idx) => (
+                {keywordList.map((keyword) => (
                   <Select
-                    type={idx == selectedKeyword.idx ? "outline" : "default"}
-                    key={idx}
-                    onClick={() => setSelectedKeyword({ idx, keyword })}
+                    type={
+                      keyword.id == selectedKeyword.id ? "outline" : "default"
+                    }
+                    key={keyword.id}
+                    onClick={() => setSelectedKeyword(keyword)}
                   >
-                    {keyword}
+                    {keyword.keyword}
                   </Select>
                 ))}
               </FlexBox>
