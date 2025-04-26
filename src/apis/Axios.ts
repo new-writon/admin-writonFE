@@ -117,8 +117,10 @@ Axios.interceptors.response.use(
             alert(errorMsg[customStatusCode]);
             challengeReset();
             organizationReset();
+            removeAccessTokenExpireCookie();
           }
-          
+
+          isTokenHandled = false;
           window.location.href = "/login";
         }
 
