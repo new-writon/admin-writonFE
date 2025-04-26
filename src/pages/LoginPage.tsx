@@ -12,6 +12,7 @@ import useOrganizationStore from "../states/OrganizationStore";
 import useChallengeStore from "../states/ChallengeStore";
 import { AxiosError } from "axios";
 import { ErrorResponse } from "../interfaces/error";
+import { setAccessTokenExpireCookie } from "../utils/cookieUtils";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -37,6 +38,10 @@ const LoginPage = () => {
       themeColor,
       challengeList,
     }) => {
+      // 토큰 쿠키 관리 설정
+      setAccessTokenExpireCookie();
+
+      // 조직, 챌린지 정보 전역 상태관리
       setOrganizationId(organizationId);
       setOrganizationName(organizationName);
       setOrganizationLogo(organizationLogo);
@@ -45,6 +50,7 @@ const LoginPage = () => {
       setChallengeList(challengeList);
       setChallengeId(challengeList.length === 0 ? 0 : challengeList[0].id);
 
+      // 페이지 이동 로직
       navigate(
         !hasOrganization
           ? "/onBoarding"

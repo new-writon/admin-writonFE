@@ -3,6 +3,10 @@ import useChallengeStore from "../states/ChallengeStore";
 import useOrganizationStore from "../states/OrganizationStore";
 import { errorMsg } from "../utils/errorUtils";
 import useAuthStore from "../states/AuthStore";
+import {
+  setAccessTokenExpireCookie,
+  removeAccessTokenExpireCookie,
+} from "../utils/cookieUtils";
 
 // const baseURL = "http://localhost:8080";
 const baseURL = "https://admin.writon.co.kr";
@@ -86,6 +90,9 @@ Axios.interceptors.response.use(
             // 재발급 성공 시, 상태 초기화
             setIsReissuing(false);
             setReissuePromise(null);
+
+            // 토큰 쿠키 관리 로직
+            setAccessTokenExpireCookie();
           } else {
             // 이미 재발급 중이면 기다림
             await reissuePromise;
@@ -97,6 +104,7 @@ Axios.interceptors.response.use(
         } catch (error: any) {
           setIsReissuing(false);
           setReissuePromise(null);
+          removeAccessTokenExpireCookie();
           alert("reissue error");
 
           window.location.href = "/login";
