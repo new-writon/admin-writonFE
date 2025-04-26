@@ -1,18 +1,18 @@
 import styled from "styled-components";
 
 interface FlexBox {
-  children: React.ReactNode;
-  as?: string;
-  col?: boolean;
-  gap?: number;
-  justify?: string;
-  align?: string;
-  padding?: string;
-  fullWidth?: boolean;
-  isFlex1?: boolean;
-  isFlexWrap?: boolean;
-  style?: React.CSSProperties;
-  onClick?: () => void;
+  children: React.ReactNode;    // FlexBox 내부 컴포넌트
+  as?: string;                  // 시멘틱 코드를 위한 태그명 변경
+  col?: boolean;                // flex-direction: column
+  gap?: number;                 // gap: {number}px
+  justify?: string;             // justify-content
+  align?: string;               // align-items
+  padding?: string;             // padding
+  fullWidth?: boolean;          // width: 100%
+  isFlex1?: boolean;            // flex: 1
+  isFlexWrap?: boolean;         // flexWrap: wrap
+  style?: React.CSSProperties;  // 기타 커스텀 스타일
+  onClick?: () => void;         // 버튼 핸들러
 }
 
 const FlexBox = ({

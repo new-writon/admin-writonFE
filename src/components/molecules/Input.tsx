@@ -71,7 +71,7 @@ const Input = ({
           <L3 color={theme.color.red[60]}>{error}</L3>
           {maxLength && (
             <L3 color={theme.color.gray[60]}>
-              {value?.length}/{maxLength}
+              {value?.length}/{maxLength + 1}
             </L3>
           )}
         </FlexBox>

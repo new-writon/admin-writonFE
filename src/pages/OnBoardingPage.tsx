@@ -48,6 +48,8 @@ const OnBoardingPage = () => {
       setOrganizationName(organizationName);
       setOrganizationLogo(organizationLogo || null);
       setThemeColor(themeColor);
+
+      moveStep(1);
     },
     onError: (err) => {
       console.error(err);

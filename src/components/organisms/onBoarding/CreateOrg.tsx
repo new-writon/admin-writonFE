@@ -12,10 +12,18 @@ const CreateOrg = ({
   setFile,
   setPreview,
 }: CreateOrgProps) => {
+  const handleMoveNext = () => {
+    if (data.name !== "") {
+      moveStep(1);
+    } else {
+      alert("조직 이름을 입력해주세요");
+    }
+  };
+
   return (
     <>
       {/* ========== Form Title ========== */}
-      <FlexBox col align='center' gap={10}>
+      <FlexBox col align="center" gap={10}>
         <H2>라이톤 조직 개설</H2>
         <B1 color={theme.color.gray[60]}>
           라이톤 챌린지를 운영할 조직을 개설합니다
@@ -24,7 +32,7 @@ const CreateOrg = ({
 
       {/* ========== 조직 이름 ========== */}
       <FlexBox col fullWidth gap={6}>
-        <Title title='조직 이름' />
+        <Title title="조직 이름" />
         <Input
           value={data.name}
           setValue={(value: string) =>
@@ -33,16 +41,16 @@ const CreateOrg = ({
               name: value,
             }))
           }
-          maxLength={20}
-          placeHolder='조직 이름을 입력해주세요.'
+          maxLength={19}
+          placeHolder="조직 이름을 입력해주세요."
         />
       </FlexBox>
 
       {/* ========== 조직 로고 ========== */}
       <FlexBox col fullWidth gap={20}>
         <Title
-          title='조직 로고'
-          subTitle='조직에서 사용할 로고 이미지를 설정해주세요.'
+          title="조직 로고"
+          subTitle="조직에서 사용할 로고 이미지를 설정해주세요."
         />
         <ImageUpload
           setImage={setFile}
@@ -54,8 +62,8 @@ const CreateOrg = ({
       {/* ========== 테마 컬러 설정 ========== */}
       <FlexBox col fullWidth gap={20}>
         <Title
-          title='테마 컬러 설정'
-          subTitle='조직에서 사용할 라이톤의 테마 컬러를 설정할 수 있어요.'
+          title="테마 컬러 설정"
+          subTitle="조직에서 사용할 라이톤의 테마 컬러를 설정할 수 있어요."
         />
         <ColorPalette
           selectedColor={data.themeColor}
@@ -70,11 +78,9 @@ const CreateOrg = ({
 
       {/* ========== 다음 버튼 ========== */}
       <Button
-        size='lg'
-        type='dark'
-        onClick={() => {
-          moveStep(1);
-        }}
+        size="lg"
+        type="dark"
+        onClick={handleMoveNext}
         style={{ width: "360px" }}
       >
         다음
