@@ -11,6 +11,7 @@ import {
   formatMainCalendarData,
 } from "../utils/formatUtils";
 import { DashboardTableData } from "../interfaces/challenge";
+import useAuthStore from "../states/AuthStore";
 
 const ChallengeDashboardPage = () => {
   const categoryList = ["참여자 별 참여 현황", "챌린지 날짜 별 참여 현황"];
@@ -19,12 +20,15 @@ const ChallengeDashboardPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const [selectedValues, setSelectedValues] = useState<number[]>([]);
   const { challengeId } = useChallengeStore();
+  const { isLoggedOut } = useAuthStore();
 
   const { data: dashboardData } = useQuery({
     queryKey: ["challenge-dashboard", challengeId],
     queryFn: () => getChallengeDashboardAPI(),
     staleTime: 60 * 1000,
+    enabled: !isLoggedOut,
   });
+
   const data: DashboardTableData[] = dashboardData
     ? formatDashboardData(dashboardData)
     : [];

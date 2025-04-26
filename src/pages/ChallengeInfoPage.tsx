@@ -23,10 +23,12 @@ import {
   defaultQuestionsData,
 } from "../data/ChallengeData";
 import { formatQuestionsCreateEmpty } from "../utils/formatUtils";
+import useAuthStore from "../states/AuthStore";
 
 const ChallengeInfoPage = () => {
   const navigate = useNavigate();
   const { challengeId, challengeList, setChallengeList } = useChallengeStore();
+  const { isLoggedOut } = useAuthStore();
   const queryClient = useQueryClient();
 
   const [isEdit, setIsEdit] = useState(false);
@@ -37,18 +39,21 @@ const ChallengeInfoPage = () => {
     queryKey: ["challenge-info", challengeId],
     queryFn: () => getChallengeInfoAPI(),
     staleTime: 60 * 1000,
+    enabled: !isLoggedOut,
   });
 
   const { data: questionsResponse } = useQuery({
     queryKey: ["challenge-questions", challengeId],
     queryFn: () => getChallengeQuestionsAPI(),
     staleTime: 60 * 1000,
+    enabled: !isLoggedOut,
   });
 
   const { data: emailResponse } = useQuery({
     queryKey: ["participation-email", challengeId],
     queryFn: () => getParticipationEmailAPI(),
     staleTime: 60 * 1000,
+    enabled: !isLoggedOut,
   });
 
   const { mutate: handleEditChallengeInfo } = useMutation({
