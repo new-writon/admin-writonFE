@@ -9,12 +9,14 @@ import {
   formatQuestionsRemoveEmpty,
 } from "../utils/formatUtils";
 import { defaultQuestionsData } from "../data/ChallengeData";
+import useAuthStore from "../states/AuthStore";
 
 const ChallengeQuestionPage = () => {
   const queryClient = useQueryClient();
 
   const [isEdit, setIsEdit] = useState(false);
   const { challengeId } = useChallengeStore();
+  const { isLoggedOut } = useAuthStore();
   const [questionsData, setQuestionsData] =
     useState<QuestionsData>(defaultQuestionsData);
   const [backupData, setBackupData] =
@@ -24,6 +26,7 @@ const ChallengeQuestionPage = () => {
     queryKey: ["challenge-questions", challengeId],
     queryFn: () => getChallengeQuestionsAPI(),
     staleTime: 60 * 1000,
+    enabled: !isLoggedOut,
   });
 
   const { mutate: handleEditChallengeQuestions } = useMutation({

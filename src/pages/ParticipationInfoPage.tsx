@@ -12,16 +12,19 @@ import {
   postParticipationWithdrawalAPI,
 } from "../apis";
 import { ParticipationTableData } from "../interfaces/participation";
+import useAuthStore from "../states/AuthStore";
 
 const ParticipationInfoPage = () => {
   const queryClient = useQueryClient();
   const { challengeId } = useChallengeStore();
+  const { isLoggedOut } = useAuthStore();
   const [data, setData] = useState<ParticipationTableData[]>([]);
 
   const { data: participationData } = useQuery({
     queryKey: ["participation-info", challengeId],
     queryFn: () => getParticipationInfoAPI(),
     staleTime: 60 * 1000,
+    enabled: !isLoggedOut,
   });
 
   const filterList: string[] = Object.keys(
