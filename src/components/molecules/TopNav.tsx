@@ -3,30 +3,18 @@ import { Button, FlexBox, Line } from "../atoms";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postAuthLogoutAPI } from "../../apis";
 import { useLocation } from "react-router-dom";
-import useChallengeStore from "../../states/ChallengeStore";
-import useOrganizationStore from "../../states/OrganizationStore";
 import { removeAccessTokenExpireCookie } from "../../utils/cookieUtils";
-import useAuthStore from "../../states/AuthStore";
 
 const TopNav = () => {
   const location = useLocation();
   const queryClient = useQueryClient();
-
-  const { reset: challengeReset } = useChallengeStore();
-  const { reset: organizationReset } = useOrganizationStore();
-  const { setIsLoggedOut } = useAuthStore();
   const excludedLogoutBtn = ["/login", "/onBoarding"];
 
   const { mutate: handleLogout } = useMutation({
     mutationFn: () => postAuthLogoutAPI(),
     onSuccess: () => {
-      setIsLoggedOut(true);
-
       queryClient.removeQueries(); // 캐싱된 모든 데이터 삭제
       removeAccessTokenExpireCookie(); // 프론트엔드 측에 저장한 토큰 만료여부 쿠키 제거
-      challengeReset(); // 챌린지 정보 전역 상태 제거
-      organizationReset(); // 조직 정보 전역 상태 제거
-
       window.location.href = "/login";
     },
     onError: (err) => {

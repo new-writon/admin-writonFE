@@ -19,7 +19,6 @@ import {
   patchOrganizationPositionAPI,
 } from "../apis/organizationAPI";
 import useChallengeStore from "../states/ChallengeStore";
-import useAuthStore from "../states/AuthStore";
 
 const InfoManage = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -115,7 +114,6 @@ const InfoManage = () => {
 const OnBoardingManage = () => {
   const queryClient = useQueryClient();
   const { challengeId } = useChallengeStore();
-  const { isLoggedOut } = useAuthStore();
 
   const [isEdit, setIsEdit] = useState(false);
   const [positionList, setPositionList] = useState<string[]>([]);
@@ -125,7 +123,6 @@ const OnBoardingManage = () => {
     queryKey: ["organization-position", challengeId],
     queryFn: () => getOrganizationPositionAPI(),
     staleTime: 60 * 1000,
-    enabled: !isLoggedOut,
   });
 
   useEffect(() => {

@@ -115,20 +115,16 @@ Axios.interceptors.response.use(
       case "A05":     // ACCESS_TOKEN_NOT_FOUND
       case "A06":     // REFRESH_TOKEN_EXPIRATION
       case "A07": {   // REFRESH_TOKEN_INCONSISTENCY
-        if (!isTokenHandled) {     // 중복 에러 처리 방지
-          isTokenHandled = true;
+        const { isTokenHandled, setIsTokenHandled } = useAuthStore.getState();
 
-          const { reset: challengeReset } = useChallengeStore.getState();
-          const { reset: organizationReset } = useOrganizationStore.getState();
+        if (!isTokenHandled) {     // 중복 에러 처리 방지
+          setIsTokenHandled(true);
           
           if (requestURL !== "/auth/check") {
             alert(errorMsg[customStatusCode]);
-            challengeReset();
-            organizationReset();
             removeAccessTokenExpireCookie();
           }
 
-          isTokenHandled = false;
           window.location.href = "/login";
         }
 

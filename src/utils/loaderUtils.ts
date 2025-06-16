@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { getAuthCheckAPI } from "../apis/authAPI";
 import useOrganizationStore from "../states/OrganizationStore";
 import useChallengeStore from "../states/ChallengeStore";
+import useAuthStore from "../states/AuthStore";
 
 // Token 유효성 검사 Loader
 // (페이지 진입시 Get API 진행하지 않는 페이지만 적용)
@@ -67,6 +68,16 @@ const loginAuthLoader = () => {
       status: 401,
       statusText: "Unathorized",
     });
+
+  } else {    
+    // 4. token이 유효하지 않을 경우 모든 데이터 초기화
+    const { setIsTokenHandled } = useAuthStore.getState();
+    const { reset: challengeReset } = useChallengeStore.getState();
+    const { reset: organizationReset } = useOrganizationStore.getState();
+
+    challengeReset();
+    organizationReset();
+    setIsTokenHandled(false);
   }
 
   return null;
