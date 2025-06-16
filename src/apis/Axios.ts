@@ -1,12 +1,13 @@
 import axios from "axios";
 import useChallengeStore from "../states/ChallengeStore";
-import useOrganizationStore from "../states/OrganizationStore";
 import { errorMsg } from "../utils/errorUtils";
 import useAuthStore from "../states/AuthStore";
 import {
   setAccessTokenExpireCookie,
   removeAccessTokenExpireCookie,
 } from "../utils/cookieUtils";
+import { Mutex } from "async-mutex";
+import Cookies from "js-cookie";
 
 // const baseURL = "http://localhost:8080";
 const baseURL = "https://admin.writon.co.kr";
@@ -23,7 +24,7 @@ const excludedParamsUrl = [
   "/challenge",
 ];
 
-let isTokenHandled = false;
+const reissueMutex = new Mutex();
 
 // axios 기본설정
 export const Axios = axios.create({
@@ -63,50 +64,31 @@ Axios.interceptors.response.use(
 
     // prettier-ignore
     switch (customStatusCode) {
+      // =============== Auth Error ===============
       case "A03": {     // UNAUTHORIZED_TOKEN
         alert(error.response.data.message);
         window.location.href = "/login";
         break;
       }
-
-      // =============== Auth Error ===============
+      
       case "A04": {    // ACCESS_TOKEN_EXPIRATION
-        const {
-          isReissuing,
-          setIsReissuing,
-          reissuePromise,
-          setReissuePromise,
-        } = useAuthStore.getState();
-
         try {
-          if (!isReissuing) {
-            // 재발급 시작
-            setIsReissuing(true);
-            const promise = Axios.post("/auth/reissue");
-            setReissuePromise(promise);
+          // mutex를 획득한 요청만 이 블록 실행
+          return await reissueMutex.runExclusive(async () => {
+            const isValid = Cookies.get("access_token_expire");
 
-            await promise;
+            // 토큰이 여전히 만료 상태라면 재발급 요청
+            if (!isValid) {
+              await Axios.post("/auth/reissue");
+              setAccessTokenExpireCookie();
+            }
 
-            // 재발급 성공 시, 상태 초기화
-            setIsReissuing(false);
-            setReissuePromise(null);
-
-            // 토큰 쿠키 관리 로직
-            setAccessTokenExpireCookie();
-          } else {
-            // 이미 재발급 중이면 기다림
-            await reissuePromise;
-          }
-
-          // 기존 API 재요청
-          return Axios(originalRequest);
-
+            // 기존 API 재요청
+            return Axios(originalRequest);
+          })
         } catch (error: any) {
-          setIsReissuing(false);
-          setReissuePromise(null);
           removeAccessTokenExpireCookie();
           alert("reissue error");
-
           window.location.href = "/login";
         }
         break;
