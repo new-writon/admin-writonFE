@@ -7,12 +7,10 @@ import {
   postParticipationParticipateAPI,
 } from "../apis";
 import { useEffect, useState } from "react";
-import useAuthStore from "../states/AuthStore";
 
 const ParticipationParticipatePage = () => {
   const queryClient = useQueryClient();
   const { challengeId } = useChallengeStore();
-  const { isLoggedOut } = useAuthStore();
 
   const [pendingEmailList, setPendingEmailList] = useState<string[]>([]);
   const [sendedEmailList, setSendedEmailList] = useState<string[]>([]);
@@ -21,7 +19,6 @@ const ParticipationParticipatePage = () => {
     queryKey: ["participation-email", challengeId],
     queryFn: () => getParticipationEmailAPI(),
     staleTime: 60 * 1000,
-    enabled: !isLoggedOut,
   });
 
   const { mutateAsync: handleParticipate, isPending } = useMutation({
