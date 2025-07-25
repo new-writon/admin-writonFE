@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, FlexBox } from "../components/atoms";
+import { Button, FlexBox, Loading } from "../components/atoms";
 import { Input, Title } from "../components/molecules";
 import { H2, L3 } from "../components/atoms/Text";
 import { FormEvent, useState } from "react";
@@ -28,7 +28,7 @@ const LoginPage = () => {
   } = useOrganizationStore();
   const { setChallengeId, setChallengeList } = useChallengeStore();
 
-  const { mutate: handleLogin } = useMutation({
+  const { mutate: handleLogin, isPending } = useMutation({
     mutationFn: () => postAuthLoginAPI(id, password),
     onSuccess: ({
       hasOrganization,
@@ -63,7 +63,9 @@ const LoginPage = () => {
       const data = err.response?.data;
 
       if (data?.code === "A01" || data?.code === "A02") {
-        setError("아이디와 비밀번호를 확인해주세요.");
+        setError("아이디 혹은 비밀번호가 잘못되었습니다");
+      } else {
+        setError("");
       }
     },
   });
@@ -117,6 +119,8 @@ const LoginPage = () => {
       <Button fullWidth type="dark" size="lg">
         로그인
       </Button>
+
+      {isPending && <Loading text="잠시만 기다려주세요"/>}
     </Form>
   );
 };

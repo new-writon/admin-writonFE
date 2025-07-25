@@ -15,11 +15,14 @@ export const postAuthLoginAPI = async (
 
     return data;
   } catch (error: any) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-    } else {
-      console.error("Error creating question:", error.message);
+    const errorStatus = error.response?.status;
+
+    if (errorStatus === 504) {
+      alert(
+        "서버와의 응답시간이 초과했습니다. \n해당 문제가 반복될 시 개발자에게 문의하세요."
+      );
     }
+
     throw error;
   }
 };
@@ -29,12 +32,6 @@ export const postAuthLogoutAPI = async () => {
   try {
     await Axios.delete("/auth/logout");
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -51,11 +48,6 @@ export const postAuthReissueAPI = async () => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
   } catch (error: any) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-    } else {
-      console.error("Error creating question:", error.message);
-    }
     throw error;
   }
 };
@@ -65,11 +57,6 @@ export const getAuthCheckAPI = async () => {
   try {
     await Axios.get("/auth/check");
   } catch (error: any) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-    } else {
-      console.error("Error creating question:", error.message);
-    }
     throw error;
   }
 };

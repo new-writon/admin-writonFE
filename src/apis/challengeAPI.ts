@@ -18,12 +18,6 @@ export const postChallengeAPI = async (
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -37,12 +31,6 @@ export const getChallengeDashboardAPI = async (): Promise<UserStatus[]> => {
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -56,12 +44,6 @@ export const getChallengeInfoAPI = async (): Promise<BasicInfoData> => {
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -75,12 +57,6 @@ export const getChallengeQuestionsAPI = async (): Promise<QuestionsData> => {
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -96,12 +72,6 @@ export const putChallengeInfoAPI = async (
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -117,12 +87,6 @@ export const putChallengeQuestionsAPI = async (
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };

@@ -34,12 +34,6 @@ export const postOrganizationAPI = async (
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -73,12 +67,6 @@ export const patchOrganizationInfoAPI = async (
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -94,12 +82,6 @@ export const patchOrganizationPositionAPI = async (
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -113,12 +95,6 @@ export const getOrganizationPositionAPI = async (): Promise<string[]> => {
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
