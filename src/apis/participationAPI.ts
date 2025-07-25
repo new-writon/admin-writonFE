@@ -17,12 +17,6 @@ export const getParticipationInfoAPI = async (): Promise<
 
     return formatParticipationInfoData(data);
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -36,12 +30,6 @@ export const getParticipationEmailAPI = async () => {
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -60,12 +48,6 @@ export const postParticipationWithdrawalAPI = async (
 
     return formatParticipationInfoData(data);
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -79,12 +61,6 @@ export const postParticipationParticipateAPI = async (emailList: string[]) => {
 
     return data;
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };

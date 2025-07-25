@@ -32,12 +32,6 @@ export const postAuthLogoutAPI = async () => {
   try {
     await Axios.delete("/auth/logout");
   } catch (error: any) {
-    const errorCode = error.response?.data?.code;
-
-    if (errorCode !== "A04") {
-      console.error("Server Error:", error.response?.data || error.message);
-    }
-
     throw error;
   }
 };
@@ -54,11 +48,6 @@ export const postAuthReissueAPI = async () => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
   } catch (error: any) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-    } else {
-      console.error("Error creating question:", error.message);
-    }
     throw error;
   }
 };
@@ -68,11 +57,6 @@ export const getAuthCheckAPI = async () => {
   try {
     await Axios.get("/auth/check");
   } catch (error: any) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-    } else {
-      console.error("Error creating question:", error.message);
-    }
     throw error;
   }
 };

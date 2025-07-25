@@ -120,7 +120,7 @@ Axios.interceptors.response.use(
       }
 
       default: 
-        console.error("알 수 없는 상태 코드: ", customStatusCode);
+        console.error(error.response);
     }
 
     return Promise.reject(error);
