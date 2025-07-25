@@ -54,7 +54,7 @@ const ParticipationParticipatePage = () => {
           setPendingEmailList={setPendingEmailList}
           handleParticipate={handleParticipate}
         />
-        {isPending && <Loading text="이메일 전송중입니다..." />}
+        {isPending && <Loading text="이메일 전송중입니다" />}
       </FlexBox>
     </Frame>
   );
